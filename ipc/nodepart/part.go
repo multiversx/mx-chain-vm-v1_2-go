@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/ipc/common"
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/ipc/marshaling"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
 
