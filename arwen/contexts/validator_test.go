@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/arwen"
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/wasmer"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/stretchr/testify/require"
 )

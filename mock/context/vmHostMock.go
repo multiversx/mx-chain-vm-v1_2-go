@@ -3,9 +3,9 @@ package mock
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/arwen"
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/crypto"
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/wasmer"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )

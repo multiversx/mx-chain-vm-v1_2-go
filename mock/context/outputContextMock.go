@@ -3,8 +3,8 @@ package mock
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/arwen"
-	worldmock "github.com/ElrondNetwork/arwen-wasm-vm/v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
