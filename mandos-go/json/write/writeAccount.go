@@ -1,8 +1,8 @@
 package mandosjsonwrite
 
 import (
-	mj "github.com/ElrondNetwork/arwen-wasm-vm/v1_2/mandos-go/json/model"
-	oj "github.com/ElrondNetwork/arwen-wasm-vm/v1_2/mandos-go/orderedjson"
+	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
+	oj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/orderedjson"
 )
 
 // AccountsToOJ converts a mandos-format account to an ordered JSON representation.

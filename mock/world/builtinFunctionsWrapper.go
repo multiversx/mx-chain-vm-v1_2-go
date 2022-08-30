@@ -1,7 +1,7 @@
 package worldmock
 
 import (
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/config"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/builtInFunctions"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"

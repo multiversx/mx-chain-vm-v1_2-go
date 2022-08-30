@@ -7,8 +7,8 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/ipc/common"
-	"github.com/ElrondNetwork/arwen-wasm-vm/v1_2/ipc/marshaling"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	"github.com/ElrondNetwork/elrond-go-logger/pipes"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
