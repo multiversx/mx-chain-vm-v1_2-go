@@ -8,11 +8,11 @@ import (
 	"math/big"
 	"testing"
 
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -460,8 +460,8 @@ func TestExecution_CallSCMethod(t *testing.T) {
 func TestExecution_Call_Successful(t *testing.T) {
 	code := GetTestSCCode("counter", "../../")
 	host, stubBlockchainHook := defaultTestArwenForCall(t, code, nil)
-	stubBlockchainHook.GetStorageDataCalled = func(scAddress []byte, key []byte) ([]byte, error) {
-		return big.NewInt(1001).Bytes(), nil
+	stubBlockchainHook.GetStorageDataCalled = func(scAddress []byte, key []byte) ([]byte, uint32, error) {
+		return big.NewInt(1001).Bytes(), 0, nil
 	}
 	input := DefaultTestContractCallInput()
 	input.GasProvided = 100000
@@ -1476,14 +1476,14 @@ func TestExecution_CreateNewContract_Success(t *testing.T) {
 	parentBalance := big.NewInt(1000)
 
 	host, stubBlockchainHook := defaultTestArwenForCall(t, parentCode, parentBalance)
-	stubBlockchainHook.GetStorageDataCalled = func(address []byte, key []byte) ([]byte, error) {
+	stubBlockchainHook.GetStorageDataCalled = func(address []byte, key []byte) ([]byte, uint32, error) {
 		if bytes.Equal(address, parentAddress) {
 			if bytes.Equal(key, []byte{'A'}) {
-				return childCode, nil
+				return childCode, 0, nil
 			}
-			return nil, nil
+			return nil, 0, nil
 		}
-		return nil, arwen.ErrInvalidAccount
+		return nil, 0, arwen.ErrInvalidAccount
 	}
 
 	input := DefaultTestContractCallInput()
@@ -1510,14 +1510,14 @@ func TestExecution_CreateNewContract_Fail(t *testing.T) {
 	parentBalance := big.NewInt(1000)
 
 	host, stubBlockchainHook := defaultTestArwenForCall(t, parentCode, parentBalance)
-	stubBlockchainHook.GetStorageDataCalled = func(address []byte, key []byte) ([]byte, error) {
+	stubBlockchainHook.GetStorageDataCalled = func(address []byte, key []byte) ([]byte, uint32, error) {
 		if bytes.Equal(address, parentAddress) {
 			if bytes.Equal(key, []byte{'A'}) {
-				return childCode, nil
+				return childCode, 0, nil
 			}
-			return nil, nil
+			return nil, 0, nil
 		}
-		return nil, arwen.ErrInvalidAccount
+		return nil, 0, arwen.ErrInvalidAccount
 	}
 
 	input := DefaultTestContractCallInput()

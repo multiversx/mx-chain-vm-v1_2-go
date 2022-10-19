@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"errors"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
 	"github.com/ElrondNetwork/elrond-go-core/core/check"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
 )
 
 var logStorage = logger.GetOrCreate("arwen/storage")
@@ -140,7 +140,7 @@ func (context *storageContext) GetStorageFromAddress(address []byte, key []byte)
 	// StorageUpdates.
 	var value []byte
 	if context.isElrondReservedKey(key) {
-		value, _ = context.blockChainHook.GetStorageData(address, key)
+		value, _, _ = context.blockChainHook.GetStorageData(address, key)
 	} else {
 		value = context.getStorageFromAddressUnmetered(address, key)
 	}
@@ -160,7 +160,7 @@ func (context *storageContext) getStorageFromAddressUnmetered(address []byte, ke
 	if storageUpdate, ok := storageUpdates[string(key)]; ok {
 		value = storageUpdate.Data
 	} else {
-		value, _ = context.blockChainHook.GetStorageData(address, key)
+		value, _, _ = context.blockChainHook.GetStorageData(address, key)
 		storageUpdates[string(key)] = &vmcommon.StorageUpdate{
 			Offset: key,
 			Data:   value,
