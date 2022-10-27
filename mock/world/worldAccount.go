@@ -5,9 +5,9 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/hashing"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/hashing"
 )
 
 // ErrOperationNotPermitted indicates an operation rejected due to insufficient
@@ -147,7 +147,7 @@ func (a *Account) SetRootHash(hash []byte) {
 	a.RootHash = hash
 }
 
-// DataTrieTracker -
+// AccountDataHandler -
 func (a *Account) AccountDataHandler() vmcommon.AccountDataHandler {
 	return a
 }
@@ -222,8 +222,8 @@ func (a *Account) IncreaseNonce(nonce uint64) {
 }
 
 // RetrieveValue -
-func (a *Account) RetrieveValue(key []byte) ([]byte, error) {
-	return a.Storage[string(key)], nil
+func (a *Account) RetrieveValue(key []byte) ([]byte, uint32, error) {
+	return a.Storage[string(key)], 0, nil
 }
 
 // SaveKeyValue -
