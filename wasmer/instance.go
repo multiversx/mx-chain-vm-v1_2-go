@@ -131,6 +131,11 @@ func SetOpcodeCosts(opcode_costs *[OPCODE_COUNT]uint32) {
 	cWasmerSetOpcodeCosts(opcode_costs)
 }
 
+// SetSIGSEGVPassthrough controls a Wasmer flag.
+func SetSIGSEGVPassthrough() {
+	cWasmerSetSIGSEGVPassthrough()
+}
+
 func NewInstanceWithOptions(
 	bytes []byte,
 	options CompilationOptions,

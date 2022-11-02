@@ -100,6 +100,10 @@ func cWasmerInstanceIsFunctionImported(instance *cWasmerInstanceT, name string) 
 	))
 }
 
+func cWasmerSetSIGSEGVPassthrough() {
+	C.wasmer_set_sigsegv_passthrough()
+}
+
 func cWasmerInstanceCache(
 	instance *cWasmerInstanceT,
 	cacheBytes **cUchar,
