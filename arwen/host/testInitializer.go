@@ -116,7 +116,7 @@ func defaultTestArwenForCall(tb testing.TB, code []byte, balance *big.Int) (*vmH
 	return host, stubBlockchainHook
 }
 
-func defaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int, passthrough bool) (*vmHost, *contextmock.BlockchainHookStub) {
+func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int, passthrough bool) (*vmHost, *contextmock.BlockchainHookStub) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
 	stubBlockchainHook.GetUserAccountCalled = func(scAddress []byte) (vmcommon.UserAccountHandler, error) {
 		if bytes.Equal(scAddress, parentAddress) {

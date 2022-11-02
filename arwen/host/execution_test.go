@@ -1650,35 +1650,6 @@ func TestExecution_GasUsed_ExecuteOnSameCtx(t *testing.T) {
 	require.Equal(t, gasUsedByChild+1, childAccount.GasUsed)
 }
 
-func TestExecution_PanicInGoWithSilentWasmer_SIGSEGV(t *testing.T) {
-	code := GetTestSCCode("counter", "../../")
-	host, blockchain := defaultTestArwenForCallSigSegv(t, code, big.NewInt(1), true)
-
-	blockchain.GetStorageDataCalled = func(_ []byte, _ []byte) ([]byte, uint32, error) {
-		var i *int
-		i = nil
-
-		// dereference a nil pointer
-		*i = *i + 1
-		return nil, 0, nil
-	}
-
-	input := DefaultTestContractCallInput()
-	input.GasProvided = 10000000
-	input.Function = increment
-
-	// Ensure that no more panic
-	defer func() {
-		r := recover()
-		require.Nil(t, r)
-	}()
-
-	expectedError := "runtime error: invalid memory address or nil pointer dereference"
-
-	_, err := host.RunSmartContractCall(input)
-	require.Equal(t, expectedError, err.Error())
-}
-
 // makeBytecodeWithLocals rewrites the bytecode of "answer" to change the
 // number of i64 locals it instantiates
 func makeBytecodeWithLocals(numLocals uint64) []byte {
