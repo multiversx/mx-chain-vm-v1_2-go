@@ -1,8 +1,8 @@
 package arwen
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 )
 
 const ArwenVersion = "v1.2"
@@ -115,6 +115,7 @@ type VMHostParameters struct {
 	GasSchedule              config.GasScheduleMap
 	ProtocolBuiltinFunctions vmcommon.FunctionNames
 	ElrondProtectedKeyPrefix []byte
+	WasmerSIGSEGVPassthrough bool
 	UseWarmInstance          bool
 	EnableEpochsHandler      vmcommon.EnableEpochsHandler
 }

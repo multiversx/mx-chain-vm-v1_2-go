@@ -146,6 +146,10 @@ func NewArwenVM(
 	opcodeCosts := gasCostConfig.WASMOpcodeCost.ToOpcodeCostsArray()
 	wasmer.SetOpcodeCosts(&opcodeCosts)
 
+	if hostParameters.WasmerSIGSEGVPassthrough {
+		wasmer.SetSIGSEGVPassthrough()
+	}
+
 	host.initContexts()
 
 	return host, nil
