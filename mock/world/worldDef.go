@@ -3,8 +3,8 @@ package worldmock
 import (
 	"fmt"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 )
 
 // NewAddressMock allows tests to specify what new addresses to generate
@@ -131,4 +131,9 @@ func (b *MockWorld) GetSnapshot() int {
 // RevertToSnapshot -
 func (b *MockWorld) RevertToSnapshot(snapshot int) error {
 	return b.AccountsAdapter.RevertToSnapshot(snapshot)
+}
+
+// ExecuteSmartContractCallOnOtherVM -
+func (b *MockWorld) ExecuteSmartContractCallOnOtherVM(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
+	return &vmcommon.VMOutput{}, nil
 }

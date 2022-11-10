@@ -4,7 +4,7 @@ import (
 	"math/big"
 
 	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
-	"github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
 
 var _ vmcommon.BlockchainHook = (*BlockchainHookStub)(nil)
@@ -272,4 +272,9 @@ func (b *BlockchainHookStub) IsPaused(_ []byte) bool {
 // IsLimitedTransfer -
 func (b *BlockchainHookStub) IsLimitedTransfer(_ []byte) bool {
 	return false
+}
+
+// ExecuteSmartContractCallOnOtherVM -
+func (b *BlockchainHookStub) ExecuteSmartContractCallOnOtherVM(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
+	return nil, nil
 }
