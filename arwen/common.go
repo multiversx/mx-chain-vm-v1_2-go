@@ -1,8 +1,8 @@
 package arwen
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 )
 
 const ArwenVersion = "v1.2"
@@ -110,17 +110,14 @@ type CodeDeployInput struct {
 
 // VMHostParameters represents the parameters to be passed to VMHost
 type VMHostParameters struct {
-	VMType                        []byte
-	BlockGasLimit                 uint64
-	GasSchedule                   config.GasScheduleMap
-	ProtocolBuiltinFunctions      vmcommon.FunctionNames
-	ElrondProtectedKeyPrefix      []byte
-	ArwenV2EnableEpoch            uint32
-	AheadOfTimeEnableEpoch        uint32
-	DynGasLockEnableEpoch         uint32
-	ArwenV3EnableEpoch            uint32
-	ArwenESDTFunctionsEnableEpoch uint32
-	UseWarmInstance               bool
+	VMType                   []byte
+	BlockGasLimit            uint64
+	GasSchedule              config.GasScheduleMap
+	ProtocolBuiltinFunctions vmcommon.FunctionNames
+	ElrondProtectedKeyPrefix []byte
+	WasmerSIGSEGVPassthrough bool
+	UseWarmInstance          bool
+	EnableEpochsHandler      vmcommon.EnableEpochsHandler
 }
 
 // AsyncCallInfo contains the information required to handle the asynchronous call of another SmartContract

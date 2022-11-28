@@ -12,12 +12,13 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/ElrondNetwork/elrond-go-core/data/vm"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/pelletier/go-toml"
 	"github.com/stretchr/testify/require"
 )
@@ -115,6 +116,44 @@ func defaultTestArwenForCall(tb testing.TB, code []byte, balance *big.Int) (*vmH
 	return host, stubBlockchainHook
 }
 
+func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int, passthrough bool) (*vmHost, *contextmock.BlockchainHookStub) {
+	stubBlockchainHook := &contextmock.BlockchainHookStub{}
+	stubBlockchainHook.GetUserAccountCalled = func(scAddress []byte) (vmcommon.UserAccountHandler, error) {
+		if bytes.Equal(scAddress, parentAddress) {
+			return &contextmock.StubAccount{
+				Balance: balance,
+			}, nil
+		}
+		return nil, errAccountNotFound
+	}
+	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
+		return code
+	}
+
+	gasSchedule := customGasSchedule
+	if gasSchedule == nil {
+		gasSchedule = config.MakeGasMapForTests()
+	}
+
+	host, err := NewArwenVM(stubBlockchainHook, &arwen.VMHostParameters{
+		VMType:                   defaultVMType,
+		BlockGasLimit:            uint64(1000),
+		GasSchedule:              gasSchedule,
+		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
+		ElrondProtectedKeyPrefix: []byte("ELROND"),
+		UseWarmInstance:          false,
+		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
+			IsSCDeployFlagEnabledField:            true,
+			IsAheadOfTimeGasUsageFlagEnabledField: true,
+			IsRepairCallbackFlagEnabledField:      true,
+			IsBuiltInFunctionsFlagEnabledField:    true,
+		},
+		WasmerSIGSEGVPassthrough: passthrough,
+	})
+	require.Nil(tb, err)
+	require.NotNil(tb, host)
+	return host, stubBlockchainHook
+}
 func defaultTestArwenForCallWithInstanceRecorderMock(tb testing.TB, code []byte, balance *big.Int) (*vmHost, *contextmock.InstanceBuilderRecorderMock) {
 	// this uses a Blockchain Hook Stub that does not cache the compiled code
 	host, _ := defaultTestArwenForCall(tb, code, balance)
@@ -210,7 +249,12 @@ func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
 		ElrondProtectedKeyPrefix: []byte("ELROND"),
 		UseWarmInstance:          false,
-		DynGasLockEnableEpoch:    0,
+		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
+			IsSCDeployFlagEnabledField:            true,
+			IsAheadOfTimeGasUsageFlagEnabledField: true,
+			IsRepairCallbackFlagEnabledField:      true,
+			IsBuiltInFunctionsFlagEnabledField:    true,
+		},
 	})
 	require.Nil(tb, err)
 	require.NotNil(tb, host)

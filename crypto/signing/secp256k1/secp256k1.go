@@ -2,7 +2,8 @@ package secp256k1
 
 import (
 	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/signing"
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/btcec/v2/ecdsa"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 )
 
@@ -14,12 +15,12 @@ func NewSecp256k1() *secp256k1 {
 }
 
 func (sec *secp256k1) VerifySecp256k1(key []byte, msg []byte, sig []byte) error {
-	pubKey, err := btcec.ParsePubKey(key, btcec.S256())
+	pubKey, err := btcec.ParsePubKey(key)
 	if err != nil {
 		return err
 	}
 
-	signature, err := btcec.ParseSignature(sig, btcec.S256())
+	signature, err := ecdsa.ParseSignature(sig)
 	if err != nil {
 		return err
 	}
