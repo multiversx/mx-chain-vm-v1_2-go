@@ -7,10 +7,10 @@ require (
 	github.com/ElrondNetwork/elrond-go-core v1.1.27-0.20221128163152-4b8ad7af81f6
 	github.com/ElrondNetwork/elrond-go-crypto v1.2.2
 	github.com/ElrondNetwork/elrond-go-logger v1.0.10
-	github.com/ElrondNetwork/elrond-vm-common v1.3.28-0.20221128163313-a50f3968026b
+	github.com/ElrondNetwork/elrond-vm-common v1.3.28
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
-	github.com/gin-gonic/gin v1.8.0
+	github.com/gin-gonic/gin v1.8.1
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/mapstructure v1.4.1
