@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/ElrondNetwork/big-int-util v0.1.0
 	github.com/ElrondNetwork/elrond-go-core v1.1.27-0.20221219143439-1bc10dae0ea9
-	github.com/ElrondNetwork/elrond-go-crypto v1.2.4-0.20221212134904-9faa0161e5dc
+	github.com/ElrondNetwork/elrond-go-crypto v1.2.4-0.20221213102512-0180dd3e00ce
 	github.com/ElrondNetwork/elrond-go-logger v1.0.10
 	github.com/ElrondNetwork/elrond-vm-common v1.3.29-0.20221219143644-8d3505605a6d
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0
