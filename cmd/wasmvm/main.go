@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	fileDescriptorArwenInit      = 3
-	fileDescriptorNodeToArwen    = 4
-	fileDescriptorArwenToNode    = 5
+	fileDescriptorVMInit         = 3
+	fileDescriptorNodeToVM       = 4
+	fileDescriptorVMToNode       = 5
 	fileDescriptorReadLogProfile = 6
 	fileDescriptorLogToNode      = 7
 )
@@ -31,17 +31,17 @@ func main() {
 
 // doMain returns (error code, error message)
 func doMain() (int, string) {
-	wasmvmInitFile := getPipeFile(fileDescriptorArwenInit)
+	wasmvmInitFile := getPipeFile(fileDescriptorVMInit)
 	if wasmvmInitFile == nil {
 		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [wasmvmInitFile]"
 	}
 
-	nodeToArwenFile := getPipeFile(fileDescriptorNodeToArwen)
-	if nodeToArwenFile == nil {
-		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [nodeToArwenFile]"
+	nodeToVMFile := getPipeFile(fileDescriptorNodeToVM)
+	if nodeToVMFile == nil {
+		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [nodeToVMFile]"
 	}
 
-	wasmvmToNodeFile := getPipeFile(fileDescriptorArwenToNode)
+	wasmvmToNodeFile := getPipeFile(fileDescriptorVMToNode)
 	if wasmvmToNodeFile == nil {
 		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [wasmvmToNodeFile]"
 	}
@@ -56,7 +56,7 @@ func doMain() (int, string) {
 		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [logToNodeFile]"
 	}
 
-	wasmvmArguments, err := common.GetArwenArguments(wasmvmInitFile)
+	wasmvmArguments, err := common.GetVMArguments(wasmvmInitFile)
 	if err != nil {
 		return common.ErrCodeInit, fmt.Sprintf("Cannot receive gasSchedule: %v", err)
 	}
@@ -77,23 +77,23 @@ func doMain() (int, string) {
 	defer logsPart.StopLoop()
 
 	appVersion = wasmvm.WASMVMVersion
-	part, err := wasmvmpart.NewArwenPart(
+	part, err := wasmvmpart.NewVMPart(
 		appVersion,
-		nodeToArwenFile,
+		nodeToVMFile,
 		wasmvmToNodeFile,
 		&wasmvmArguments.VMHostParameters,
 		messagesMarshalizer,
 	)
 	if err != nil {
-		return common.ErrCodeInit, fmt.Sprintf("Cannot create ArwenPart: %v", err)
+		return common.ErrCodeInit, fmt.Sprintf("Cannot create VMPart: %v", err)
 	}
 
 	err = part.StartLoop()
 	if err != nil {
-		return common.ErrCodeTerminated, fmt.Sprintf("Ended Arwen loop: %v", err)
+		return common.ErrCodeTerminated, fmt.Sprintf("Ended VM loop: %v", err)
 	}
 
-	// This is never reached, actually. Arwen is supposed to run an infinite message loop.
+	// This is never reached, actually. VM is supposed to run an infinite message loop.
 	return common.ErrCodeSuccess, ""
 }
 
