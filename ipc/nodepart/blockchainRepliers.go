@@ -1,8 +1,8 @@
 package nodepart
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 func (part *NodePart) replyToBlockchainNewAddress(request common.MessageHandler) common.MessageHandler {
@@ -123,7 +123,7 @@ func (part *NodePart) replyToBlockchainGetUserAccount(request common.MessageHand
 	typedRequest := request.(*common.MessageBlockchainGetUserAccountRequest)
 	account, err := part.blockchain.GetUserAccount(typedRequest.Address)
 
-	if err != nil || arwen.IfNil(account) {
+	if err != nil || wasmvm.IfNil(account) {
 		return common.NewMessageBlockchainGetUserAccountResponse(nil, err)
 	}
 

@@ -7,14 +7,14 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	"github.com/ElrondNetwork/elrond-go-logger/pipes"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
 )
 
-var log = logger.GetOrCreate("arwenDriver")
+var log = logger.GetOrCreate("wasmvmDriver")
 
 var _ vmcommon.VMExecutionHandler = (*ArwenDriver)(nil)
 

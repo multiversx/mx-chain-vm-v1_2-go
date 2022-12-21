@@ -3,13 +3,13 @@ package common
 import (
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 // ArwenArguments represents the initialization arguments required by Arwen, passed through the initialization pipe
 type ArwenArguments struct {
-	arwen.VMHostParameters
+	wasmvm.VMHostParameters
 	LogsMarshalizer     marshaling.MarshalizerKind
 	MessagesMarshalizer marshaling.MarshalizerKind
 }

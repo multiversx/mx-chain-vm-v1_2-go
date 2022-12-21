@@ -8,14 +8,14 @@ import (
 )
 
 func (driver *ArwenDriver) getArwenPath() (string, error) {
-	arwenPath, err := driver.getArwenPathInCurrentDirectory()
+	wasmvmPath, err := driver.getArwenPathInCurrentDirectory()
 	if err == nil {
-		return arwenPath, nil
+		return wasmvmPath, nil
 	}
 
-	arwenPath, err = driver.getArwenPathFromEnvironment()
+	wasmvmPath, err = driver.getArwenPathFromEnvironment()
 	if err == nil {
-		return arwenPath, nil
+		return wasmvmPath, nil
 	}
 
 	return "", common.ErrArwenNotFound
@@ -27,18 +27,18 @@ func (driver *ArwenDriver) getArwenPathInCurrentDirectory() (string, error) {
 		return "", err
 	}
 
-	arwenPath := path.Join(cwd, "arwen")
-	if fileExists(arwenPath) {
-		return arwenPath, nil
+	wasmvmPath := path.Join(cwd, "wasmvm")
+	if fileExists(wasmvmPath) {
+		return wasmvmPath, nil
 	}
 
 	return "", common.ErrArwenNotFound
 }
 
 func (driver *ArwenDriver) getArwenPathFromEnvironment() (string, error) {
-	arwenPath := os.Getenv(common.EnvVarArwenPath)
-	if fileExists(arwenPath) {
-		return arwenPath, nil
+	wasmvmPath := os.Getenv(common.EnvVarWASMVMPath)
+	if fileExists(wasmvmPath) {
+		return wasmvmPath, nil
 	}
 
 	return "", common.ErrArwenNotFound

@@ -1,18 +1,18 @@
-package arwenpart
+package wasmvmpart
 
 import (
 	"os"
 	"time"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/host"
 )
 
-var log = logger.GetOrCreate("arwen/part")
+var log = logger.GetOrCreate("wasmvm/part")
 
 // ArwenPart is the endpoint that implements the message loop on Arwen's side
 type ArwenPart struct {
@@ -27,13 +27,13 @@ func NewArwenPart(
 	version string,
 	input *os.File,
 	output *os.File,
-	vmHostParameters *arwen.VMHostParameters,
+	vmHostParameters *wasmvm.VMHostParameters,
 	marshalizer marshaling.Marshalizer,
 ) (*ArwenPart, error) {
 	messenger := NewArwenMessenger(input, output, marshalizer)
 	blockchain := NewBlockchainHookGateway(messenger)
 
-	newArwenHost, err := host.NewArwenVM(
+	newArwenHost, err := host.NewWASMVM(
 		blockchain,
 		vmHostParameters,
 	)

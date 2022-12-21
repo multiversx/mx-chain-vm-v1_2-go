@@ -4,7 +4,7 @@ import (
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 )
 
-var logMessages = logger.GetOrCreate("arwen/messages")
+var logMessages = logger.GetOrCreate("wasmvm/messages")
 
 // CreateMessage creates a message given its kind
 func CreateMessage(kind MessageKind) MessageHandler {

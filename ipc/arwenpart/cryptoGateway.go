@@ -1,4 +1,4 @@
-package arwenpart
+package wasmvmpart
 
 import (
 	"crypto/sha256"
@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/crypto/sha3"
 
-	"github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"golang.org/x/crypto/ripemd160"
 )
 

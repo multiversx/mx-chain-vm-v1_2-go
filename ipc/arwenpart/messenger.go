@@ -1,4 +1,4 @@
-package arwenpart
+package wasmvmpart
 
 import (
 	"os"

@@ -3,15 +3,15 @@ package tests
 import (
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	logger "github.com/ElrondNetwork/elrond-go-logger"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/nodepart"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 
@@ -103,7 +103,7 @@ func newDriver(tb testing.TB, blockchain *contextmock.BlockchainHookStub) *nodep
 	driver, err := nodepart.NewArwenDriver(
 		blockchain,
 		common.ArwenArguments{
-			VMHostParameters: arwen.VMHostParameters{
+			VMHostParameters: wasmvm.VMHostParameters{
 				VMType:                   arwenVirtualMachine,
 				BlockGasLimit:            uint64(10000000),
 				GasSchedule:              config.MakeGasMapForTests(),

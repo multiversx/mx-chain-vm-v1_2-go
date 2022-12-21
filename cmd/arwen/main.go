@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	"github.com/ElrondNetwork/elrond-go-logger/pipes"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/arwenpart"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	"github.com/ElrondNetwork/elrond-go-logger/pipes"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 const (
@@ -76,7 +76,7 @@ func doMain() (int, string) {
 
 	defer logsPart.StopLoop()
 
-	appVersion = arwen.ArwenVersion
+	appVersion = wasmvm.WASMVMVersion
 	part, err := arwenpart.NewArwenPart(
 		appVersion,
 		nodeToArwenFile,

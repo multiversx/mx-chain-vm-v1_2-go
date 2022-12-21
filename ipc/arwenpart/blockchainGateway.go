@@ -1,4 +1,4 @@
-package arwenpart
+package wasmvmpart
 
 import (
 	"github.com/ElrondNetwork/elrond-go-core/data/esdt"

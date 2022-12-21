@@ -5,16 +5,16 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/arwenpart"
+	wasmvmpart "github.com/ElrondNetwork/wasm-vm-v1_2/ipc/arwenpart"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/nodepart"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -68,7 +68,7 @@ func doContractRequest(
 	wg.Add(2)
 
 	go func() {
-		vmHostParameters := &arwen.VMHostParameters{
+		vmHostParameters := &wasmvm.VMHostParameters{
 			VMType:                   []byte{5, 0},
 			BlockGasLimit:            uint64(10000000),
 			GasSchedule:              config.MakeGasMapForTests(),
@@ -81,7 +81,7 @@ func doContractRequest(
 			},
 		}
 
-		part, err := arwenpart.NewArwenPart(
+		part, err := wasmvmpart.NewArwenPart(
 			"testversion",
 			files.inputOfArwen,
 			files.outputOfArwen,
