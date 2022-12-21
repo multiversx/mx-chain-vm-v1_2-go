@@ -20,13 +20,13 @@ import (
 )
 
 type testFiles struct {
-	outputOfNode  *os.File
-	inputOfArwen  *os.File
-	outputOfArwen *os.File
-	inputOfNode   *os.File
+	outputOfNode *os.File
+	inputOfVM    *os.File
+	outputOfVM   *os.File
+	inputOfNode  *os.File
 }
 
-func TestArwenPart_SendDeployRequest(t *testing.T) {
+func TestVMPart_SendDeployRequest(t *testing.T) {
 	blockchain := &contextmock.BlockchainHookStub{}
 
 	response, err := doContractRequest(t, "2", createDeployRequest(bytecodeCounter), blockchain)
@@ -34,7 +34,7 @@ func TestArwenPart_SendDeployRequest(t *testing.T) {
 	require.Nil(t, err)
 }
 
-func TestArwenPart_SendCallRequestWhenNoContract(t *testing.T) {
+func TestVMPart_SendCallRequestWhenNoContract(t *testing.T) {
 	blockchain := &contextmock.BlockchainHookStub{}
 
 	response, err := doContractRequest(t, "3", createCallRequest("increment"), blockchain)
@@ -42,7 +42,7 @@ func TestArwenPart_SendCallRequestWhenNoContract(t *testing.T) {
 	require.Nil(t, err)
 }
 
-func TestArwenPart_SendCallRequest(t *testing.T) {
+func TestVMPart_SendCallRequest(t *testing.T) {
 	blockchain := &contextmock.BlockchainHookStub{}
 
 	blockchain.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
@@ -81,10 +81,10 @@ func doContractRequest(
 			},
 		}
 
-		part, err := wasmvmpart.NewArwenPart(
+		part, err := wasmvmpart.NewVMPart(
 			"testversion",
-			files.inputOfArwen,
-			files.outputOfArwen,
+			files.inputOfVM,
+			files.outputOfVM,
 			vmHostParameters,
 			marshaling.CreateMarshalizer(marshaling.JSON),
 		)
@@ -116,9 +116,9 @@ func createTestFiles(t *testing.T, tag string) testFiles {
 	files := testFiles{}
 
 	var err error
-	files.inputOfArwen, files.outputOfNode, err = os.Pipe()
+	files.inputOfVM, files.outputOfNode, err = os.Pipe()
 	require.Nil(t, err)
-	files.inputOfNode, files.outputOfArwen, err = os.Pipe()
+	files.inputOfNode, files.outputOfVM, err = os.Pipe()
 	require.Nil(t, err)
 
 	return files

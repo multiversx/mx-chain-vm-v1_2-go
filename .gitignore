@@ -13,15 +13,15 @@
 
 /vendor
 
-/arwen/debug
+/wasmvm/debug
 /cmd/test/test
 /cmd/testgen/dns/dns
-/cmd/arwen/arwen
+/cmd/wasmvm/wasmvm
 /wasmvmdebug/testdata/db
 /cmd/wasmvmdebug/wasmvmdebug
 /cmd/wasmvmdebug/db
 /ipc/tests/testdata/streams
-/ipc/tests/arwen
+/ipc/tests/wasmvm
 
 # VSCode settings
 .vscode
