@@ -6,7 +6,7 @@ import (
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
 
-// StubAccount is used with the blockchain stub in arwen context tests.
+// StubAccount is used with the blockchain stub in wasmvm context tests.
 // It has minimal functionality.
 type StubAccount struct {
 	Address      []byte

@@ -3,13 +3,13 @@ package mock
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
-var _ arwen.OutputContext = (*OutputContextMock)(nil)
+var _ wasmvm.OutputContext = (*OutputContextMock)(nil)
 
 // OutputContextMock is used in tests to check the OutputContext interface method calls
 type OutputContextMock struct {
@@ -184,7 +184,7 @@ func (o *OutputContextMock) GetVMOutput() *vmcommon.VMOutput {
 }
 
 // DeployCode mocked method
-func (o *OutputContextMock) DeployCode(_ arwen.CodeDeployInput) {
+func (o *OutputContextMock) DeployCode(_ wasmvm.CodeDeployInput) {
 }
 
 // CreateVMOutputInCaseOfError mocked method

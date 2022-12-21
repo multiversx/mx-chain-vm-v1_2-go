@@ -3,12 +3,12 @@ package mock
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
-var _ arwen.OutputContext = (*OutputContextStub)(nil)
+var _ wasmvm.OutputContext = (*OutputContextStub)(nil)
 
 // OutputContextStub is used in tests to check the OutputContext interface method calls
 type OutputContextStub struct {
@@ -39,7 +39,7 @@ type OutputContextStub struct {
 	PrependFinishCalled               func(data []byte)
 	GetVMOutputCalled                 func() *vmcommon.VMOutput
 	AddTxValueToAccountCalled         func(address []byte, value *big.Int)
-	DeployCodeCalled                  func(input arwen.CodeDeployInput)
+	DeployCodeCalled                  func(input wasmvm.CodeDeployInput)
 	CreateVMOutputInCaseOfErrorCalled func(err error) *vmcommon.VMOutput
 	AddToActiveStateCalled            func(vmOutput *vmcommon.VMOutput)
 	TransferValueOnlyCalled           func(destination []byte, sender []byte, value *big.Int, checkPayable bool) error
@@ -261,7 +261,7 @@ func (o *OutputContextStub) AddTxValueToAccount(address []byte, value *big.Int) 
 }
 
 // DeployCode mocked method
-func (o *OutputContextStub) DeployCode(input arwen.CodeDeployInput) {
+func (o *OutputContextStub) DeployCode(input wasmvm.CodeDeployInput) {
 	if o.DeployCodeCalled != nil {
 		o.DeployCodeCalled(input)
 	}

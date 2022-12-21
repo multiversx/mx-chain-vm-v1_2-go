@@ -1,16 +1,16 @@
 package mock
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 // making sure we implement all functions of RuntimeContext
-var _ arwen.RuntimeContext = (*runtimeContextWrapper)(nil)
+var _ wasmvm.RuntimeContext = (*runtimeContextWrapper)(nil)
 
 type runtimeContextWrapper struct {
-	runtimeContext arwen.RuntimeContext
+	runtimeContext wasmvm.RuntimeContext
 
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
 	InitStateFromContractCallInputFunc func(input *vmcommon.ContractCallInput)
@@ -47,21 +47,21 @@ type runtimeContextWrapper struct {
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
 	MustVerifyNextContractCodeFunc func()
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	SetRuntimeBreakpointValueFunc func(value arwen.BreakpointValue)
+	SetRuntimeBreakpointValueFunc func(value wasmvm.BreakpointValue)
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	GetRuntimeBreakpointValueFunc func() arwen.BreakpointValue
+	GetRuntimeBreakpointValueFunc func() wasmvm.BreakpointValue
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
 	IsContractOnTheStackFunc func(address []byte) bool
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	GetAsyncCallInfoFunc func() *arwen.AsyncCallInfo
+	GetAsyncCallInfoFunc func() *wasmvm.AsyncCallInfo
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	SetAsyncCallInfoFunc func(asyncCallInfo *arwen.AsyncCallInfo)
+	SetAsyncCallInfoFunc func(asyncCallInfo *wasmvm.AsyncCallInfo)
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	AddAsyncContextCallFunc func(contextIdentifier []byte, asyncCall *arwen.AsyncGeneratedCall) error
+	AddAsyncContextCallFunc func(contextIdentifier []byte, asyncCall *wasmvm.AsyncGeneratedCall) error
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	GetAsyncContextInfoFunc func() *arwen.AsyncContextInfo
+	GetAsyncContextInfoFunc func() *wasmvm.AsyncContextInfo
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	GetAsyncContextFunc func(contextIdentifier []byte) (*arwen.AsyncContext, error)
+	GetAsyncContextFunc func(contextIdentifier []byte) (*wasmvm.AsyncContext, error)
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
 	RunningInstancesCountFunc func() uint64
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
@@ -109,7 +109,7 @@ type runtimeContextWrapper struct {
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
 	ExecuteAsyncCallFunc func(address []byte, data []byte, value []byte) error
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
-	ReplaceInstanceBuilderFunc func(builder arwen.InstanceBuilder)
+	ReplaceInstanceBuilderFunc func(builder wasmvm.InstanceBuilder)
 
 	// function that will be called by the corresponding RuntimeContext function implementation (by default this will call the same wrapped context function)
 	InitStateFunc func()
@@ -124,7 +124,7 @@ type runtimeContextWrapper struct {
 }
 
 // NewRuntimeContextWrapper builds a new runtimeContextWrapper that by default will delagate all calls to the provided RuntimeContext
-func NewRuntimeContextWrapper(inputRuntimeContext *arwen.RuntimeContext) *runtimeContextWrapper {
+func NewRuntimeContextWrapper(inputRuntimeContext *wasmvm.RuntimeContext) *runtimeContextWrapper {
 
 	runtimeWrapper := &runtimeContextWrapper{runtimeContext: *inputRuntimeContext}
 
@@ -200,11 +200,11 @@ func NewRuntimeContextWrapper(inputRuntimeContext *arwen.RuntimeContext) *runtim
 		runtimeWrapper.runtimeContext.MustVerifyNextContractCode()
 	}
 
-	runtimeWrapper.SetRuntimeBreakpointValueFunc = func(value arwen.BreakpointValue) {
+	runtimeWrapper.SetRuntimeBreakpointValueFunc = func(value wasmvm.BreakpointValue) {
 		runtimeWrapper.runtimeContext.SetRuntimeBreakpointValue(value)
 	}
 
-	runtimeWrapper.GetRuntimeBreakpointValueFunc = func() arwen.BreakpointValue {
+	runtimeWrapper.GetRuntimeBreakpointValueFunc = func() wasmvm.BreakpointValue {
 		return runtimeWrapper.runtimeContext.GetRuntimeBreakpointValue()
 	}
 
@@ -212,23 +212,23 @@ func NewRuntimeContextWrapper(inputRuntimeContext *arwen.RuntimeContext) *runtim
 		return runtimeWrapper.runtimeContext.IsContractOnTheStack(address)
 	}
 
-	runtimeWrapper.GetAsyncCallInfoFunc = func() *arwen.AsyncCallInfo {
+	runtimeWrapper.GetAsyncCallInfoFunc = func() *wasmvm.AsyncCallInfo {
 		return runtimeWrapper.runtimeContext.GetAsyncCallInfo()
 	}
 
-	runtimeWrapper.SetAsyncCallInfoFunc = func(asyncCallInfo *arwen.AsyncCallInfo) {
+	runtimeWrapper.SetAsyncCallInfoFunc = func(asyncCallInfo *wasmvm.AsyncCallInfo) {
 		runtimeWrapper.runtimeContext.SetAsyncCallInfo(asyncCallInfo)
 	}
 
-	runtimeWrapper.AddAsyncContextCallFunc = func(contextIdentifier []byte, asyncCall *arwen.AsyncGeneratedCall) error {
+	runtimeWrapper.AddAsyncContextCallFunc = func(contextIdentifier []byte, asyncCall *wasmvm.AsyncGeneratedCall) error {
 		return runtimeWrapper.runtimeContext.AddAsyncContextCall(contextIdentifier, asyncCall)
 	}
 
-	runtimeWrapper.GetAsyncContextInfoFunc = func() *arwen.AsyncContextInfo {
+	runtimeWrapper.GetAsyncContextInfoFunc = func() *wasmvm.AsyncContextInfo {
 		return runtimeWrapper.runtimeContext.GetAsyncContextInfo()
 	}
 
-	runtimeWrapper.GetAsyncContextFunc = func(contextIdentifier []byte) (*arwen.AsyncContext, error) {
+	runtimeWrapper.GetAsyncContextFunc = func(contextIdentifier []byte) (*wasmvm.AsyncContext, error) {
 		return runtimeWrapper.runtimeContext.GetAsyncContext(contextIdentifier)
 	}
 
@@ -324,7 +324,7 @@ func NewRuntimeContextWrapper(inputRuntimeContext *arwen.RuntimeContext) *runtim
 		return runtimeWrapper.runtimeContext.ExecuteAsyncCall(address, data, value)
 	}
 
-	runtimeWrapper.ReplaceInstanceBuilderFunc = func(builder arwen.InstanceBuilder) {
+	runtimeWrapper.ReplaceInstanceBuilderFunc = func(builder wasmvm.InstanceBuilder) {
 		runtimeWrapper.runtimeContext.ReplaceInstanceBuilder(builder)
 	}
 
@@ -352,7 +352,7 @@ func NewRuntimeContextWrapper(inputRuntimeContext *arwen.RuntimeContext) *runtim
 }
 
 // GetWrappedRuntimeContext gets the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) GetWrappedRuntimeContext() arwen.RuntimeContext {
+func (contextWrapper *runtimeContextWrapper) GetWrappedRuntimeContext() wasmvm.RuntimeContext {
 	return contextWrapper.runtimeContext
 }
 
@@ -442,12 +442,12 @@ func (contextWrapper *runtimeContextWrapper) MustVerifyNextContractCode() {
 }
 
 // SetRuntimeBreakpointValue calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) SetRuntimeBreakpointValue(value arwen.BreakpointValue) {
+func (contextWrapper *runtimeContextWrapper) SetRuntimeBreakpointValue(value wasmvm.BreakpointValue) {
 	contextWrapper.SetRuntimeBreakpointValueFunc(value)
 }
 
 // GetRuntimeBreakpointValue calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) GetRuntimeBreakpointValue() arwen.BreakpointValue {
+func (contextWrapper *runtimeContextWrapper) GetRuntimeBreakpointValue() wasmvm.BreakpointValue {
 	return contextWrapper.GetRuntimeBreakpointValueFunc()
 }
 
@@ -457,27 +457,27 @@ func (contextWrapper *runtimeContextWrapper) IsContractOnTheStack(address []byte
 }
 
 // GetAsyncCallInfo calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) GetAsyncCallInfo() *arwen.AsyncCallInfo {
+func (contextWrapper *runtimeContextWrapper) GetAsyncCallInfo() *wasmvm.AsyncCallInfo {
 	return contextWrapper.GetAsyncCallInfoFunc()
 }
 
 // SetAsyncCallInfo calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) SetAsyncCallInfo(asyncCallInfo *arwen.AsyncCallInfo) {
+func (contextWrapper *runtimeContextWrapper) SetAsyncCallInfo(asyncCallInfo *wasmvm.AsyncCallInfo) {
 	contextWrapper.SetAsyncCallInfoFunc(asyncCallInfo)
 }
 
 // AddAsyncContextCall calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) AddAsyncContextCall(contextIdentifier []byte, asyncCall *arwen.AsyncGeneratedCall) error {
+func (contextWrapper *runtimeContextWrapper) AddAsyncContextCall(contextIdentifier []byte, asyncCall *wasmvm.AsyncGeneratedCall) error {
 	return contextWrapper.AddAsyncContextCallFunc(contextIdentifier, asyncCall)
 }
 
 // GetAsyncContextInfo calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) GetAsyncContextInfo() *arwen.AsyncContextInfo {
+func (contextWrapper *runtimeContextWrapper) GetAsyncContextInfo() *wasmvm.AsyncContextInfo {
 	return contextWrapper.GetAsyncContextInfoFunc()
 }
 
 // GetAsyncContext calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) GetAsyncContext(contextIdentifier []byte) (*arwen.AsyncContext, error) {
+func (contextWrapper *runtimeContextWrapper) GetAsyncContext(contextIdentifier []byte) (*wasmvm.AsyncContext, error) {
 	return contextWrapper.GetAsyncContextFunc(contextIdentifier)
 }
 
@@ -597,7 +597,7 @@ func (contextWrapper *runtimeContextWrapper) ExecuteAsyncCall(address []byte, da
 }
 
 // ReplaceInstanceBuilder calls corresponding xxxFunc function, that by default in turn calls the original method of the wrapped RuntimeContext
-func (contextWrapper *runtimeContextWrapper) ReplaceInstanceBuilder(builder arwen.InstanceBuilder) {
+func (contextWrapper *runtimeContextWrapper) ReplaceInstanceBuilder(builder wasmvm.InstanceBuilder) {
 	contextWrapper.ReplaceInstanceBuilderFunc(builder)
 }
 

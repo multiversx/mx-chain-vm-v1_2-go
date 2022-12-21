@@ -1,12 +1,12 @@
 package mock
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
-var _ arwen.MeteringContext = (*MeteringContextMock)(nil)
+var _ wasmvm.MeteringContext = (*MeteringContextMock)(nil)
 
 // MeteringContextMock is used in tests to check the MeteringContext interface method calls
 type MeteringContextMock struct {
@@ -168,12 +168,12 @@ func (m *MeteringContextMock) DeductInitialGasForExecution(_ []byte) error {
 }
 
 // DeductInitialGasForDirectDeployment mocked method
-func (m *MeteringContextMock) DeductInitialGasForDirectDeployment(_ arwen.CodeDeployInput) error {
+func (m *MeteringContextMock) DeductInitialGasForDirectDeployment(_ wasmvm.CodeDeployInput) error {
 	return m.Err
 }
 
 // DeductInitialGasForIndirectDeployment mocked method
-func (m *MeteringContextMock) DeductInitialGasForIndirectDeployment(_ arwen.CodeDeployInput) error {
+func (m *MeteringContextMock) DeductInitialGasForIndirectDeployment(_ wasmvm.CodeDeployInput) error {
 	return m.Err
 }
 
