@@ -98,7 +98,6 @@ import (
 	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
-	"github.com/ElrondNetwork/wasm-vm/arwen"
 )
 
 var logEEI = logger.GetOrCreate("wasmvm/eei")
@@ -1446,7 +1445,7 @@ func v1_2_setStorageLock(context unsafe.Pointer, keyOffset int32, keyLength int3
 		return -1
 	}
 
-	timeLockKey := arwen.CustomStorageKey(arwen.TimeLockKeyPrefix, key)
+	timeLockKey := wasmvm.CustomStorageKey(wasmvm.TimeLockKeyPrefix, key)
 	bigTimestamp := big.NewInt(0).SetInt64(lockTimestamp)
 	storageStatus, err := storage.SetProtectedStorage(timeLockKey, bigTimestamp.Bytes())
 	if wasmvm.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
@@ -1469,7 +1468,7 @@ func v1_2_getStorageLock(context unsafe.Pointer, keyOffset int32, keyLength int3
 		return -1
 	}
 
-	timeLockKey := arwen.CustomStorageKey(arwen.TimeLockKeyPrefix, key)
+	timeLockKey := wasmvm.CustomStorageKey(wasmvm.TimeLockKeyPrefix, key)
 	data := storage.GetStorage(timeLockKey)
 	timeLock := big.NewInt(0).SetBytes(data).Int64()
 
@@ -1542,7 +1541,7 @@ func v1_2_callValue(context unsafe.Pointer, resultOffset int32) int32 {
 	metering.UseGas(gasToUse)
 
 	value := runtime.GetVMInput().CallValue.Bytes()
-	value = wasmvm.PadBytesLeft(value, arwen.BalanceLen)
+	value = wasmvm.PadBytesLeft(value, wasmvm.BalanceLen)
 
 	err := runtime.MemStore(resultOffset, value)
 	if wasmvm.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
@@ -1563,9 +1562,9 @@ func v1_2_getESDTValue(context unsafe.Pointer, resultOffset int32) int32 {
 	var value []byte
 
 	esdtTransfer := getFirstESDTTransferIfExist(runtime.GetVMInput())
-	if esdtTransfer.ESDTValue.Cmp(arwen.Zero) > 0 {
+	if esdtTransfer.ESDTValue.Cmp(wasmvm.Zero) > 0 {
 		value = esdtTransfer.ESDTValue.Bytes()
-		value = wasmvm.PadBytesLeft(value, arwen.BalanceLen)
+		value = wasmvm.PadBytesLeft(value, wasmvm.BalanceLen)
 	}
 
 	err := runtime.MemStore(resultOffset, value)
@@ -1662,7 +1661,7 @@ func v1_2_getCallValueTokenName(context unsafe.Pointer, callValueOffset int32, t
 		copy(tokenName, esdtTransfer.ESDTTokenName)
 		callValue = esdtTransfer.ESDTValue.Bytes()
 	}
-	callValue = wasmvm.PadBytesLeft(callValue, arwen.BalanceLen)
+	callValue = wasmvm.PadBytesLeft(callValue, wasmvm.BalanceLen)
 
 	err := runtime.MemStore(tokenNameOffset, tokenName)
 	if wasmvm.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
@@ -1694,13 +1693,13 @@ func v1_2_writeLog(context unsafe.Pointer, dataPointer int32, dataLength int32, 
 		return
 	}
 
-	topics, err := arwen.GuardedMakeByteSlice2D(numTopics)
+	topics, err := wasmvm.GuardedMakeByteSlice2D(numTopics)
 	if wasmvm.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	for i := int32(0); i < numTopics; i++ {
-		topics[i], err = runtime.MemLoad(topicPtr+i*wasmvm.HashLen, arwen.HashLen)
+		topics[i], err = runtime.MemLoad(topicPtr+i*wasmvm.HashLen, wasmvm.HashLen)
 		if wasmvm.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 			return
 		}
@@ -1980,7 +1979,7 @@ func doESDTTransferAndExecuteSynchronously(
 	output := host.Output()
 	metering := host.Metering()
 
-	if value.Cmp(arwen.Zero) > 0 {
+	if value.Cmp(wasmvm.Zero) > 0 {
 		if wasmvm.WithFault(wasmvm.ErrTransferValueOnESDTCall, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			return 1
 		}
