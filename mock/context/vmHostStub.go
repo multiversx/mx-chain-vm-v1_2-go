@@ -97,13 +97,13 @@ func (vhs *VMHostStub) BigInt() wasmvm.BigIntContext {
 	return nil
 }
 
-// IsArwenV2Enabled mocked method
-func (vhs *VMHostStub) IsArwenV2Enabled() bool {
+// IsV2Enabled mocked method
+func (vhs *VMHostStub) IsV2Enabled() bool {
 	return true
 }
 
-// IsArwenV3Enabled mocked method
-func (vhs *VMHostStub) IsArwenV3Enabled() bool {
+// IsV3Enabled mocked method
+func (vhs *VMHostStub) IsV3Enabled() bool {
 	return true
 }
 

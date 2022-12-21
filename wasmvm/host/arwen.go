@@ -195,13 +195,13 @@ func (host *vmHost) BigInt() wasmvm.BigIntContext {
 	return host.bigIntContext
 }
 
-// IsArwenV2Enabled returns whether the Arwen V2 mode is enabled
-func (host *vmHost) IsArwenV2Enabled() bool {
+// IsV2Enabled returns whether the Arwen V2 mode is enabled
+func (host *vmHost) IsV2Enabled() bool {
 	return host.enableEpochsHandler.IsSCDeployFlagEnabled()
 }
 
-// IsArwenV3Enabled returns whether the V3 features are enabled
-func (host *vmHost) IsArwenV3Enabled() bool {
+// IsV3Enabled returns whether the V3 features are enabled
+func (host *vmHost) IsV3Enabled() bool {
 	return host.enableEpochsHandler.IsRepairCallbackFlagEnabled()
 }
 

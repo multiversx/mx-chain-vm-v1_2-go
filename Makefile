@@ -11,7 +11,7 @@ build:
 wasmvm:
 	go build -ldflags="-X main.appVersion=$(WASMVM_VERSION)" -o ./cmd/wasmvm/wasmvm ./cmd/wasmvm
 	cp ./cmd/wasmvm/wasmvm ./ipc/tests
-	cp ./cmd/wasmvm/wasmvm ${ARWEN_PATH}
+	cp ./cmd/wasmvm/wasmvm ${WASMVM_PATH}
 
 wasmvmdebug:
 ifndef WASMVMDEBUG_PATH

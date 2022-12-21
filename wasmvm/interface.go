@@ -35,10 +35,10 @@ type VMHost interface {
 	Output() OutputContext
 	Metering() MeteringContext
 	Storage() StorageContext
-	IsArwenV2Enabled() bool
+	IsV2Enabled() bool
 	IsAheadOfTimeCompileEnabled() bool
 	IsDynamicGasLockingEnabled() bool
-	IsArwenV3Enabled() bool
+	IsV3Enabled() bool
 	IsESDTFunctionsEnabled() bool
 
 	ExecuteESDTTransfer(destination []byte, sender []byte, tokenIdentifier []byte, nonce uint64, value *big.Int, callType vm.CallType, isRevert bool) (*vmcommon.VMOutput, uint64, error)

@@ -7,7 +7,7 @@ import (
 
 func initializeCLI(facade *wasmvmdebug.DebugFacade) *cli.App {
 	app := cli.NewApp()
-	app.Name = "Arwen Debug"
+	app.Name = "WASM VM Debug"
 	app.Usage = ""
 
 	args := &cliArguments{}

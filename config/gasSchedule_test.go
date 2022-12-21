@@ -30,7 +30,7 @@ func TestDecode(t *testing.T) {
 	fmt.Printf("%+v\n", op)
 }
 
-func TestDecode_ArwenGas(t *testing.T) {
+func TestDecode_VMGas(t *testing.T) {
 	gasMap := make(map[string]uint64)
 	gasMap["StorePerByte"] = 4
 	gasMap["GetSCAddress"] = 4

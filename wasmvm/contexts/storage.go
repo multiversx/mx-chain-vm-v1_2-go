@@ -14,12 +14,12 @@ import (
 var logStorage = logger.GetOrCreate("wasmvm/storage")
 
 type storageContext struct {
-	host                          wasmvm.VMHost
-	blockChainHook                vmcommon.BlockchainHook
-	address                       []byte
-	stateStack                    [][]byte
-	elrondProtectedKeyPrefix      []byte
-	arwenStorageProtectionEnabled bool
+	host                       wasmvm.VMHost
+	blockChainHook             vmcommon.BlockchainHook
+	address                    []byte
+	stateStack                 [][]byte
+	elrondProtectedKeyPrefix   []byte
+	vmStorageProtectionEnabled bool
 }
 
 // NewStorageContext creates a new storageContext
@@ -32,11 +32,11 @@ func NewStorageContext(
 		return nil, errors.New("elrondProtectedKeyPrefix cannot be empty")
 	}
 	context := &storageContext{
-		host:                          host,
-		blockChainHook:                blockChainHook,
-		stateStack:                    make([][]byte, 0),
-		elrondProtectedKeyPrefix:      elrondProtectedKeyPrefix,
-		arwenStorageProtectionEnabled: true,
+		host:                       host,
+		blockChainHook:             blockChainHook,
+		stateStack:                 make([][]byte, 0),
+		elrondProtectedKeyPrefix:   elrondProtectedKeyPrefix,
+		vmStorageProtectionEnabled: true,
 	}
 
 	return context, nil
@@ -177,12 +177,12 @@ func (context *storageContext) GetStorageUnmetered(key []byte) []byte {
 
 // enableStorageProtection will prevent writing to protected keys
 func (context *storageContext) enableStorageProtection() {
-	context.arwenStorageProtectionEnabled = true
+	context.vmStorageProtectionEnabled = true
 }
 
 // disableStorageProtection will prevent writing to protected keys
 func (context *storageContext) disableStorageProtection() {
-	context.arwenStorageProtectionEnabled = false
+	context.vmStorageProtectionEnabled = false
 }
 
 func (context *storageContext) isArwenProtectedKey(key []byte) bool {
@@ -210,7 +210,7 @@ func (context *storageContext) SetStorage(key []byte, value []byte) (wasmvm.Stor
 		logStorage.Trace("storage set", "error", wasmvm.ErrStoreElrondReservedKey, "key", key)
 		return wasmvm.StorageUnchanged, wasmvm.ErrStoreElrondReservedKey
 	}
-	if context.isArwenProtectedKey(key) && context.arwenStorageProtectionEnabled {
+	if context.isArwenProtectedKey(key) && context.vmStorageProtectionEnabled {
 		logStorage.Trace("storage set", "error", wasmvm.ErrCannotWriteProtectedKey, "key", key)
 		return wasmvm.StorageUnchanged, wasmvm.ErrCannotWriteProtectedKey
 	}

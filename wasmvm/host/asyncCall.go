@@ -326,7 +326,7 @@ func (host *vmHost) createDestinationContractCallInput(asyncCallInfo wasmvm.Asyn
 }
 
 func (host *vmHost) computeCallValueFromLastOutputTransfer(destinationVMOutput *vmcommon.VMOutput) *big.Int {
-	if !host.IsArwenV3Enabled() {
+	if !host.IsV3Enabled() {
 		return big.NewInt(0)
 	}
 	if len(destinationVMOutput.ReturnData) > 0 {

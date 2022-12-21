@@ -271,7 +271,7 @@ func (context *outputContext) TransferValueOnly(destination []byte, sender []byt
 		return err
 	}
 
-	isAsyncCall := context.host.IsArwenV3Enabled() && context.host.Runtime().GetVMInput().CallType == vm.AsynchronousCall
+	isAsyncCall := context.host.IsV3Enabled() && context.host.Runtime().GetVMInput().CallType == vm.AsynchronousCall
 	checkPayable = checkPayable || !context.host.IsESDTFunctionsEnabled()
 	hasValue := value.Cmp(wasmvm.Zero) > 0
 	if checkPayable && !payable && hasValue && !isAsyncCall {
@@ -441,7 +441,7 @@ func (context *outputContext) GetVMOutput() *vmcommon.VMOutput {
 		context.outputState.GasRemaining = metering.GasLeft()
 
 		// backward compatibility
-		if !context.host.IsArwenV2Enabled() && account.GasUsed > metering.GetGasProvided() {
+		if !context.host.IsV2Enabled() && account.GasUsed > metering.GetGasProvided() {
 			return context.CreateVMOutputInCaseOfError(wasmvm.ErrNotEnoughGas)
 		}
 	} else {
@@ -470,7 +470,7 @@ func (context *outputContext) isBuiltInExecution() bool {
 }
 
 func (context *outputContext) checkGas(remainedFromForwarded uint64) error {
-	if !context.host.IsArwenV2Enabled() {
+	if !context.host.IsV2Enabled() {
 		return nil
 	}
 

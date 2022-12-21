@@ -145,7 +145,7 @@ def my_capitalize(input):
 
 def generate_repliers(args):
     print("package nodepart")
-    print("import \"github.com/ElrondNetwork/arwen-wasm-vm/ipc/common\"")
+    print("import \"github.com/ElrondNetwork/wasm-vm/ipc/common\"")
 
     for signature in signatures:
         call_go, output_args = get_call(signature)
@@ -189,12 +189,12 @@ def generate_reply_slots(args):
 
 def generate_gateway(args):
     print("""
-package arwenpart
+package wasmvmpart
 
 import (
     "math/big"
 
-    "github.com/ElrondNetwork/arwen-wasm-vm/ipc/common"
+    "github.com/ElrondNetwork/wasm-vm/ipc/common"
     "github.com/ElrondNetwork/elrond-go/core/vmcommon"
 )
 

@@ -165,8 +165,8 @@ func runHookScenario(t *testing.T, callHook func(*BlockchainHookGateway), handle
 	testFiles := createTestFiles(t)
 	marshalizer := marshaling.CreateMarshalizer(marshaling.JSON)
 	nodeMessenger := nodepart.NewNodeMessenger(testFiles.inputOfNode, testFiles.outputOfNode, marshalizer)
-	arwenMessenger := NewVMMessenger(testFiles.inputOfVM, testFiles.outputOfVM, marshalizer)
-	gateway := NewBlockchainHookGateway(arwenMessenger)
+	vmMessenger := NewVMMessenger(testFiles.inputOfVM, testFiles.outputOfVM, marshalizer)
+	gateway := NewBlockchainHookGateway(vmMessenger)
 
 	go func() {
 		request, err := nodeMessenger.Receive(0)

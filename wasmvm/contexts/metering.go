@@ -228,7 +228,7 @@ func (context *meteringContext) GasUsedByContract() (uint64, uint64) {
 	executionGasUsed := runtime.GetPointsUsed()
 
 	gasUsed := uint64(0)
-	if context.host.IsArwenV2Enabled() {
+	if context.host.IsV2Enabled() {
 		gasUsed = context.initialCost
 	}
 
@@ -255,7 +255,7 @@ func (context *meteringContext) GasSpentByContract() uint64 {
 	executionGasUsed := runtime.GetPointsUsed()
 
 	gasSpent := uint64(0)
-	if context.host.IsArwenV2Enabled() {
+	if context.host.IsV2Enabled() {
 		gasSpent = context.initialCost
 	}
 

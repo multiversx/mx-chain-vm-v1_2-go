@@ -26,12 +26,12 @@ type VMDriver struct {
 	logsMarshalizer     marshaling.Marshalizer
 	messagesMarshalizer marshaling.Marshalizer
 
-	arwenInitRead    *os.File
-	arwenInitWrite   *os.File
-	arwenInputRead   *os.File
-	arwenInputWrite  *os.File
-	arwenOutputRead  *os.File
-	arwenOutputWrite *os.File
+	vmInitRead    *os.File
+	vmInitWrite   *os.File
+	vmInputRead   *os.File
+	vmInputWrite  *os.File
+	vmOutputRead  *os.File
+	vmOutputWrite *os.File
 
 	counterDeploy uint64
 	counterCall   uint64
@@ -85,26 +85,26 @@ func (driver *VMDriver) startVM() error {
 		return err
 	}
 
-	arwenPath, err := driver.getVMPath()
+	vmPath, err := driver.getVMPath()
 	if err != nil {
 		return err
 	}
 
-	driver.command = exec.Command(arwenPath)
+	driver.command = exec.Command(vmPath)
 	driver.command.ExtraFiles = []*os.File{
-		driver.arwenInitRead,
-		driver.arwenInputRead,
-		driver.arwenOutputWrite,
+		driver.vmInitRead,
+		driver.vmInputRead,
+		driver.vmOutputWrite,
 		logsProfileReader,
 		logsWriter,
 	}
 
-	arwenStdout, err := driver.command.StdoutPipe()
+	vmStdout, err := driver.command.StdoutPipe()
 	if err != nil {
 		return err
 	}
 
-	arwenStderr, err := driver.command.StderrPipe()
+	vmStderr, err := driver.command.StderrPipe()
 	if err != nil {
 		return err
 	}
@@ -114,7 +114,7 @@ func (driver *VMDriver) startVM() error {
 		return err
 	}
 
-	err = common.SendVMArguments(driver.arwenInitWrite, driver.vmArguments)
+	err = common.SendVMArguments(driver.vmInitWrite, driver.vmArguments)
 	if err != nil {
 		return err
 	}
@@ -122,8 +122,8 @@ func (driver *VMDriver) startVM() error {
 	driver.blockchainHook.ClearCompiledCodes()
 
 	driver.part, err = NewNodePart(
-		driver.arwenOutputRead,
-		driver.arwenInputWrite,
+		driver.vmOutputRead,
+		driver.vmInputWrite,
 		driver.blockchainHook,
 		driver.config,
 		driver.messagesMarshalizer,
@@ -132,7 +132,7 @@ func (driver *VMDriver) startVM() error {
 		return err
 	}
 
-	err = driver.logsPart.StartLoop(arwenStdout, arwenStderr)
+	err = driver.logsPart.StartLoop(vmStdout, vmStderr)
 	if err != nil {
 		return err
 	}
@@ -152,26 +152,26 @@ func (driver *VMDriver) resetLogsPart() (*os.File, *os.File, error) {
 }
 
 func (driver *VMDriver) resetPipeStreams() error {
-	closeFile(driver.arwenInitRead)
-	closeFile(driver.arwenInitWrite)
-	closeFile(driver.arwenInputRead)
-	closeFile(driver.arwenInputWrite)
-	closeFile(driver.arwenOutputRead)
-	closeFile(driver.arwenOutputWrite)
+	closeFile(driver.vmInitRead)
+	closeFile(driver.vmInitWrite)
+	closeFile(driver.vmInputRead)
+	closeFile(driver.vmInputWrite)
+	closeFile(driver.vmOutputRead)
+	closeFile(driver.vmOutputWrite)
 
 	var err error
 
-	driver.arwenInitRead, driver.arwenInitWrite, err = os.Pipe()
+	driver.vmInitRead, driver.vmInitWrite, err = os.Pipe()
 	if err != nil {
 		return err
 	}
 
-	driver.arwenInputRead, driver.arwenInputWrite, err = os.Pipe()
+	driver.vmInputRead, driver.vmInputWrite, err = os.Pipe()
 	if err != nil {
 		return err
 	}
 
-	driver.arwenOutputRead, driver.arwenOutputWrite, err = os.Pipe()
+	driver.vmOutputRead, driver.vmOutputWrite, err = os.Pipe()
 	if err != nil {
 		return err
 	}
