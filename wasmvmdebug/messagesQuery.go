@@ -1,4 +1,4 @@
-package arwendebug
+package wasmvmdebug
 
 // QueryRequest is a CLI / REST request message
 type QueryRequest struct {

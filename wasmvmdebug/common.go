@@ -1,9 +1,11 @@
-package arwendebug
+package wasmvmdebug
 
 import (
 	"encoding/hex"
 	"encoding/json"
 	"math/big"
+
+	"github.com/opentracing/opentracing-go/log"
 )
 
 func decodeArguments(arguments []string) ([][]byte, error) {

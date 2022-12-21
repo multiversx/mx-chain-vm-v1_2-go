@@ -1,4 +1,4 @@
-package arwendebug
+package wasmvmdebug
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	"github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/stretchr/testify/require"
 )
 

@@ -1,4 +1,4 @@
-package arwendebug
+package wasmvmdebug
 
 import (
 	"math/big"

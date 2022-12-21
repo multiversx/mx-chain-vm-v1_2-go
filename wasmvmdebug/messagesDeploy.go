@@ -1,9 +1,9 @@
-package arwendebug
+package wasmvmdebug
 
 import (
 	"io/ioutil"
 
-	"github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
 
 // DeployRequest is a CLI / REST request message

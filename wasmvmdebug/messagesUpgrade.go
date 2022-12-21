@@ -1,4 +1,4 @@
-package arwendebug
+package wasmvmdebug
 
 // UpgradeRequest is a CLI / REST request message
 type UpgradeRequest struct {

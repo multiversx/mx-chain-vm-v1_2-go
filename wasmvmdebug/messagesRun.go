@@ -1,4 +1,4 @@
-package arwendebug
+package wasmvmdebug
 
 // RunRequest is a CLI / REST request message
 type RunRequest struct {

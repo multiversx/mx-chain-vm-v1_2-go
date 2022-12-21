@@ -1,8 +1,8 @@
-package arwendebug
+package wasmvmdebug
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 func (w *world) prepareDeployInput(request DeployRequest) *vmcommon.ContractCreateInput {
@@ -23,7 +23,7 @@ func (w *world) prepareUpgradeInput(request UpgradeRequest) *vmcommon.ContractCa
 	callInput.RecipientAddr = request.ContractAddress
 	callInput.CallerAddr = request.Impersonated
 	callInput.CallValue = request.ValueAsBigInt
-	callInput.Function = arwen.UpgradeFunctionName
+	callInput.Function = wasmvm.UpgradeFunctionName
 	allArguments := make([][]byte, 0)
 	allArguments = append(allArguments, request.Code, request.CodeMetadataBytes)
 	allArguments = append(allArguments, request.Arguments...)

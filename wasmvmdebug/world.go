@@ -1,12 +1,12 @@
-package arwendebug
+package wasmvmdebug
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
+	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/host"
 )
 
 type worldDataModel struct {
@@ -32,7 +32,7 @@ func newWorld(dataModel *worldDataModel) (*world, error) {
 	blockchainHook := worldmock.NewMockWorld()
 	blockchainHook.AcctMap = dataModel.Accounts
 
-	vm, err := host.NewArwenVM(
+	vm, err := host.NewWASMVM(
 		blockchainHook,
 		getHostParameters(),
 	)
@@ -47,8 +47,8 @@ func newWorld(dataModel *worldDataModel) (*world, error) {
 	}, nil
 }
 
-func getHostParameters() *arwen.VMHostParameters {
-	return &arwen.VMHostParameters{
+func getHostParameters() *wasmvm.VMHostParameters {
+	return &wasmvm.VMHostParameters{
 		VMType:                   []byte{5, 0},
 		BlockGasLimit:            uint64(10000000),
 		GasSchedule:              config.MakeGasMap(1, 1),

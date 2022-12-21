@@ -1,9 +1,9 @@
-package arwendebug
+package wasmvmdebug
 
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
 
 // RequestBase is a CLI / REST request message

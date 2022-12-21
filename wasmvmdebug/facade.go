@@ -1,4 +1,4 @@
-package arwendebug
+package wasmvmdebug
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 )
 
-var log = logger.GetOrCreate("arwendebug")
+var log = logger.GetOrCreate("wasmvmdebug")
 
 // DebugFacade is the debug facade
 type DebugFacade struct {
