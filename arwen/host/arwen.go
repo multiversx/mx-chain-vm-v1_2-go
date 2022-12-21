@@ -7,17 +7,17 @@ import (
 	"github.com/ElrondNetwork/elrond-go-core/core/check"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/contexts"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/cryptoapi"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/elrondapi"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/factory"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/contexts"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/cryptoapi"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/elrondapi"
 )
 
-var log = logger.GetOrCreate("arwen/host")
+var log = logger.GetOrCreate("wasmvm/host")
 
 // MaximumWasmerInstanceCount represents the maximum number of Wasmer instances that can be active at the same time
 var MaximumWasmerInstanceCount = uint64(10)
@@ -36,12 +36,12 @@ type vmHost struct {
 
 	ethInput []byte
 
-	blockchainContext arwen.BlockchainContext
-	runtimeContext    arwen.RuntimeContext
-	outputContext     arwen.OutputContext
-	meteringContext   arwen.MeteringContext
-	storageContext    arwen.StorageContext
-	bigIntContext     arwen.BigIntContext
+	blockchainContext wasmvm.BlockchainContext
+	runtimeContext    wasmvm.RuntimeContext
+	outputContext     wasmvm.OutputContext
+	meteringContext   wasmvm.MeteringContext
+	storageContext    wasmvm.StorageContext
+	bigIntContext     wasmvm.BigIntContext
 
 	gasSchedule              config.GasScheduleMap
 	scAPIMethods             *wasmer.Imports
@@ -49,13 +49,13 @@ type vmHost struct {
 	enableEpochsHandler      vmcommon.EnableEpochsHandler
 }
 
-// NewArwenVM creates a new Arwen vmHost
-func NewArwenVM(
+// NewWASMVM creates a new vmHost
+func NewWASMVM(
 	blockChainHook vmcommon.BlockchainHook,
-	hostParameters *arwen.VMHostParameters,
+	hostParameters *wasmvm.VMHostParameters,
 ) (*vmHost, error) {
 	if check.IfNil(hostParameters.EnableEpochsHandler) {
-		return nil, arwen.ErrNilEnableEpochsHandler
+		return nil, wasmvm.ErrNilEnableEpochsHandler
 	}
 
 	cryptoHook := factory.NewVMCrypto()
@@ -155,9 +155,9 @@ func NewArwenVM(
 	return host, nil
 }
 
-// GetVersion returns the Arwen version string
+// GetVersion returns the VM version string
 func (host *vmHost) GetVersion() string {
-	return arwen.ArwenVersion
+	return wasmvm.WASMVMVersion
 }
 
 // Crypto returns the VMCrypto instance of the host
@@ -166,32 +166,32 @@ func (host *vmHost) Crypto() crypto.VMCrypto {
 }
 
 // Blockchain returns the BlockchainContext instance of the host
-func (host *vmHost) Blockchain() arwen.BlockchainContext {
+func (host *vmHost) Blockchain() wasmvm.BlockchainContext {
 	return host.blockchainContext
 }
 
 // Runtime returns the RuntimeContext instance of the host
-func (host *vmHost) Runtime() arwen.RuntimeContext {
+func (host *vmHost) Runtime() wasmvm.RuntimeContext {
 	return host.runtimeContext
 }
 
 // Output returns the OutputContext instance of the host
-func (host *vmHost) Output() arwen.OutputContext {
+func (host *vmHost) Output() wasmvm.OutputContext {
 	return host.outputContext
 }
 
 // Metering returns the MeteringContext instance of the host
-func (host *vmHost) Metering() arwen.MeteringContext {
+func (host *vmHost) Metering() wasmvm.MeteringContext {
 	return host.meteringContext
 }
 
 // Storage returns the StorageContext instance of the host
-func (host *vmHost) Storage() arwen.StorageContext {
+func (host *vmHost) Storage() wasmvm.StorageContext {
 	return host.storageContext
 }
 
 // BigInt returns the BigIntContext instance of the host
-func (host *vmHost) BigInt() arwen.BigIntContext {
+func (host *vmHost) BigInt() wasmvm.BigIntContext {
 	return host.bigIntContext
 }
 
@@ -222,12 +222,12 @@ func (host *vmHost) IsESDTFunctionsEnabled() bool {
 
 // GetContexts returns the main contexts of the host
 func (host *vmHost) GetContexts() (
-	arwen.BigIntContext,
-	arwen.BlockchainContext,
-	arwen.MeteringContext,
-	arwen.OutputContext,
-	arwen.RuntimeContext,
-	arwen.StorageContext,
+	wasmvm.BigIntContext,
+	wasmvm.BlockchainContext,
+	wasmvm.MeteringContext,
+	wasmvm.OutputContext,
+	wasmvm.RuntimeContext,
+	wasmvm.StorageContext,
 ) {
 	return host.bigIntContext,
 		host.blockchainContext,
@@ -318,7 +318,7 @@ func (host *vmHost) RunSmartContractCreate(input *vmcommon.ContractCreateInput) 
 		log.Error("RunSmartContractCreate", "error", err)
 	}
 
-	TryCatch(try, catch, "arwen.RunSmartContractCreate")
+	TryCatch(try, catch, "wasmvm.RunSmartContractCreate")
 	if vmOutput != nil {
 		log.Trace("RunSmartContractCreate end", "returnCode", vmOutput.ReturnCode, "returnMessage", vmOutput.ReturnMessage)
 	}
@@ -351,11 +351,11 @@ func (host *vmHost) RunSmartContractCall(input *vmcommon.ContractCallInput) (vmO
 		log.Error("RunSmartContractCall", "error", err)
 	}
 
-	isUpgrade := input.Function == arwen.UpgradeFunctionName
+	isUpgrade := input.Function == wasmvm.UpgradeFunctionName
 	if isUpgrade {
-		TryCatch(tryUpgrade, catch, "arwen.RunSmartContractUpgrade")
+		TryCatch(tryUpgrade, catch, "wasmvm.RunSmartContractUpgrade")
 	} else {
-		TryCatch(tryCall, catch, "arwen.RunSmartContractCall")
+		TryCatch(tryCall, catch, "wasmvm.RunSmartContractCall")
 	}
 
 	return

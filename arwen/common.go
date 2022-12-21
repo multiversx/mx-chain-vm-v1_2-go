@@ -1,11 +1,11 @@
-package arwen
+package wasmvm
 
 import (
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 )
 
-const ArwenVersion = "v1.2"
+const WASMVMVersion = "v1.2"
 
 // BreakpointValue encodes Wasmer runtime breakpoint types
 type BreakpointValue uint64
@@ -14,10 +14,10 @@ const (
 	// BreakpointNone signifies the lack of a breakpoint
 	BreakpointNone BreakpointValue = iota
 
-	// BreakpointExecutionFailed means that Wasmer must stop immediately due to failure indicated by Arwen
+	// BreakpointExecutionFailed means that Wasmer must stop immediately due to failure indicated by the VM
 	BreakpointExecutionFailed
 
-	// BreakpointAsyncCall means that Wasmer must stop immediately so Arwen can execute an AsyncCall
+	// BreakpointAsyncCall means that Wasmer must stop immediately so the VM can execute an AsyncCall
 	BreakpointAsyncCall
 
 	// BreakpointSignalError means that Wasmer must stop immediately due to a contract-signalled error
@@ -55,7 +55,7 @@ const (
 const CallbackFunctionName = "callBack"
 
 // ProtectedStoragePrefix is the storage key prefix that will be protected by
-// Arwen explicitly, and implicitly by the Elrond node due to '@'; the
+// the VM explicitly, and implicitly by the Elrond node due to '@'; the
 // protection can be disabled temporarily by the StorageContext
 const ProtectedStoragePrefix = "ARWEN@"
 
