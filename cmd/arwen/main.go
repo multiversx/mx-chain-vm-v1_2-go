@@ -31,9 +31,9 @@ func main() {
 
 // doMain returns (error code, error message)
 func doMain() (int, string) {
-	arwenInitFile := getPipeFile(fileDescriptorArwenInit)
-	if arwenInitFile == nil {
-		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [arwenInitFile]"
+	wasmvmInitFile := getPipeFile(fileDescriptorArwenInit)
+	if wasmvmInitFile == nil {
+		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [wasmvmInitFile]"
 	}
 
 	nodeToArwenFile := getPipeFile(fileDescriptorNodeToArwen)
@@ -41,9 +41,9 @@ func doMain() (int, string) {
 		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [nodeToArwenFile]"
 	}
 
-	arwenToNodeFile := getPipeFile(fileDescriptorArwenToNode)
-	if arwenToNodeFile == nil {
-		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [arwenToNodeFile]"
+	wasmvmToNodeFile := getPipeFile(fileDescriptorArwenToNode)
+	if wasmvmToNodeFile == nil {
+		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [wasmvmToNodeFile]"
 	}
 
 	readLogProfileFile := getPipeFile(fileDescriptorReadLogProfile)
@@ -56,13 +56,13 @@ func doMain() (int, string) {
 		return common.ErrCodeCannotCreateFile, "Cannot get pipe file: [logToNodeFile]"
 	}
 
-	arwenArguments, err := common.GetArwenArguments(arwenInitFile)
+	wasmvmArguments, err := common.GetArwenArguments(wasmvmInitFile)
 	if err != nil {
 		return common.ErrCodeInit, fmt.Sprintf("Cannot receive gasSchedule: %v", err)
 	}
 
-	messagesMarshalizer := marshaling.CreateMarshalizer(arwenArguments.MessagesMarshalizer)
-	logsMarshalizer := marshaling.CreateMarshalizer(arwenArguments.LogsMarshalizer)
+	messagesMarshalizer := marshaling.CreateMarshalizer(wasmvmArguments.MessagesMarshalizer)
+	logsMarshalizer := marshaling.CreateMarshalizer(wasmvmArguments.LogsMarshalizer)
 
 	logsPart, err := pipes.NewChildPart(readLogProfileFile, logToNodeFile, logsMarshalizer)
 	if err != nil {
@@ -80,8 +80,8 @@ func doMain() (int, string) {
 	part, err := wasmvmpart.NewArwenPart(
 		appVersion,
 		nodeToArwenFile,
-		arwenToNodeFile,
-		&arwenArguments.VMHostParameters,
+		wasmvmToNodeFile,
+		&wasmvmArguments.VMHostParameters,
 		messagesMarshalizer,
 	)
 	if err != nil {

@@ -60,7 +60,7 @@ func TestArwenDriver_RestartsIfStopped(t *testing.T) {
 	_ = driver.Close()
 	require.True(t, driver.IsClosed())
 
-	// Per this request, Arwen is restarted
+	// Per this request, the VM is restarted
 	vmOutput, err = driver.RunSmartContractCreate(createDeployInput(bytecodeCounter))
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)

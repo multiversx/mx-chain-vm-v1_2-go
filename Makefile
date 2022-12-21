@@ -1,6 +1,6 @@
-.PHONY: test test-short build arwen arwendebug clean
+.PHONY: test test-short build arwen wasmvmdebug clean
 
-ARWEN_VERSION := $(shell git describe --tags --long --dirty --always)
+WASMVM_VERSION := $(shell git describe --tags --long --dirty --always)
 
 clean:
 	go clean -cache -testcache
@@ -9,16 +9,16 @@ build:
 	go build ./...
 
 arwen:
-	go build -ldflags="-X main.appVersion=$(ARWEN_VERSION)" -o ./cmd/arwen/arwen ./cmd/arwen
+	go build -ldflags="-X main.appVersion=$(WASMVM_VERSION)" -o ./cmd/arwen/arwen ./cmd/arwen
 	cp ./cmd/arwen/arwen ./ipc/tests
 	cp ./cmd/arwen/arwen ${ARWEN_PATH}
 
-arwendebug:
-ifndef ARWENDEBUG_PATH
-	$(error ARWENDEBUG_PATH is undefined)
+wasmvmdebug:
+ifndef WASMVMDEBUG_PATH
+	$(error WASMVMDEBUG_PATH is undefined)
 endif
-	go build -o ./cmd/arwendebug/arwendebug ./cmd/arwendebug
-	cp ./cmd/arwendebug/arwendebug ${ARWENDEBUG_PATH}
+	go build -o ./cmd/wasmvmdebug/wasmvmdebug ./cmd/wasmvmdebug
+	cp ./cmd/wasmvmdebug/wasmvmdebug ${WASMVMDEBUG_PATH}
 
 test: clean arwen
 	go test -count=1 ./...
