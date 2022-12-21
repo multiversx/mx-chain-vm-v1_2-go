@@ -21,7 +21,7 @@ var _ vmcommon.VMExecutionHandler = (*VMDriver)(nil)
 // VMDriver manages the execution of the VM process
 type VMDriver struct {
 	blockchainHook      vmcommon.BlockchainHook
-	arwenArguments      common.VMArguments
+	vmArguments         common.VMArguments
 	config              Config
 	logsMarshalizer     marshaling.Marshalizer
 	messagesMarshalizer marshaling.Marshalizer
@@ -53,15 +53,15 @@ type VMDriver struct {
 // NewVMDriver creates a new driver
 func NewVMDriver(
 	blockchainHook vmcommon.BlockchainHook,
-	arwenArguments common.VMArguments,
+	vmArguments common.VMArguments,
 	config Config,
 ) (*VMDriver, error) {
 	driver := &VMDriver{
 		blockchainHook:      blockchainHook,
-		arwenArguments:      arwenArguments,
+		vmArguments:         vmArguments,
 		config:              config,
-		logsMarshalizer:     marshaling.CreateMarshalizer(arwenArguments.LogsMarshalizer),
-		messagesMarshalizer: marshaling.CreateMarshalizer(arwenArguments.MessagesMarshalizer),
+		logsMarshalizer:     marshaling.CreateMarshalizer(vmArguments.LogsMarshalizer),
+		messagesMarshalizer: marshaling.CreateMarshalizer(vmArguments.MessagesMarshalizer),
 	}
 
 	err := driver.startVM()
@@ -114,7 +114,7 @@ func (driver *VMDriver) startVM() error {
 		return err
 	}
 
-	err = common.SendVMArguments(driver.arwenInitWrite, driver.arwenArguments)
+	err = common.SendVMArguments(driver.arwenInitWrite, driver.vmArguments)
 	if err != nil {
 		return err
 	}
@@ -241,7 +241,7 @@ func (driver *VMDriver) GasScheduleChange(newGasSchedule map[string]map[string]u
 	driver.operationsMutex.Lock()
 	defer driver.operationsMutex.Unlock()
 
-	driver.arwenArguments.GasSchedule = newGasSchedule
+	driver.vmArguments.GasSchedule = newGasSchedule
 	err := driver.RestartVMIfNecessary()
 	if err != nil {
 		log.Error("GasScheduleChange RestartVMIfNecessary", "error", err)

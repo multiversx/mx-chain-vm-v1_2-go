@@ -14,26 +14,26 @@ import (
 
 var log = logger.GetOrCreate("wasmvm/part")
 
-// ArwenPart is the endpoint that implements the message loop on Arwen's side
-type ArwenPart struct {
-	Messenger *ArwenMessenger
+// VMPart is the endpoint that implements the message loop on VM's side
+type VMPart struct {
+	Messenger *VMMessenger
 	VMHost    vmcommon.VMExecutionHandler
 	Repliers  []common.MessageReplier
 	Version   string
 }
 
-// NewArwenPart creates the Arwen part
-func NewArwenPart(
+// NewVMPart creates the VM part
+func NewVMPart(
 	version string,
 	input *os.File,
 	output *os.File,
 	vmHostParameters *wasmvm.VMHostParameters,
 	marshalizer marshaling.Marshalizer,
-) (*ArwenPart, error) {
-	messenger := NewArwenMessenger(input, output, marshalizer)
+) (*VMPart, error) {
+	messenger := NewVMMessenger(input, output, marshalizer)
 	blockchain := NewBlockchainHookGateway(messenger)
 
-	newArwenHost, err := host.NewWASMVM(
+	newVMHost, err := host.NewWASMVM(
 		blockchain,
 		vmHostParameters,
 	)
@@ -41,9 +41,9 @@ func NewArwenPart(
 		return nil, err
 	}
 
-	part := &ArwenPart{
+	part := &VMPart{
 		Messenger: messenger,
-		VMHost:    newArwenHost,
+		VMHost:    newVMHost,
 		Version:   version,
 	}
 
@@ -57,13 +57,13 @@ func NewArwenPart(
 	return part, nil
 }
 
-func (part *ArwenPart) noopReplier(_ common.MessageHandler) common.MessageHandler {
+func (part *VMPart) noopReplier(_ common.MessageHandler) common.MessageHandler {
 	log.Error("noopReplier called")
 	return common.CreateMessage(common.UndefinedRequestOrResponse)
 }
 
 // StartLoop runs the main loop
-func (part *ArwenPart) StartLoop() error {
+func (part *VMPart) StartLoop() error {
 	part.Messenger.Reset()
 	err := part.doLoop()
 	part.Messenger.Shutdown()
@@ -72,7 +72,7 @@ func (part *ArwenPart) StartLoop() error {
 }
 
 // doLoop ends only when a critical failure takes place
-func (part *ArwenPart) doLoop() error {
+func (part *VMPart) doLoop() error {
 	for {
 		request, err := part.Messenger.ReceiveNodeRequest()
 		if err != nil {
@@ -94,35 +94,35 @@ func (part *ArwenPart) doLoop() error {
 	}
 }
 
-func (part *ArwenPart) replyToNodeRequest(request common.MessageHandler) common.MessageHandler {
+func (part *VMPart) replyToNodeRequest(request common.MessageHandler) common.MessageHandler {
 	replier := part.Repliers[request.GetKind()]
 	return replier(request)
 }
 
-func (part *ArwenPart) replyToRunSmartContractCreate(request common.MessageHandler) common.MessageHandler {
+func (part *VMPart) replyToRunSmartContractCreate(request common.MessageHandler) common.MessageHandler {
 	typedRequest := request.(*common.MessageContractDeployRequest)
 	vmOutput, err := part.VMHost.RunSmartContractCreate(typedRequest.CreateInput)
 	return common.NewMessageContractResponse(vmOutput, err)
 }
 
-func (part *ArwenPart) replyToRunSmartContractCall(request common.MessageHandler) common.MessageHandler {
+func (part *VMPart) replyToRunSmartContractCall(request common.MessageHandler) common.MessageHandler {
 	typedRequest := request.(*common.MessageContractCallRequest)
 	vmOutput, err := part.VMHost.RunSmartContractCall(typedRequest.CallInput)
 	return common.NewMessageContractResponse(vmOutput, err)
 }
 
-func (part *ArwenPart) replyToDiagnoseWait(request common.MessageHandler) common.MessageHandler {
+func (part *VMPart) replyToDiagnoseWait(request common.MessageHandler) common.MessageHandler {
 	typedRequest := request.(*common.MessageDiagnoseWaitRequest)
 	duration := time.Duration(int64(typedRequest.Milliseconds) * int64(time.Millisecond))
 	time.Sleep(duration)
 	return common.NewMessageDiagnoseWaitResponse()
 }
 
-func (part *ArwenPart) replyToVersionRequest(_ common.MessageHandler) common.MessageHandler {
+func (part *VMPart) replyToVersionRequest(_ common.MessageHandler) common.MessageHandler {
 	return common.NewMessageVersionResponse(part.Version)
 }
 
-func (part *ArwenPart) replyToGasScheduleChange(request common.MessageHandler) common.MessageHandler {
+func (part *VMPart) replyToGasScheduleChange(request common.MessageHandler) common.MessageHandler {
 	typedRequest := request.(*common.MessageGasScheduleChangeRequest)
 	part.VMHost.GasScheduleChange(typedRequest.GasSchedule)
 	return common.NewGasScheduleChangeResponse()
