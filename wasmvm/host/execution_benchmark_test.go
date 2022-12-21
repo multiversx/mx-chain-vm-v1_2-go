@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 
@@ -87,7 +87,7 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 	gasMap, err := LoadGasScheduleConfig("../../arwenmandos/gasSchedules/gasScheduleV2.toml")
 	require.Nil(tb, err)
 
-	host, err := NewArwenVM(mockWorld, &arwen.VMHostParameters{
+	host, err := NewWASMVM(mockWorld, &wasmvm.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasMap,
@@ -136,7 +136,7 @@ func verifyTransfers(tb testing.TB, mockWorld *worldmock.MockWorld, totalTokenSu
 	scStorage := mockWorld.AcctMap.GetAccount(scAddress).Storage
 	ownerTokens := big.NewInt(0).SetBytes(scStorage[ownerKey])
 	receiverTokens := big.NewInt(0).SetBytes(scStorage[receiverKey])
-	require.Equal(tb, arwen.Zero, ownerTokens)
+	require.Equal(tb, wasmvm.Zero, ownerTokens)
 	require.Equal(tb, totalTokenSupply, receiverTokens)
 }
 

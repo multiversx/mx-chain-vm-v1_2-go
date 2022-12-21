@@ -6,12 +6,12 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
 	"github.com/ElrondNetwork/elrond-go-core/core"
 	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 
@@ -263,7 +263,7 @@ func dummyProcessBuiltInFunction(input *vmcommon.ContractCallInput) (*vmcommon.V
 		return vmOutput, nil
 	}
 
-	return nil, arwen.ErrFuncNotFound
+	return nil, wasmvm.ErrFuncNotFound
 }
 
 func getDummyBuiltinFunctionNames() vmcommon.FunctionNames {

@@ -15,10 +15,10 @@ import (
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/pelletier/go-toml"
 	"github.com/stretchr/testify/require"
 )
@@ -135,7 +135,7 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
-	host, err := NewArwenVM(stubBlockchainHook, &arwen.VMHostParameters{
+	host, err := NewWASMVM(stubBlockchainHook, &wasmvm.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
@@ -242,7 +242,7 @@ func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
-	host, err := NewArwenVM(blockchain, &arwen.VMHostParameters{
+	host, err := NewWASMVM(blockchain, &wasmvm.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,

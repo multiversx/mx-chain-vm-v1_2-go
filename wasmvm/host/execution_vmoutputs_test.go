@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 var parentKeyA = []byte("parentKeyA......................")
@@ -492,7 +492,7 @@ func expectedVMOutputDestCtxBuiltinDoSomething(input *vmcommon.ContractCallInput
 
 func expectedVMOutputDestCtxBuiltinNonexistent(_ *vmcommon.ContractCallInput, _ []byte) *vmcommon.VMOutput {
 	vmOutput := MakeVMOutputError()
-	vmOutput.ReturnMessage = arwen.ErrFuncNotFound.Error()
+	vmOutput.ReturnMessage = wasmvm.ErrFuncNotFound.Error()
 
 	return vmOutput
 }

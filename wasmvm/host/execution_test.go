@@ -9,10 +9,10 @@ import (
 	"testing"
 
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -85,7 +85,7 @@ func TestExecution_DeployOutOfGas(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 	require.Equal(t, vmcommon.OutOfGas, vmOutput.ReturnCode)
-	require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
+	require.Equal(t, wasmvm.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 }
 
 func TestExecution_DeployNotWASM(t *testing.T) {
@@ -385,7 +385,7 @@ func TestExecution_CallGetUserAccountErr(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 	require.Equal(t, vmcommon.ContractNotFound, vmOutput.ReturnCode)
-	require.Equal(t, arwen.ErrContractNotFound.Error(), vmOutput.ReturnMessage)
+	require.Equal(t, wasmvm.ErrContractNotFound.Error(), vmOutput.ReturnMessage)
 }
 
 func TestExecution_NotEnoughGasForGetCode(t *testing.T) {
@@ -411,7 +411,7 @@ func TestExecution_CallOutOfGas(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 	require.Equal(t, vmcommon.OutOfGas, vmOutput.ReturnCode)
-	require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
+	require.Equal(t, wasmvm.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 }
 
 func TestExecution_CallWasmerError(t *testing.T) {
@@ -439,7 +439,7 @@ func TestExecution_CallSCMethod(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 	require.Equal(t, vmcommon.UserError, vmOutput.ReturnCode)
-	require.Equal(t, arwen.ErrInitFuncCalledInRun.Error(), vmOutput.ReturnMessage)
+	require.Equal(t, wasmvm.ErrInitFuncCalledInRun.Error(), vmOutput.ReturnMessage)
 
 	// Calling callBack() directly is forbidden
 	input.Function = "callBack"
@@ -447,7 +447,7 @@ func TestExecution_CallSCMethod(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 	require.Equal(t, vmcommon.UserError, vmOutput.ReturnCode)
-	require.Equal(t, arwen.ErrCallBackFuncCalledInRun.Error(), vmOutput.ReturnMessage)
+	require.Equal(t, wasmvm.ErrCallBackFuncCalledInRun.Error(), vmOutput.ReturnMessage)
 
 	// Handle calling a missing function
 	input.Function = "wrong"
@@ -650,7 +650,7 @@ func TestExecution_ExecuteOnSameContext_OutOfGas(t *testing.T) {
 		require.Equal(t, expectedVMOutput, vmOutput)
 	} else {
 		require.Equal(t, vmcommon.ExecutionFailed, vmOutput.ReturnCode)
-		require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
+		require.Equal(t, wasmvm.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 		require.Zero(t, vmOutput.GasRemaining)
 	}
 }
@@ -760,7 +760,7 @@ func TestExecution_ExecuteOnSameContext_Recursive_Direct_ErrMaxInstances(t *test
 		require.Equal(t, int64(1), host.BigInt().GetOne(16).Int64())
 	} else {
 		require.Equal(t, vmcommon.ExecutionFailed, vmOutput.ReturnCode)
-		require.Equal(t, arwen.ErrExecutionFailed.Error(), vmOutput.ReturnMessage)
+		require.Equal(t, wasmvm.ErrExecutionFailed.Error(), vmOutput.ReturnMessage)
 		require.Zero(t, vmOutput.GasRemaining)
 	}
 }
@@ -876,10 +876,10 @@ func TestExecution_ExecuteOnSameContext_Recursive_Mutual_SCs_OutOfGas(t *testing
 
 	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.OutOfGas, vmOutput.ReturnCode)
-		require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
+		require.Equal(t, wasmvm.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 	} else {
 		require.Equal(t, vmcommon.ExecutionFailed, vmOutput.ReturnCode)
-		require.Equal(t, arwen.ErrExecutionFailed.Error(), vmOutput.ReturnMessage)
+		require.Equal(t, wasmvm.ErrExecutionFailed.Error(), vmOutput.ReturnMessage)
 	}
 }
 
@@ -967,7 +967,7 @@ func TestExecution_ExecuteOnDestContext_OutOfGas(t *testing.T) {
 		require.Equal(t, int64(42), host.BigInt().GetOne(12).Int64())
 	} else {
 		require.Equal(t, vmcommon.ExecutionFailed, vmOutput.ReturnCode)
-		require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
+		require.Equal(t, wasmvm.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 		require.Zero(t, vmOutput.GasRemaining)
 	}
 }
@@ -1205,10 +1205,10 @@ func TestExecution_ExecuteOnDestContext_Recursive_Mutual_SCs_OutOfGas(t *testing
 
 	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.OutOfGas, vmOutput.ReturnCode)
-		require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
+		require.Equal(t, wasmvm.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 	} else {
 		require.Equal(t, vmcommon.ExecutionFailed, vmOutput.ReturnCode)
-		require.Equal(t, arwen.ErrExecutionFailed.Error(), vmOutput.ReturnMessage)
+		require.Equal(t, wasmvm.ErrExecutionFailed.Error(), vmOutput.ReturnMessage)
 		require.Zero(t, vmOutput.GasRemaining)
 	}
 }
@@ -1483,7 +1483,7 @@ func TestExecution_CreateNewContract_Success(t *testing.T) {
 			}
 			return nil, 0, nil
 		}
-		return nil, 0, arwen.ErrInvalidAccount
+		return nil, 0, wasmvm.ErrInvalidAccount
 	}
 
 	input := DefaultTestContractCallInput()
@@ -1517,7 +1517,7 @@ func TestExecution_CreateNewContract_Fail(t *testing.T) {
 			}
 			return nil, 0, nil
 		}
-		return nil, 0, arwen.ErrInvalidAccount
+		return nil, 0, wasmvm.ErrInvalidAccount
 	}
 
 	input := DefaultTestContractCallInput()
@@ -1657,7 +1657,7 @@ func makeBytecodeWithLocals(numLocals uint64) []byte {
 	firstSlice := originalCode[:0x5B]
 	secondSlice := originalCode[0x5C:]
 
-	encodedNumLocals := arwen.U64ToLEB128(numLocals)
+	encodedNumLocals := wasmvm.U64ToLEB128(numLocals)
 	extraBytes := len(encodedNumLocals) - 1
 
 	result := make([]byte, 0)

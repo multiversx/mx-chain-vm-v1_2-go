@@ -6,13 +6,13 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
 	"github.com/ElrondNetwork/elrond-go-core/core"
 	"github.com/ElrondNetwork/elrond-go-core/core/check"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/parsers"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 func (host *vmHost) doRunSmartContractCreate(input *vmcommon.ContractCreateInput) *vmcommon.VMOutput {
@@ -33,7 +33,7 @@ func (host *vmHost) doRunSmartContractCreate(input *vmcommon.ContractCreateInput
 	output.AddTxValueToAccount(address, input.CallValue)
 	storage.SetAddress(runtime.GetSCAddress())
 
-	codeDeployInput := arwen.CodeDeployInput{
+	codeDeployInput := wasmvm.CodeDeployInput{
 		ContractCode:         input.ContractCode,
 		ContractCodeMetadata: input.ContractCodeMetadata,
 		ContractAddress:      address,
@@ -54,7 +54,7 @@ func (host *vmHost) doRunSmartContractCreate(input *vmcommon.ContractCreateInput
 	return vmOutput
 }
 
-func (host *vmHost) performCodeDeployment(input arwen.CodeDeployInput) (*vmcommon.VMOutput, error) {
+func (host *vmHost) performCodeDeployment(input wasmvm.CodeDeployInput) (*vmcommon.VMOutput, error) {
 	log.Trace("performCodeDeployment", "address", input.ContractAddress, "len(code)", len(input.ContractCode), "metadata", input.ContractCodeMetadata)
 
 	_, _, metering, output, runtime, _ := host.GetContexts()
@@ -70,7 +70,7 @@ func (host *vmHost) performCodeDeployment(input arwen.CodeDeployInput) (*vmcommo
 	err = runtime.StartWasmerInstance(input.ContractCode, metering.GetGasForExecution(), true)
 	if err != nil {
 		log.Debug("performCodeDeployment/StartWasmerInstance", "err", err)
-		return nil, arwen.ErrContractInvalid
+		return nil, wasmvm.ErrContractInvalid
 	}
 
 	err = host.callInitFunction()
@@ -98,10 +98,10 @@ func (host *vmHost) doRunSmartContractUpgrade(input *vmcommon.ContractCallInput)
 
 	code, codeMetadata, err := runtime.ExtractCodeUpgradeFromArgs()
 	if err != nil {
-		return output.CreateVMOutputInCaseOfError(arwen.ErrInvalidUpgradeArguments)
+		return output.CreateVMOutputInCaseOfError(wasmvm.ErrInvalidUpgradeArguments)
 	}
 
-	codeDeployInput := arwen.CodeDeployInput{
+	codeDeployInput := wasmvm.CodeDeployInput{
 		ContractCode:         code,
 		ContractCodeMetadata: codeMetadata,
 		ContractAddress:      input.RecipientAddr,
@@ -117,14 +117,14 @@ func (host *vmHost) doRunSmartContractUpgrade(input *vmcommon.ContractCallInput)
 	return vmOutput
 }
 
-func (host *vmHost) checkGasForGetCode(input *vmcommon.ContractCallInput, metering arwen.MeteringContext) error {
+func (host *vmHost) checkGasForGetCode(input *vmcommon.ContractCallInput, metering wasmvm.MeteringContext) error {
 	if !host.IsArwenV2Enabled() {
 		return nil
 	}
 
 	getCodeBaseCost := metering.GasSchedule().BaseOperationCost.GetCode
 	if input.GasProvided < getCodeBaseCost {
-		return arwen.ErrNotEnoughGas
+		return wasmvm.ErrNotEnoughGas
 	}
 
 	return nil
@@ -143,25 +143,25 @@ func (host *vmHost) doRunSmartContractCall(input *vmcommon.ContractCallInput) (v
 
 	err := host.checkGasForGetCode(input, metering)
 	if err != nil {
-		log.Trace("doRunSmartContractCall get code", "error", arwen.ErrNotEnoughGas)
-		return output.CreateVMOutputInCaseOfError(arwen.ErrNotEnoughGas)
+		log.Trace("doRunSmartContractCall get code", "error", wasmvm.ErrNotEnoughGas)
+		return output.CreateVMOutputInCaseOfError(wasmvm.ErrNotEnoughGas)
 	}
 
 	contract, err := runtime.GetSCCode()
 	if err != nil {
-		log.Trace("doRunSmartContractCall get code", "error", arwen.ErrContractNotFound)
-		return output.CreateVMOutputInCaseOfError(arwen.ErrContractNotFound)
+		log.Trace("doRunSmartContractCall get code", "error", wasmvm.ErrContractNotFound)
+		return output.CreateVMOutputInCaseOfError(wasmvm.ErrContractNotFound)
 	}
 
 	err = metering.DeductInitialGasForExecution(contract)
 	if err != nil {
-		log.Trace("doRunSmartContractCall initial gas", "error", arwen.ErrNotEnoughGas)
-		return output.CreateVMOutputInCaseOfError(arwen.ErrNotEnoughGas)
+		log.Trace("doRunSmartContractCall initial gas", "error", wasmvm.ErrNotEnoughGas)
+		return output.CreateVMOutputInCaseOfError(wasmvm.ErrNotEnoughGas)
 	}
 
 	err = runtime.StartWasmerInstance(contract, metering.GetGasForExecution(), false)
 	if err != nil {
-		return output.CreateVMOutputInCaseOfError(arwen.ErrContractInvalid)
+		return output.CreateVMOutputInCaseOfError(wasmvm.ErrContractInvalid)
 	}
 
 	err = host.callSCMethod()
@@ -181,7 +181,7 @@ func (host *vmHost) doRunSmartContractCall(input *vmcommon.ContractCallInput) (v
 	return
 }
 
-func copyTxHashesFromContext(copyEnabled bool, runtime arwen.RuntimeContext, input *vmcommon.ContractCallInput) {
+func copyTxHashesFromContext(copyEnabled bool, runtime wasmvm.RuntimeContext, input *vmcommon.ContractCallInput) {
 	if !copyEnabled {
 		return
 	}
@@ -200,7 +200,7 @@ func copyTxHashesFromContext(copyEnabled bool, runtime arwen.RuntimeContext, inp
 
 // ExecuteOnDestContext pushes each context to the corresponding stack
 // and initializes new contexts for executing the contract call with the given input
-func (host *vmHost) ExecuteOnDestContext(input *vmcommon.ContractCallInput) (vmOutput *vmcommon.VMOutput, asyncInfo *arwen.AsyncContextInfo, gasUsedBeforeReset uint64, err error) {
+func (host *vmHost) ExecuteOnDestContext(input *vmcommon.ContractCallInput) (vmOutput *vmcommon.VMOutput, asyncInfo *wasmvm.AsyncContextInfo, gasUsedBeforeReset uint64, err error) {
 	log.Trace("ExecuteOnDestContext", "caller", input.CallerAddr, "dest", input.RecipientAddr, "function", input.Function)
 
 	bigInt, _, metering, output, runtime, storage := host.GetContexts()
@@ -227,13 +227,13 @@ func (host *vmHost) ExecuteOnDestContext(input *vmcommon.ContractCallInput) (vmO
 		metering.SetTotalUsedGas(0)
 
 		if err == nil && vmOutput.ReturnCode != vmcommon.Ok {
-			err = arwen.ErrExecutionFailed
+			err = wasmvm.ErrExecutionFailed
 		}
 	}()
 
 	// Perform a value transfer to the called SC. If the execution fails, this
 	// transfer will not persist.
-	if input.CallType != vm.AsynchronousCallBack || input.CallValue.Cmp(arwen.Zero) == 0 {
+	if input.CallType != vm.AsynchronousCallBack || input.CallValue.Cmp(wasmvm.Zero) == 0 {
 		err = output.TransferValueOnly(input.RecipientAddr, input.CallerAddr, input.CallValue, false)
 		if err != nil {
 			log.Trace("ExecuteOnDestContext transfer", "error", err)
@@ -298,11 +298,11 @@ func (host *vmHost) finishExecuteOnDestContext(executeErr error) *vmcommon.VMOut
 
 // ExecuteOnSameContext executes the contract call with the given input
 // on the same runtime context. Some other contexts are backed up.
-func (host *vmHost) ExecuteOnSameContext(input *vmcommon.ContractCallInput) (asyncInfo *arwen.AsyncContextInfo, err error) {
+func (host *vmHost) ExecuteOnSameContext(input *vmcommon.ContractCallInput) (asyncInfo *wasmvm.AsyncContextInfo, err error) {
 	log.Trace("ExecuteOnSameContext", "function", input.Function)
 
 	if host.IsBuiltinFunctionName(input.Function) {
-		return nil, arwen.ErrBuiltinCallOnSameContextDisallowed
+		return nil, wasmvm.ErrBuiltinCallOnSameContextDisallowed
 	}
 
 	bigInt, _, metering, output, runtime, _ := host.GetContexts()
@@ -377,7 +377,7 @@ func (host *vmHost) finishExecuteOnSameContext(executeErr error) {
 
 func (host *vmHost) isInitFunctionBeingCalled() bool {
 	functionName := host.Runtime().Function()
-	return functionName == arwen.InitFunctionName || functionName == arwen.InitFunctionNameEth
+	return functionName == wasmvm.InitFunctionName || functionName == wasmvm.InitFunctionNameEth
 }
 
 func (host *vmHost) isBuiltinFunctionBeingCalled() bool {
@@ -404,7 +404,7 @@ func (host *vmHost) CreateNewContract(input *vmcommon.ContractCreateInput) (newC
 
 	_, blockchain, metering, output, runtime, _ := host.GetContexts()
 
-	codeDeployInput := arwen.CodeDeployInput{
+	codeDeployInput := wasmvm.CodeDeployInput{
 		ContractCode:         input.ContractCode,
 		ContractCodeMetadata: input.ContractCodeMetadata,
 		ContractAddress:      nil,
@@ -416,7 +416,7 @@ func (host *vmHost) CreateNewContract(input *vmcommon.ContractCreateInput) (newC
 	}
 
 	if runtime.ReadOnly() {
-		err = arwen.ErrInvalidCallOnReadOnlyMode
+		err = wasmvm.ErrInvalidCallOnReadOnlyMode
 		return
 	}
 
@@ -426,7 +426,7 @@ func (host *vmHost) CreateNewContract(input *vmcommon.ContractCreateInput) (newC
 	}
 
 	if blockchain.AccountExists(newContractAddress) {
-		err = arwen.ErrDeploymentOverExistingAccount
+		err = wasmvm.ErrDeploymentOverExistingAccount
 		return
 	}
 
@@ -443,7 +443,7 @@ func (host *vmHost) CreateNewContract(input *vmcommon.ContractCreateInput) (newC
 
 	initCallInput := &vmcommon.ContractCallInput{
 		RecipientAddr:     newContractAddress,
-		Function:          arwen.InitFunctionName,
+		Function:          wasmvm.InitFunctionName,
 		AllowInitFunction: true,
 		VMInput:           input.VMInput,
 	}
@@ -463,7 +463,7 @@ func (host *vmHost) checkUpgradePermission(vmInput *vmcommon.ContractCallInput) 
 		return err
 	}
 	if check.IfNilReflect(contract) {
-		return arwen.ErrNilContract
+		return wasmvm.ErrNilContract
 	}
 
 	codeMetadata := vmcommon.CodeMetadataFromBytes(contract.GetCodeMetadata())
@@ -476,7 +476,7 @@ func (host *vmHost) checkUpgradePermission(vmInput *vmcommon.ContractCallInput) 
 		return nil
 	}
 
-	return arwen.ErrUpgradeNotAllowed
+	return wasmvm.ErrUpgradeNotAllowed
 }
 
 // executeUpgrade upgrades a contract indirectly (from another contract). This
@@ -491,10 +491,10 @@ func (host *vmHost) executeUpgrade(input *vmcommon.ContractCallInput) error {
 
 	code, codeMetadata, err := runtime.ExtractCodeUpgradeFromArgs()
 	if err != nil {
-		return arwen.ErrInvalidUpgradeArguments
+		return wasmvm.ErrInvalidUpgradeArguments
 	}
 
-	codeDeployInput := arwen.CodeDeployInput{
+	codeDeployInput := wasmvm.CodeDeployInput{
 		ContractCode:         code,
 		ContractCodeMetadata: codeMetadata,
 		ContractAddress:      input.RecipientAddr,
@@ -512,7 +512,7 @@ func (host *vmHost) executeUpgrade(input *vmcommon.ContractCallInput) error {
 	err = runtime.StartWasmerInstance(codeDeployInput.ContractCode, metering.GetGasForExecution(), true)
 	if err != nil {
 		log.Debug("performCodeDeployment/StartWasmerInstance", "err", err)
-		return arwen.ErrContractInvalid
+		return wasmvm.ErrContractInvalid
 	}
 
 	err = host.callInitFunction()
@@ -522,7 +522,7 @@ func (host *vmHost) executeUpgrade(input *vmcommon.ContractCallInput) error {
 
 	output.DeployCode(codeDeployInput)
 	if output.ReturnCode() != vmcommon.Ok {
-		return arwen.ErrReturnCodeNotOk
+		return wasmvm.ErrReturnCodeNotOk
 	}
 
 	return nil
@@ -544,20 +544,20 @@ func (host *vmHost) executeUpgrade(input *vmcommon.ContractCallInput) error {
 // gas).
 func (host *vmHost) executeSmartContractCall(
 	input *vmcommon.ContractCallInput,
-	metering arwen.MeteringContext,
-	runtime arwen.RuntimeContext,
-	output arwen.OutputContext,
+	metering wasmvm.MeteringContext,
+	runtime wasmvm.RuntimeContext,
+	output wasmvm.OutputContext,
 	withInitialGasDeduct bool,
 ) error {
 	if host.isInitFunctionBeingCalled() && !input.AllowInitFunction {
-		return arwen.ErrInitFuncCalledInRun
+		return wasmvm.ErrInitFuncCalledInRun
 	}
 
 	// Use all gas initially, on the Wasmer instance of the caller. In case of
 	// successful execution, the unused gas will be restored.
 	metering.UseGas(input.GasProvided)
 
-	isUpgrade := input.Function == arwen.UpgradeFunctionName
+	isUpgrade := input.Function == wasmvm.UpgradeFunctionName
 	if isUpgrade {
 		return host.executeUpgrade(input)
 	}
@@ -588,7 +588,7 @@ func (host *vmHost) executeSmartContractCall(
 	}
 
 	if output.ReturnCode() != vmcommon.Ok {
-		return arwen.ErrReturnCodeNotOk
+		return wasmvm.ErrReturnCodeNotOk
 	}
 
 	return nil
@@ -630,7 +630,7 @@ func (host *vmHost) computeGasUsedBefore() {
 func (host *vmHost) callSCMethodIndirect() error {
 	function, err := host.Runtime().GetFunctionToCall()
 	if err != nil {
-		if errors.Is(err, arwen.ErrNilCallbackFunction) {
+		if errors.Is(err, wasmvm.ErrNilCallbackFunction) {
 			return nil
 		}
 		return err
@@ -743,7 +743,7 @@ func (host *vmHost) ExecuteESDTTransfer(destination []byte, sender []byte, token
 	}
 	if vmOutput.ReturnCode != vmcommon.Ok {
 		log.Trace("ESDT transfer", "error", err, "retcode", vmOutput.ReturnCode, "message", vmOutput.ReturnMessage)
-		return vmOutput, esdtTransferInput.GasProvided, arwen.ErrExecutionFailed
+		return vmOutput, esdtTransferInput.GasProvided, wasmvm.ErrExecutionFailed
 	}
 
 	gasConsumed, _ := math.SubUint64(esdtTransferInput.GasProvided, vmOutput.GasRemaining)
@@ -754,8 +754,8 @@ func (host *vmHost) ExecuteESDTTransfer(destination []byte, sender []byte, token
 	}
 	if callType != vm.AsynchronousCallBack && !isRevert {
 		if metering.GasLeft() < gasConsumed {
-			log.Trace("ESDT transfer", "error", arwen.ErrNotEnoughGas)
-			return vmOutput, esdtTransferInput.GasProvided, arwen.ErrNotEnoughGas
+			log.Trace("ESDT transfer", "error", wasmvm.ErrNotEnoughGas)
+			return vmOutput, esdtTransferInput.GasProvided, wasmvm.ErrNotEnoughGas
 		}
 		metering.UseGas(gasConsumed)
 	}
@@ -877,7 +877,7 @@ func (host *vmHost) checkFinalGasAfterExit() error {
 
 	totalUsedPoints := host.Runtime().GetPointsUsed()
 	if totalUsedPoints > host.Metering().GetGasForExecution() {
-		return arwen.ErrNotEnoughGas
+		return wasmvm.ErrNotEnoughGas
 	}
 
 	return nil
@@ -920,7 +920,7 @@ func (host *vmHost) callSCMethod() error {
 	callType := runtime.GetVMInput().CallType
 	function, err := host.getFunctionByCallType(callType)
 	if err != nil {
-		if callType == vm.AsynchronousCallBack && errors.Is(err, arwen.ErrNilCallbackFunction) {
+		if callType == vm.AsynchronousCallBack && errors.Is(err, wasmvm.ErrNilCallbackFunction) {
 			err = host.processCallbackStack()
 			if err != nil {
 				log.Trace("call SC method failed", "error", err)
@@ -971,15 +971,15 @@ func (host *vmHost) verifyAllowedFunctionCall() error {
 	runtime := host.Runtime()
 	functionName := runtime.Function()
 
-	isInit := functionName == arwen.InitFunctionName || functionName == arwen.InitFunctionNameEth
+	isInit := functionName == wasmvm.InitFunctionName || functionName == wasmvm.InitFunctionNameEth
 	if isInit {
-		return arwen.ErrInitFuncCalledInRun
+		return wasmvm.ErrInitFuncCalledInRun
 	}
 
-	isCallBack := functionName == arwen.CallbackFunctionName
+	isCallBack := functionName == wasmvm.CallbackFunctionName
 	isInAsyncCallBack := runtime.GetVMInput().CallType == vm.AsynchronousCallBack
 	if isCallBack && !isInAsyncCallBack {
-		return arwen.ErrCallBackFuncCalledInRun
+		return wasmvm.ErrCallBackFuncCalledInRun
 	}
 
 	return nil

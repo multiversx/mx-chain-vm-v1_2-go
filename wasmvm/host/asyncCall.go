@@ -6,19 +6,19 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 	"github.com/ElrondNetwork/elrond-go-core/core"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/parsers"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 func (host *vmHost) handleAsyncCallBreakpoint() error {
 	log.Trace("async call begin")
 	runtime := host.Runtime()
-	runtime.SetRuntimeBreakpointValue(arwen.BreakpointNone)
+	runtime.SetRuntimeBreakpointValue(wasmvm.BreakpointNone)
 
 	asyncCallInfo := runtime.GetAsyncCallInfo()
 	execMode, err := host.determineAsyncCallExecutionMode(asyncCallInfo)
@@ -29,7 +29,7 @@ func (host *vmHost) handleAsyncCallBreakpoint() error {
 
 	log.Trace("async call", "execMode", execMode)
 
-	if execMode == arwen.AsyncUnknown {
+	if execMode == wasmvm.AsyncUnknown {
 		err = host.sendAsyncCallToDestination(asyncCallInfo)
 		log.LogIfError(err, "async call failed: send cross-shard", "error", err)
 		return err
@@ -37,7 +37,7 @@ func (host *vmHost) handleAsyncCallBreakpoint() error {
 
 	// Cross-shard calls for built-in functions must be executed in both the
 	// sender and destination shards.
-	if execMode == arwen.AsyncBuiltinFuncCrossShard {
+	if execMode == wasmvm.AsyncBuiltinFuncCrossShard {
 		vmOutput, gasUsedBeforeReset, err := host.executeSyncDestinationCall(asyncCallInfo)
 		if err == nil && vmOutput.ReturnCode == vmcommon.Ok {
 			host.meteringContext.UseGas(gasUsedBeforeReset)
@@ -50,7 +50,7 @@ func (host *vmHost) handleAsyncCallBreakpoint() error {
 		return err
 	}
 
-	if execMode == arwen.ESDTTransferOnCallBack {
+	if execMode == wasmvm.ESDTTransferOnCallBack {
 		// return but keep async call info
 		host.outputContext.PrependFinish(asyncCallInfo.Data)
 		log.Trace("esdt transfer on callback")
@@ -92,7 +92,7 @@ func isESDTTransferOnReturnDataWithNoAdditionalData(destinationVMOutput *vmcommo
 	return false, functionName, args
 }
 
-func (host *vmHost) determineAsyncCallExecutionMode(asyncCallInfo *arwen.AsyncCallInfo) (arwen.AsyncCallExecutionMode, error) {
+func (host *vmHost) determineAsyncCallExecutionMode(asyncCallInfo *wasmvm.AsyncCallInfo) (wasmvm.AsyncCallExecutionMode, error) {
 	runtime := host.Runtime()
 	blockchain := host.Blockchain()
 
@@ -101,7 +101,7 @@ func (host *vmHost) determineAsyncCallExecutionMode(asyncCallInfo *arwen.AsyncCa
 	argParser := parsers.NewCallArgsParser()
 	functionName, _, err := argParser.ParseData(string(asyncCallInfo.Data))
 	if err != nil {
-		return arwen.AsyncUnknown, err
+		return wasmvm.AsyncUnknown, err
 	}
 
 	sameShard := host.AreInSameShard(runtime.GetSCAddress(), asyncCallInfo.Destination)
@@ -110,23 +110,23 @@ func (host *vmHost) determineAsyncCallExecutionMode(asyncCallInfo *arwen.AsyncCa
 			isESDTTransfer := functionName == core.BuiltInFunctionESDTTransfer || functionName == core.BuiltInFunctionESDTNFTTransfer
 			if isESDTTransfer && runtime.GetVMInput().CallType == vm.AsynchronousCall &&
 				bytes.Equal(runtime.GetVMInput().CallerAddr, asyncCallInfo.Destination) {
-				return arwen.ESDTTransferOnCallBack, nil
+				return wasmvm.ESDTTransferOnCallBack, nil
 			}
 
-			return arwen.AsyncBuiltinFuncIntraShard, nil
+			return wasmvm.AsyncBuiltinFuncIntraShard, nil
 		}
-		return arwen.AsyncBuiltinFuncCrossShard, nil
+		return wasmvm.AsyncBuiltinFuncCrossShard, nil
 	}
 
 	code, err := blockchain.GetCode(asyncCallInfo.Destination)
 	if len(code) > 0 && err == nil {
-		return arwen.SyncCall, nil
+		return wasmvm.SyncCall, nil
 	}
 
-	return arwen.AsyncUnknown, nil
+	return wasmvm.AsyncUnknown, nil
 }
 
-func (host *vmHost) executeSyncDestinationCall(asyncCallInfo arwen.AsyncCallInfoHandler) (*vmcommon.VMOutput, uint64, error) {
+func (host *vmHost) executeSyncDestinationCall(asyncCallInfo wasmvm.AsyncCallInfoHandler) (*vmcommon.VMOutput, uint64, error) {
 	destinationCallInput, err := host.createDestinationContractCallInput(asyncCallInfo)
 	if err != nil {
 		log.Trace("async call: sync dest call failed", "error", err)
@@ -158,16 +158,16 @@ func (host *vmHost) computeGasUsedInExecutionBeforeReset(vmInput *vmcommon.Contr
 }
 
 func (host *vmHost) executeSyncCallbackCall(
-	asyncCallInfo arwen.AsyncCallInfoHandler,
+	asyncCallInfo wasmvm.AsyncCallInfoHandler,
 	destinationVMOutput *vmcommon.VMOutput,
 	destinationErr error,
-	execMode arwen.AsyncCallExecutionMode,
+	execMode wasmvm.AsyncCallExecutionMode,
 ) (*vmcommon.VMOutput, error) {
 	callbackCallInput, err := host.createCallbackContractCallInput(
 		asyncCallInfo,
 		destinationVMOutput,
 		asyncCallInfo.GetDestination(),
-		arwen.CallbackFunctionName,
+		wasmvm.CallbackFunctionName,
 		destinationErr,
 	)
 	if err != nil {
@@ -188,7 +188,7 @@ func (host *vmHost) executeSyncCallbackCall(
 
 	noErrorOnCallback := callBackErr == nil && callbackVMOutput.ReturnCode == vmcommon.Ok
 	noErrorOnAsyncCall := destinationErr == nil && destinationVMOutput.ReturnCode == vmcommon.Ok
-	if noErrorOnCallback && noErrorOnAsyncCall && execMode != arwen.AsyncBuiltinFuncIntraShard {
+	if noErrorOnCallback && noErrorOnAsyncCall && execMode != wasmvm.AsyncBuiltinFuncIntraShard {
 		host.meteringContext.UseGas(gasConsumedForExecution)
 	}
 
@@ -211,7 +211,7 @@ func (host *vmHost) canExecuteSynchronously(destination []byte, _ []byte) bool {
 	return len(calledSCCode) > 0 && err == nil
 }
 
-func (host *vmHost) sendAsyncCallToDestination(asyncCallInfo arwen.AsyncCallInfoHandler) error {
+func (host *vmHost) sendAsyncCallToDestination(asyncCallInfo wasmvm.AsyncCallInfoHandler) error {
 	runtime := host.Runtime()
 	output := host.Output()
 
@@ -295,7 +295,7 @@ func (host *vmHost) sendStorageCallbackToDestination(callerAddress, returnData [
 	return nil
 }
 
-func (host *vmHost) createDestinationContractCallInput(asyncCallInfo arwen.AsyncCallInfoHandler) (*vmcommon.ContractCallInput, error) {
+func (host *vmHost) createDestinationContractCallInput(asyncCallInfo wasmvm.AsyncCallInfoHandler) (*vmcommon.ContractCallInput, error) {
 	runtime := host.Runtime()
 	sender := runtime.GetSCAddress()
 	metering := host.Metering()
@@ -353,7 +353,7 @@ func (host *vmHost) computeCallValueFromLastOutputTransfer(destinationVMOutput *
 }
 
 func (host *vmHost) createCallbackContractCallInput(
-	asyncCallInfo arwen.AsyncCallInfoHandler,
+	asyncCallInfo wasmvm.AsyncCallInfoHandler,
 	destinationVMOutput *vmcommon.VMOutput,
 	callbackInitiator []byte,
 	callbackFunction string,
@@ -388,7 +388,7 @@ func (host *vmHost) createCallbackContractCallInput(
 	gas := math.MulUint64(gasSchedule.BaseOperationCost.DataCopyPerByte, uint64(dataLength))
 	gasToUse = math.AddUint64(gasToUse, gas)
 	if gasLimit <= gasToUse {
-		return nil, arwen.ErrNotEnoughGas
+		return nil, wasmvm.ErrNotEnoughGas
 	}
 	gasLimit -= gasToUse
 
@@ -470,7 +470,7 @@ func (host *vmHost) computeDataLengthFromArguments(function string, arguments []
  *
  * returns a list of pending calls (the ones that should be processed on other hosts)
  */
-func (host *vmHost) processAsyncInfo(asyncInfo *arwen.AsyncContextInfo) (*arwen.AsyncContextInfo, error) {
+func (host *vmHost) processAsyncInfo(asyncInfo *wasmvm.AsyncContextInfo) (*wasmvm.AsyncContextInfo, error) {
 	if len(asyncInfo.AsyncContextMap) == 0 {
 		return asyncInfo, nil
 	}
@@ -525,7 +525,7 @@ func (host *vmHost) processAsyncInfo(asyncInfo *arwen.AsyncContextInfo) (*arwen.
 /**
  * processAsyncCall executes an async call and processes the callback if no extra calls are pending
  */
-func (host *vmHost) processAsyncCall(asyncCall *arwen.AsyncGeneratedCall) error {
+func (host *vmHost) processAsyncCall(asyncCall *wasmvm.AsyncGeneratedCall) error {
 	input, _ := host.createDestinationContractCallInput(asyncCall)
 	output, asyncMap, _, executionError := host.ExecuteOnDestContext(input)
 
@@ -540,11 +540,11 @@ func (host *vmHost) processAsyncCall(asyncCall *arwen.AsyncGeneratedCall) error 
 /**
  * callbackAsync will execute a callback from an async call that was ran on this host and set it's status to resolved or rejected
  */
-func (host *vmHost) callbackAsync(asyncCall *arwen.AsyncGeneratedCall, vmOutput *vmcommon.VMOutput, executionError error) error {
-	asyncCall.Status = arwen.AsyncCallResolved
+func (host *vmHost) callbackAsync(asyncCall *wasmvm.AsyncGeneratedCall, vmOutput *vmcommon.VMOutput, executionError error) error {
+	asyncCall.Status = wasmvm.AsyncCallResolved
 	callbackFunction := asyncCall.SuccessCallback
 	if vmOutput.ReturnCode != vmcommon.Ok {
-		asyncCall.Status = arwen.AsyncCallRejected
+		asyncCall.Status = wasmvm.AsyncCallRejected
 		callbackFunction = asyncCall.ErrorCallback
 	}
 
@@ -572,7 +572,7 @@ func (host *vmHost) callbackAsync(asyncCall *arwen.AsyncGeneratedCall, vmOutput 
 /**
  * savePendingAsyncCalls takes a list of pending async calls and save them to storage so the info will be available on callback
  */
-func (host *vmHost) savePendingAsyncCalls(pendingAsyncMap *arwen.AsyncContextInfo) error {
+func (host *vmHost) savePendingAsyncCalls(pendingAsyncMap *wasmvm.AsyncContextInfo) error {
 	if len(pendingAsyncMap.AsyncContextMap) == 0 {
 		return nil
 	}
@@ -580,7 +580,7 @@ func (host *vmHost) savePendingAsyncCalls(pendingAsyncMap *arwen.AsyncContextInf
 	storage := host.Storage()
 	runtime := host.Runtime()
 
-	asyncCallStorageKey := arwen.CustomStorageKey(arwen.AsyncDataPrefix, runtime.GetOriginalTxHash())
+	asyncCallStorageKey := wasmvm.CustomStorageKey(wasmvm.AsyncDataPrefix, runtime.GetOriginalTxHash())
 	data, err := json.Marshal(pendingAsyncMap)
 	if err != nil {
 		return err
@@ -597,11 +597,11 @@ func (host *vmHost) savePendingAsyncCalls(pendingAsyncMap *arwen.AsyncContextInf
 /**
  * saveCrossShardCalls goes through the list of async calls and saves the ones that are cross shard
  */
-func (host *vmHost) saveCrossShardCalls(asyncInfo *arwen.AsyncContextInfo) error {
-	crossMap := &arwen.AsyncContextInfo{
+func (host *vmHost) saveCrossShardCalls(asyncInfo *wasmvm.AsyncContextInfo) error {
+	crossMap := &wasmvm.AsyncContextInfo{
 		CallerAddr:      asyncInfo.CallerAddr,
 		ReturnData:      asyncInfo.ReturnData,
-		AsyncContextMap: make(map[string]*arwen.AsyncContext),
+		AsyncContextMap: make(map[string]*wasmvm.AsyncContext),
 	}
 
 	for contextIdentifier, asyncContext := range asyncInfo.AsyncContextMap {
@@ -609,9 +609,9 @@ func (host *vmHost) saveCrossShardCalls(asyncInfo *arwen.AsyncContextInfo) error
 			if !host.canExecuteSynchronously(asyncCall.Destination, asyncCall.Data) {
 				_, ok := crossMap.AsyncContextMap[contextIdentifier]
 				if !ok {
-					crossMap.AsyncContextMap[contextIdentifier] = &arwen.AsyncContext{
+					crossMap.AsyncContextMap[contextIdentifier] = &wasmvm.AsyncContext{
 						Callback:   asyncContext.Callback,
-						AsyncCalls: make([]*arwen.AsyncGeneratedCall, 0),
+						AsyncCalls: make([]*wasmvm.AsyncGeneratedCall, 0),
 					}
 				}
 				crossMap.AsyncContextMap[contextIdentifier].AsyncCalls = append(
@@ -628,24 +628,24 @@ func (host *vmHost) saveCrossShardCalls(asyncInfo *arwen.AsyncContextInfo) error
 /**
  * getPendingAsyncCalls returns only pending async calls from a list that can also contain resolved/rejected entries
  */
-func (host *vmHost) getPendingAsyncCalls(asyncInfo *arwen.AsyncContextInfo) *arwen.AsyncContextInfo {
-	pendingMap := &arwen.AsyncContextInfo{
+func (host *vmHost) getPendingAsyncCalls(asyncInfo *wasmvm.AsyncContextInfo) *wasmvm.AsyncContextInfo {
+	pendingMap := &wasmvm.AsyncContextInfo{
 		CallerAddr:      asyncInfo.CallerAddr,
 		ReturnData:      asyncInfo.ReturnData,
-		AsyncContextMap: make(map[string]*arwen.AsyncContext),
+		AsyncContextMap: make(map[string]*wasmvm.AsyncContext),
 	}
 
 	for contextIdentifier, asyncContext := range asyncInfo.AsyncContextMap {
 		for _, asyncCall := range asyncContext.AsyncCalls {
-			if asyncCall.Status != arwen.AsyncCallPending {
+			if asyncCall.Status != wasmvm.AsyncCallPending {
 				continue
 			}
 
 			_, ok := pendingMap.AsyncContextMap[contextIdentifier]
 			if !ok {
-				pendingMap.AsyncContextMap[contextIdentifier] = &arwen.AsyncContext{
+				pendingMap.AsyncContextMap[contextIdentifier] = &wasmvm.AsyncContext{
 					Callback:   asyncContext.Callback,
-					AsyncCalls: make([]*arwen.AsyncGeneratedCall, 0),
+					AsyncCalls: make([]*wasmvm.AsyncGeneratedCall, 0),
 				}
 			}
 			pendingMap.AsyncContextMap[contextIdentifier].AsyncCalls = append(
@@ -668,13 +668,13 @@ func (host *vmHost) processCallbackStack() error {
 	runtime := host.Runtime()
 	storage := host.Storage()
 
-	storageKey := arwen.CustomStorageKey(arwen.AsyncDataPrefix, runtime.GetOriginalTxHash())
+	storageKey := wasmvm.CustomStorageKey(wasmvm.AsyncDataPrefix, runtime.GetOriginalTxHash())
 	buff := storage.GetStorageUnmetered(storageKey)
 	if len(buff) == 0 {
 		return nil
 	}
 
-	asyncInfo := &arwen.AsyncContextInfo{}
+	asyncInfo := &wasmvm.AsyncContextInfo{}
 	err := json.Unmarshal(buff, &asyncInfo)
 	if err != nil {
 		return err
@@ -698,7 +698,7 @@ func (host *vmHost) processCallbackStack() error {
 	}
 
 	if len(currentContextIdentifier) == 0 {
-		return arwen.ErrCallBackFuncNotExpected
+		return wasmvm.ErrCallBackFuncNotExpected
 	}
 
 	// Remove current async call from the pending list
@@ -741,7 +741,7 @@ func (host *vmHost) processCallbackStack() error {
 		nil,
 		host.Output().GetVMOutput(),
 		asyncInfo.CallerAddr,
-		arwen.CallbackFunctionName,
+		wasmvm.CallbackFunctionName,
 		nil,
 	)
 	if err != nil {
@@ -762,7 +762,7 @@ func (host *vmHost) processCallbackStack() error {
  *  SC developer. The remaining gas is split between the async calls where the developer
  *  did not specify any gas amount
  */
-func (host *vmHost) setupAsyncCallsGas(asyncInfo *arwen.AsyncContextInfo) error {
+func (host *vmHost) setupAsyncCallsGas(asyncInfo *wasmvm.AsyncContextInfo) error {
 	gasLeft := host.Metering().GasLeft()
 	gasNeeded := uint64(0)
 	callsWithZeroGas := uint64(0)
@@ -776,7 +776,7 @@ func (host *vmHost) setupAsyncCallsGas(asyncInfo *arwen.AsyncContextInfo) error 
 			}
 
 			if gasNeeded > gasLeft {
-				return arwen.ErrNotEnoughGas
+				return wasmvm.ErrNotEnoughGas
 			}
 
 			if asyncCall.ProvidedGas == 0 {
@@ -793,7 +793,7 @@ func (host *vmHost) setupAsyncCallsGas(asyncInfo *arwen.AsyncContextInfo) error 
 	}
 
 	if gasLeft <= gasNeeded {
-		return arwen.ErrNotEnoughGas
+		return wasmvm.ErrNotEnoughGas
 	}
 
 	gasShare := (gasLeft - gasNeeded) / callsWithZeroGas
@@ -839,19 +839,19 @@ func (host *vmHost) getFunctionByCallType(callType vm.CallType) (wasmer.Exported
 
 	function, err := runtime.GetFunctionToCall()
 	if err != nil && !customCallback {
-		log.Trace("get function by call type", "error", arwen.ErrNilCallbackFunction)
-		return nil, arwen.ErrNilCallbackFunction
+		log.Trace("get function by call type", "error", wasmvm.ErrNilCallbackFunction)
+		return nil, wasmvm.ErrNilCallbackFunction
 	}
 
 	return function, nil
 }
 
-func (host *vmHost) getCurrentAsyncInfo() (*arwen.AsyncContextInfo, error) {
+func (host *vmHost) getCurrentAsyncInfo() (*wasmvm.AsyncContextInfo, error) {
 	runtime := host.Runtime()
 	storage := host.Storage()
 
-	asyncInfo := &arwen.AsyncContextInfo{}
-	storageKey := arwen.CustomStorageKey(arwen.AsyncDataPrefix, runtime.GetOriginalTxHash())
+	asyncInfo := &wasmvm.AsyncContextInfo{}
+	storageKey := wasmvm.CustomStorageKey(wasmvm.AsyncDataPrefix, runtime.GetOriginalTxHash())
 	buff := storage.GetStorageUnmetered(storageKey)
 	if len(buff) == 0 {
 		return asyncInfo, nil

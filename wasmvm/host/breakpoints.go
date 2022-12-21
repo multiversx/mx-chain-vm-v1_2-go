@@ -1,7 +1,7 @@
 package host
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 func (host *vmHost) handleBreakpointIfAny(executionErr error) error {
@@ -11,26 +11,26 @@ func (host *vmHost) handleBreakpointIfAny(executionErr error) error {
 
 	runtime := host.Runtime()
 	breakpointValue := runtime.GetRuntimeBreakpointValue()
-	if breakpointValue != arwen.BreakpointNone {
+	if breakpointValue != wasmvm.BreakpointNone {
 		executionErr = host.handleBreakpoint(breakpointValue)
 	}
 
 	return executionErr
 }
 
-func (host *vmHost) handleBreakpoint(breakpointValue arwen.BreakpointValue) error {
-	if breakpointValue == arwen.BreakpointAsyncCall {
+func (host *vmHost) handleBreakpoint(breakpointValue wasmvm.BreakpointValue) error {
+	if breakpointValue == wasmvm.BreakpointAsyncCall {
 		return host.handleAsyncCallBreakpoint()
 	}
-	if breakpointValue == arwen.BreakpointExecutionFailed {
-		return arwen.ErrExecutionFailed
+	if breakpointValue == wasmvm.BreakpointExecutionFailed {
+		return wasmvm.ErrExecutionFailed
 	}
-	if breakpointValue == arwen.BreakpointSignalError {
-		return arwen.ErrSignalError
+	if breakpointValue == wasmvm.BreakpointSignalError {
+		return wasmvm.ErrSignalError
 	}
-	if breakpointValue == arwen.BreakpointOutOfGas {
-		return arwen.ErrNotEnoughGas
+	if breakpointValue == wasmvm.BreakpointOutOfGas {
+		return wasmvm.ErrNotEnoughGas
 	}
 
-	return arwen.ErrUnhandledRuntimeBreakpoint
+	return wasmvm.ErrUnhandledRuntimeBreakpoint
 }
