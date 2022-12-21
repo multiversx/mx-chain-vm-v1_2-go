@@ -7,21 +7,21 @@ import (
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
 )
 
-func (driver *ArwenDriver) getArwenPath() (string, error) {
-	wasmvmPath, err := driver.getArwenPathInCurrentDirectory()
+func (driver *VMDriver) getVMPath() (string, error) {
+	wasmvmPath, err := driver.getVMPathInCurrentDirectory()
 	if err == nil {
 		return wasmvmPath, nil
 	}
 
-	wasmvmPath, err = driver.getArwenPathFromEnvironment()
+	wasmvmPath, err = driver.getVMPathFromEnvironment()
 	if err == nil {
 		return wasmvmPath, nil
 	}
 
-	return "", common.ErrArwenNotFound
+	return "", common.ErrVMNotFound
 }
 
-func (driver *ArwenDriver) getArwenPathInCurrentDirectory() (string, error) {
+func (driver *VMDriver) getVMPathInCurrentDirectory() (string, error) {
 	cwd, err := os.Getwd()
 	if err != nil {
 		return "", err
@@ -32,16 +32,16 @@ func (driver *ArwenDriver) getArwenPathInCurrentDirectory() (string, error) {
 		return wasmvmPath, nil
 	}
 
-	return "", common.ErrArwenNotFound
+	return "", common.ErrVMNotFound
 }
 
-func (driver *ArwenDriver) getArwenPathFromEnvironment() (string, error) {
+func (driver *VMDriver) getVMPathFromEnvironment() (string, error) {
 	wasmvmPath := os.Getenv(common.EnvVarWASMVMPath)
 	if fileExists(wasmvmPath) {
 		return wasmvmPath, nil
 	}
 
-	return "", common.ErrArwenNotFound
+	return "", common.ErrVMNotFound
 }
 
 func fileExists(filename string) bool {

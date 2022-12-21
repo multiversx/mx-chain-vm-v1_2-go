@@ -20,7 +20,7 @@ func NewNodeMessenger(reader *os.File, writer *os.File, marshalizer marshaling.M
 	}
 }
 
-// SendContractRequest sends a request to Arwen
+// SendContractRequest sends a request to VM
 func (messenger *NodeMessenger) SendContractRequest(request common.MessageHandler) error {
 	err := messenger.Send(request)
 	if err != nil {
@@ -30,7 +30,7 @@ func (messenger *NodeMessenger) SendContractRequest(request common.MessageHandle
 	return nil
 }
 
-// SendHookCallResponse sends a hook response to Arwen
+// SendHookCallResponse sends a hook response to VM
 func (messenger *NodeMessenger) SendHookCallResponse(response common.MessageHandler) error {
 	err := messenger.Send(response)
 	if err != nil {
@@ -40,7 +40,7 @@ func (messenger *NodeMessenger) SendHookCallResponse(response common.MessageHand
 	return nil
 }
 
-// ReceiveHookCallRequestOrContractResponse waits for any message that could arrive from Arwen
+// ReceiveHookCallRequestOrContractResponse waits for any message that could arrive from VM
 func (messenger *NodeMessenger) ReceiveHookCallRequestOrContractResponse(timeout int) (common.MessageHandler, int, error) {
 	start := time.Now()
 	message, err := messenger.Receive(timeout)

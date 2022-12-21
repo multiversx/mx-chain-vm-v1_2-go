@@ -15,9 +15,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var arwenVirtualMachine = []byte{5, 0}
+var wasmvmIdentifier = []byte{5, 0}
 
-func TestArwenDriver_DiagnoseWait(t *testing.T) {
+func TestVMDriver_DiagnoseWait(t *testing.T) {
 	t.Skip("driver not supported anymore")
 	blockchain := &contextmock.BlockchainHookStub{}
 	driver := newDriver(t, blockchain)
@@ -26,7 +26,7 @@ func TestArwenDriver_DiagnoseWait(t *testing.T) {
 	require.Nil(t, err)
 }
 
-func TestArwenDriver_DiagnoseWaitWithTimeout(t *testing.T) {
+func TestVMDriver_DiagnoseWaitWithTimeout(t *testing.T) {
 	t.Skip("driver not supported anymore: requires standalone binary")
 	blockchain := &contextmock.BlockchainHookStub{}
 	driver := newDriver(t, blockchain)
@@ -37,7 +37,7 @@ func TestArwenDriver_DiagnoseWaitWithTimeout(t *testing.T) {
 	require.True(t, driver.IsClosed())
 }
 
-func TestArwenDriver_RestartsIfStopped(t *testing.T) {
+func TestVMDriver_RestartsIfStopped(t *testing.T) {
 	t.Skip("driver not supported anymore")
 	logger.ToggleLoggerName(true)
 	_ = logger.SetLogLevel("*:TRACE")
@@ -67,30 +67,30 @@ func TestArwenDriver_RestartsIfStopped(t *testing.T) {
 	require.False(t, driver.IsClosed())
 }
 
-func BenchmarkArwenDriver_RestartsIfStopped(b *testing.B) {
+func BenchmarkVMDriver_RestartsIfStopped(b *testing.B) {
 	blockchain := &contextmock.BlockchainHookStub{}
 	driver := newDriver(b, blockchain)
 
 	for i := 0; i < b.N; i++ {
 		_ = driver.Close()
 		require.True(b, driver.IsClosed())
-		_ = driver.RestartArwenIfNecessary()
+		_ = driver.RestartVMIfNecessary()
 		require.False(b, driver.IsClosed())
 	}
 }
 
-func BenchmarkArwenDriver_RestartArwenIfNecessary(b *testing.B) {
+func BenchmarkVMDriver_RestartVMIfNecessary(b *testing.B) {
 	blockchain := &contextmock.BlockchainHookStub{}
 	driver := newDriver(b, blockchain)
 
 	for i := 0; i < b.N; i++ {
-		_ = driver.RestartArwenIfNecessary()
+		_ = driver.RestartVMIfNecessary()
 	}
 }
 
-func TestArwenDriver_GetVersion(t *testing.T) {
+func TestVMDriver_GetVersion(t *testing.T) {
 	t.Skip("driver not supported anymore")
-	// This test requires `make arwen` before running, or must be run directly
+	// This test requires `make wasmvm` before running, or must be run directly
 	// with `make test`
 	blockchain := &contextmock.BlockchainHookStub{}
 	driver := newDriver(t, blockchain)
@@ -99,12 +99,12 @@ func TestArwenDriver_GetVersion(t *testing.T) {
 	require.NotEqual(t, "undefined", version)
 }
 
-func newDriver(tb testing.TB, blockchain *contextmock.BlockchainHookStub) *nodepart.ArwenDriver {
-	driver, err := nodepart.NewArwenDriver(
+func newDriver(tb testing.TB, blockchain *contextmock.BlockchainHookStub) *nodepart.VMDriver {
+	driver, err := nodepart.NewVMDriver(
 		blockchain,
-		common.ArwenArguments{
+		common.VMArguments{
 			VMHostParameters: wasmvm.VMHostParameters{
-				VMType:                   arwenVirtualMachine,
+				VMType:                   wasmvmIdentifier,
 				BlockGasLimit:            uint64(10000000),
 				GasSchedule:              config.MakeGasMapForTests(),
 				ElrondProtectedKeyPrefix: []byte("ELROND"),

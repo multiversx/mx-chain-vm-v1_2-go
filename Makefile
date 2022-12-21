@@ -1,4 +1,4 @@
-.PHONY: test test-short build arwen wasmvmdebug clean
+.PHONY: test test-short build wasmvm wasmvmdebug clean
 
 WASMVM_VERSION := $(shell git describe --tags --long --dirty --always)
 
@@ -8,10 +8,10 @@ clean:
 build:
 	go build ./...
 
-arwen:
-	go build -ldflags="-X main.appVersion=$(WASMVM_VERSION)" -o ./cmd/arwen/arwen ./cmd/arwen
-	cp ./cmd/arwen/arwen ./ipc/tests
-	cp ./cmd/arwen/arwen ${ARWEN_PATH}
+wasmvm:
+	go build -ldflags="-X main.appVersion=$(WASMVM_VERSION)" -o ./cmd/wasmvm/wasmvm ./cmd/wasmvm
+	cp ./cmd/wasmvm/wasmvm ./ipc/tests
+	cp ./cmd/wasmvm/wasmvm ${ARWEN_PATH}
 
 wasmvmdebug:
 ifndef WASMVMDEBUG_PATH
@@ -20,10 +20,10 @@ endif
 	go build -o ./cmd/wasmvmdebug/wasmvmdebug ./cmd/wasmvmdebug
 	cp ./cmd/wasmvmdebug/wasmvmdebug ${WASMVMDEBUG_PATH}
 
-test: clean arwen
+test: clean wasmvm
 	go test -count=1 ./...
 
-test-short: arwen
+test-short: wasmvm
 	go test -short -count=1 ./...
 
 build-test-contracts:
@@ -95,7 +95,7 @@ endif
 
 	erdpy contract new --template=erc20-c --directory ${SANDBOX}/sc-examples erc20-c
 	erdpy contract build ${SANDBOX}/sc-examples/erc20-c
-	cp ${SANDBOX}/sc-examples/erc20-c/output/wrc20_arwen.wasm ./test/erc20/contracts/erc20-c.wasm
+	cp ${SANDBOX}/sc-examples/erc20-c/output/wrc20_wasmvm.wasm ./test/erc20/contracts/erc20-c.wasm
 
 
 build-sc-examples-rs:

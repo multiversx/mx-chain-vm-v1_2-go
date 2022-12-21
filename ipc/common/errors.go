@@ -29,17 +29,17 @@ func IsCriticalError(err error) bool {
 	return ok
 }
 
-// ErrBadArwenArguments signals a critical error
-var ErrBadArwenArguments = &CriticalError{InnerErr: fmt.Errorf("bad arguments passed to wasmvm")}
+// ErrBadVMArguments signals a critical error
+var ErrBadVMArguments = &CriticalError{InnerErr: fmt.Errorf("bad arguments passed to wasmvm")}
 
-// ErrArwenClosed signals a critical error
-var ErrArwenClosed = &CriticalError{InnerErr: fmt.Errorf("wasmvm closed")}
+// ErrVMClosed signals a critical error
+var ErrVMClosed = &CriticalError{InnerErr: fmt.Errorf("wasmvm closed")}
 
-// ErrArwenTimeExpired signals a critical error
-var ErrArwenTimeExpired = &CriticalError{InnerErr: fmt.Errorf("wasmvm time expired")}
+// ErrVMTimeExpired signals a critical error
+var ErrVMTimeExpired = &CriticalError{InnerErr: fmt.Errorf("wasmvm time expired")}
 
-// ErrArwenNotFound signals a critical error
-var ErrArwenNotFound = &CriticalError{InnerErr: fmt.Errorf("wasmvm binary not found")}
+// ErrVMNotFound signals a critical error
+var ErrVMNotFound = &CriticalError{InnerErr: fmt.Errorf("wasmvm binary not found")}
 
 // ErrInvalidMessageNonce signals a critical error
 var ErrInvalidMessageNonce = &CriticalError{InnerErr: fmt.Errorf("invalid dialogue nonce")}
@@ -50,8 +50,8 @@ var ErrStopPerNodeRequest = &CriticalError{InnerErr: fmt.Errorf("wasmvm will sto
 // ErrBadRequestFromNode signals a critical error
 var ErrBadRequestFromNode = &CriticalError{InnerErr: fmt.Errorf("bad message from node")}
 
-// ErrBadMessageFromArwen signals a critical error
-var ErrBadMessageFromArwen = &CriticalError{InnerErr: fmt.Errorf("bad message from wasmvm")}
+// ErrBadMessageFromVM signals a critical error
+var ErrBadMessageFromVM = &CriticalError{InnerErr: fmt.Errorf("bad message from wasmvm")}
 
 // ErrCannotSendContractRequest signals a critical error
 var ErrCannotSendContractRequest = &CriticalError{InnerErr: fmt.Errorf("cannot send contract request")}

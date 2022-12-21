@@ -5,9 +5,9 @@ import (
 	"os"
 	"time"
 
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
 
 // NodePart is the endpoint that implements the message loop on Node's side
@@ -88,7 +88,7 @@ func (part *NodePart) StartLoop(request common.MessageHandler) (common.MessageHa
 }
 
 // doLoop ends when processing the transaction ends or in the case of a critical failure
-// Critical failure = Arwen timeouts or crashes
+// Critical failure = VM timeouts or crashes
 // The error result is set only in case of critical failure
 func (part *NodePart) doLoop() (common.MessageHandler, error) {
 	remainingMilliseconds := part.config.MaxLoopTime
@@ -101,7 +101,7 @@ func (part *NodePart) doLoop() (common.MessageHandler, error) {
 
 		remainingMilliseconds -= duration
 		if remainingMilliseconds < 0 {
-			return nil, common.ErrArwenTimeExpired
+			return nil, common.ErrVMTimeExpired
 		}
 
 		if common.IsHookCall(message) {
@@ -126,7 +126,7 @@ func (part *NodePart) doLoop() (common.MessageHandler, error) {
 			return message, nil
 		}
 
-		return nil, common.ErrBadMessageFromArwen
+		return nil, common.ErrBadMessageFromVM
 	}
 }
 
@@ -139,7 +139,7 @@ func (part *NodePart) replyToHookCallRequest(request common.MessageHandler) erro
 	return err
 }
 
-// SendStopSignal sends a stop signal to Arwen
+// SendStopSignal sends a stop signal to VM
 // Should only be used for tests!
 func (part *NodePart) SendStopSignal() error {
 	request := common.NewMessageStop()
@@ -149,7 +149,7 @@ func (part *NodePart) SendStopSignal() error {
 		return err
 	}
 
-	log.Warn("Node sent stop signal to Arwen.")
+	log.Warn("Node sent stop signal to VM.")
 	return nil
 }
 
