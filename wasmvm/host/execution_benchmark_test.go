@@ -84,7 +84,7 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 		NewAddress:     scAddress,
 	})
 
-	gasMap, err := LoadGasScheduleConfig("../../arwenmandos/gasSchedules/gasScheduleV2.toml")
+	gasMap, err := LoadGasScheduleConfig("../../test/gasScheduleV2.toml")
 	require.Nil(tb, err)
 
 	host, err := NewWASMVM(mockWorld, &wasmvm.VMHostParameters{
