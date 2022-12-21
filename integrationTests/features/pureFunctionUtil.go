@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	arwen "github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	arwenHost "github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
 	worldhook "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	wasmvm "github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	wasmvmHost "github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/host"
 	"github.com/stretchr/testify/require"
 )
 
@@ -42,7 +42,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 
 	blockGasLimit := uint64(10000000)
 	gasSchedule := config.MakeGasMapForTests()
-	vm, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
+	vm, err := wasmvmHost.NewWASMVM(world, &wasmvm.VMHostParameters{
 		VMType:                   testVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
