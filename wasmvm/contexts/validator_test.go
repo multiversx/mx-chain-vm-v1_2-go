@@ -4,9 +4,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 
@@ -49,7 +49,7 @@ func TestFunctionsGuard_Arity(t *testing.T) {
 
 	gasLimit := uint64(100000000)
 	path := "./../../test/contracts/signatures/output/signatures.wasm"
-	contractCode := arwen.GetSCCode(path)
+	contractCode := wasmvm.GetSCCode(path)
 	options := wasmer.CompilationOptions{
 		GasLimit:           gasLimit,
 		OpcodeTrace:        false,

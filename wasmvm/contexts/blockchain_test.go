@@ -5,10 +5,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 
@@ -72,7 +72,7 @@ func TestBlockchainContext_GetBalance(t *testing.T) {
 	mockWorld.Err = errTestError
 	balanceBytes := blockchainContext.GetBalance([]byte("account_new_with_money"))
 	value := big.NewInt(0).SetBytes(balanceBytes)
-	require.Equal(t, arwen.Zero, value)
+	require.Equal(t, wasmvm.Zero, value)
 	mockWorld.Err = nil
 
 	// Test that an account that doesn't exist will not be updated with any kind
@@ -80,7 +80,7 @@ func TestBlockchainContext_GetBalance(t *testing.T) {
 	account.Balance = big.NewInt(15)
 	balanceBytes = blockchainContext.GetBalance([]byte("account_missing"))
 	value = big.NewInt(0).SetBytes(balanceBytes)
-	require.Equal(t, arwen.Zero, value)
+	require.Equal(t, wasmvm.Zero, value)
 	require.Equal(t, big.NewInt(15), account.Balance)
 
 	// Act as if the OutputContext has the requested OutputAccount cached

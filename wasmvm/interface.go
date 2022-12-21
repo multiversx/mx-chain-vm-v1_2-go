@@ -1,14 +1,14 @@
-package arwen
+package wasmvm
 
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
 )
 
 // StateStack defines the functionality for working with a state stack

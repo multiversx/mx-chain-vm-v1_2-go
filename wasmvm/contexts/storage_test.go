@@ -7,10 +7,10 @@ import (
 	"testing"
 
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 
@@ -77,7 +77,7 @@ func TestStorageContext_SetAddress(t *testing.T) {
 	storageContext.SetAddress(addressA)
 	storageStatus, err := storageContext.SetStorage(keyA, valueA)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageAdded, storageStatus)
+	require.Equal(t, wasmvm.StorageAdded, storageStatus)
 	require.Equal(t, valueA, storageContext.GetStorage(keyA))
 	require.Len(t, storageContext.GetStorageUpdates(addressA), 1)
 	require.Len(t, storageContext.GetStorageUpdates(addressB), 0)
@@ -87,7 +87,7 @@ func TestStorageContext_SetAddress(t *testing.T) {
 	storageContext.SetAddress(addressB)
 	storageStatus, err = storageContext.SetStorage(keyB, valueB)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageAdded, storageStatus)
+	require.Equal(t, wasmvm.StorageAdded, storageStatus)
 	require.Equal(t, valueB, storageContext.GetStorage(keyB))
 	require.Len(t, storageContext.GetStorageUpdates(addressA), 1)
 	require.Len(t, storageContext.GetStorageUpdates(addressB), 1)
@@ -149,28 +149,28 @@ func TestStorageContext_SetStorage(t *testing.T) {
 
 	storageStatus, err := storageContext.SetStorage(key, value)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageAdded, storageStatus)
+	require.Equal(t, wasmvm.StorageAdded, storageStatus)
 	require.Equal(t, value, storageContext.GetStorage(key))
 	require.Len(t, storageContext.GetStorageUpdates(address), 1)
 
 	value = []byte("newValue")
 	storageStatus, err = storageContext.SetStorage(key, value)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageModified, storageStatus)
+	require.Equal(t, wasmvm.StorageModified, storageStatus)
 	require.Equal(t, value, storageContext.GetStorage(key))
 	require.Len(t, storageContext.GetStorageUpdates(address), 1)
 
 	value = []byte("newValue")
 	storageStatus, err = storageContext.SetStorage(key, value)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageUnchanged, storageStatus)
+	require.Equal(t, wasmvm.StorageUnchanged, storageStatus)
 	require.Equal(t, value, storageContext.GetStorage(key))
 	require.Len(t, storageContext.GetStorageUpdates(address), 1)
 
 	value = nil
 	storageStatus, err = storageContext.SetStorage(key, value)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageDeleted, storageStatus)
+	require.Equal(t, wasmvm.StorageDeleted, storageStatus)
 	require.Equal(t, []byte{}, storageContext.GetStorage(key))
 	require.Len(t, storageContext.GetStorageUpdates(address), 1)
 
@@ -178,7 +178,7 @@ func TestStorageContext_SetStorage(t *testing.T) {
 	value = []byte("newValue")
 	storageStatus, err = storageContext.SetStorage(key, value)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageUnchanged, storageStatus)
+	require.Equal(t, wasmvm.StorageUnchanged, storageStatus)
 	require.Equal(t, []byte{}, storageContext.GetStorage(key))
 	require.Len(t, storageContext.GetStorageUpdates(address), 1)
 
@@ -187,19 +187,19 @@ func TestStorageContext_SetStorage(t *testing.T) {
 	value = []byte("other_value")
 	storageStatus, err = storageContext.SetStorage(key, value)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageAdded, storageStatus)
+	require.Equal(t, wasmvm.StorageAdded, storageStatus)
 	require.Equal(t, value, storageContext.GetStorage(key))
 	require.Len(t, storageContext.GetStorageUpdates(address), 2)
 
 	key = []byte("RESERVEDkey")
 	value = []byte("doesn't matter")
 	_, err = storageContext.SetStorage(key, value)
-	require.Equal(t, arwen.ErrStoreElrondReservedKey, err)
+	require.Equal(t, wasmvm.ErrStoreElrondReservedKey, err)
 
 	key = []byte("RESERVED")
 	value = []byte("doesn't matter")
 	_, err = storageContext.SetStorage(key, value)
-	require.Equal(t, arwen.ErrStoreElrondReservedKey, err)
+	require.Equal(t, wasmvm.ErrStoreElrondReservedKey, err)
 }
 
 func TestStorageContext_StorageProtection(t *testing.T) {
@@ -224,24 +224,24 @@ func TestStorageContext_StorageProtection(t *testing.T) {
 	storageContext, _ := NewStorageContext(host, bcHook, elrondReservedTestPrefix)
 	storageContext.SetAddress(address)
 
-	key := []byte(arwen.ProtectedStoragePrefix + "something")
+	key := []byte(wasmvm.ProtectedStoragePrefix + "something")
 	value := []byte("data")
 
 	storageStatus, err := storageContext.SetStorage(key, value)
-	require.Equal(t, arwen.StorageUnchanged, storageStatus)
-	require.True(t, errors.Is(err, arwen.ErrCannotWriteProtectedKey))
+	require.Equal(t, wasmvm.StorageUnchanged, storageStatus)
+	require.True(t, errors.Is(err, wasmvm.ErrCannotWriteProtectedKey))
 	require.Len(t, storageContext.GetStorageUpdates(address), 0)
 
 	storageContext.disableStorageProtection()
 	storageStatus, err = storageContext.SetStorage(key, value)
 	require.Nil(t, err)
-	require.Equal(t, arwen.StorageAdded, storageStatus)
+	require.Equal(t, wasmvm.StorageAdded, storageStatus)
 	require.Len(t, storageContext.GetStorageUpdates(address), 1)
 
 	storageContext.enableStorageProtection()
 	storageStatus, err = storageContext.SetStorage(key, value)
-	require.Equal(t, arwen.StorageUnchanged, storageStatus)
-	require.True(t, errors.Is(err, arwen.ErrCannotWriteProtectedKey))
+	require.Equal(t, wasmvm.StorageUnchanged, storageStatus)
+	require.True(t, errors.Is(err, wasmvm.ErrCannotWriteProtectedKey))
 	require.Len(t, storageContext.GetStorageUpdates(address), 1)
 }
 

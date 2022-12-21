@@ -1,8 +1,8 @@
 package contexts
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
 // reservedFunctions holds the reserved function names
@@ -25,7 +25,7 @@ func NewReservedFunctions(scAPINames vmcommon.FunctionNames, protocolBuiltinFunc
 	}
 
 	var empty struct{}
-	result.functionNames[arwen.UpgradeFunctionName] = empty
+	result.functionNames[wasmvm.UpgradeFunctionName] = empty
 
 	return result
 }

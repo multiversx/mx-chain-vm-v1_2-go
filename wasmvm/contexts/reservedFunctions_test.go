@@ -3,8 +3,8 @@ package contexts
 import (
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,5 +24,5 @@ func TestReservedFunctions_IsFunctionReserved(t *testing.T) {
 	require.True(t, reserved.IsReserved("rockets"))
 	require.True(t, reserved.IsReserved("protocolFunctionFoo"))
 	require.True(t, reserved.IsReserved("protocolFunctionBar"))
-	require.True(t, reserved.IsReserved(arwen.UpgradeFunctionName))
+	require.True(t, reserved.IsReserved(wasmvm.UpgradeFunctionName))
 }
