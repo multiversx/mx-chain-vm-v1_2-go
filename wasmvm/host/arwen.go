@@ -195,7 +195,7 @@ func (host *vmHost) BigInt() wasmvm.BigIntContext {
 	return host.bigIntContext
 }
 
-// IsV2Enabled returns whether the Arwen V2 mode is enabled
+// IsV2Enabled returns whether the V2 mode is enabled
 func (host *vmHost) IsV2Enabled() bool {
 	return host.enableEpochsHandler.IsSCDeployFlagEnabled()
 }

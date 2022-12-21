@@ -15,7 +15,7 @@ type VMMessenger struct {
 // NewVMMessenger creates a new messenger
 func NewVMMessenger(reader *os.File, writer *os.File, marshalizer marshaling.Marshalizer) *VMMessenger {
 	return &VMMessenger{
-		Messenger: *common.NewMessengerPipes("ARWEN", reader, writer, marshalizer),
+		Messenger: *common.NewMessengerPipes("WASMVM", reader, writer, marshalizer),
 	}
 }
 
@@ -31,7 +31,7 @@ func (messenger *VMMessenger) ReceiveNodeRequest() (common.MessageHandler, error
 
 // SendContractResponse sends a contract response to the Node
 func (messenger *VMMessenger) SendContractResponse(response common.MessageHandler) error {
-	log.Trace("[ARWEN]: SendContractResponse", "response", response.DebugString())
+	log.Trace("[WASMVM]: SendContractResponse", "response", response.DebugString())
 
 	err := messenger.Send(response)
 	if err != nil {
@@ -43,7 +43,7 @@ func (messenger *VMMessenger) SendContractResponse(response common.MessageHandle
 
 // SendHookCallRequest makes a hook call (over the pipe) and waits for the response
 func (messenger *VMMessenger) SendHookCallRequest(request common.MessageHandler) (common.MessageHandler, error) {
-	log.Trace("[ARWEN]: SendHookCallRequest", "request", request.DebugString())
+	log.Trace("[WASMVM]: SendHookCallRequest", "request", request.DebugString())
 
 	err := messenger.Send(request)
 	if err != nil {

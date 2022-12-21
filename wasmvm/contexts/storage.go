@@ -185,7 +185,7 @@ func (context *storageContext) disableStorageProtection() {
 	context.vmStorageProtectionEnabled = false
 }
 
-func (context *storageContext) isArwenProtectedKey(key []byte) bool {
+func (context *storageContext) isVMProtectedKey(key []byte) bool {
 	return bytes.HasPrefix(key, []byte(wasmvm.ProtectedStoragePrefix))
 }
 
@@ -210,7 +210,7 @@ func (context *storageContext) SetStorage(key []byte, value []byte) (wasmvm.Stor
 		logStorage.Trace("storage set", "error", wasmvm.ErrStoreElrondReservedKey, "key", key)
 		return wasmvm.StorageUnchanged, wasmvm.ErrStoreElrondReservedKey
 	}
-	if context.isArwenProtectedKey(key) && context.vmStorageProtectionEnabled {
+	if context.isVMProtectedKey(key) && context.vmStorageProtectionEnabled {
 		logStorage.Trace("storage set", "error", wasmvm.ErrCannotWriteProtectedKey, "key", key)
 		return wasmvm.StorageUnchanged, wasmvm.ErrCannotWriteProtectedKey
 	}
