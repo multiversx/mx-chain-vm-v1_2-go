@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwendebug"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvmdebug"
 	"github.com/urfave/cli"
 )
 
@@ -29,14 +29,14 @@ type cliArguments struct {
 	AccountNonce   uint64
 }
 
-func (args *cliArguments) toDeployRequest() arwendebug.DeployRequest {
-	request := &arwendebug.DeployRequest{}
+func (args *cliArguments) toDeployRequest() wasmvmdebug.DeployRequest {
+	request := &wasmvmdebug.DeployRequest{}
 	args.populateDeployRequest(request)
 
 	return *request
 }
 
-func (args *cliArguments) populateDeployRequest(request *arwendebug.DeployRequest) {
+func (args *cliArguments) populateDeployRequest(request *wasmvmdebug.DeployRequest) {
 	args.populateContractRequestBase(&request.ContractRequestBase)
 
 	request.CodeHex = args.Code
@@ -45,7 +45,7 @@ func (args *cliArguments) populateDeployRequest(request *arwendebug.DeployReques
 	request.ArgumentsHex = args.Arguments
 }
 
-func (args *cliArguments) populateContractRequestBase(request *arwendebug.ContractRequestBase) {
+func (args *cliArguments) populateContractRequestBase(request *wasmvmdebug.ContractRequestBase) {
 	args.populateRequestBase(&request.RequestBase)
 
 	request.ImpersonatedHex = args.Impersonated
@@ -54,28 +54,28 @@ func (args *cliArguments) populateContractRequestBase(request *arwendebug.Contra
 	request.GasPrice = args.GasPrice
 }
 
-func (args *cliArguments) populateRequestBase(request *arwendebug.RequestBase) {
+func (args *cliArguments) populateRequestBase(request *wasmvmdebug.RequestBase) {
 	request.DatabasePath = args.Database
 	request.World = args.World
 	request.Outcome = args.Outcome
 }
 
-func (args *cliArguments) toUpgradeRequest() arwendebug.UpgradeRequest {
-	request := &arwendebug.UpgradeRequest{}
+func (args *cliArguments) toUpgradeRequest() wasmvmdebug.UpgradeRequest {
+	request := &wasmvmdebug.UpgradeRequest{}
 	args.populateDeployRequest(&request.DeployRequest)
 
 	request.ContractAddressHex = args.ContractAddress
 	return *request
 }
 
-func (args *cliArguments) toRunRequest() arwendebug.RunRequest {
-	request := &arwendebug.RunRequest{}
+func (args *cliArguments) toRunRequest() wasmvmdebug.RunRequest {
+	request := &wasmvmdebug.RunRequest{}
 	args.populateRunRequest(request)
 
 	return *request
 }
 
-func (args *cliArguments) populateRunRequest(request *arwendebug.RunRequest) {
+func (args *cliArguments) populateRunRequest(request *wasmvmdebug.RunRequest) {
 	args.populateContractRequestBase(&request.ContractRequestBase)
 
 	request.ContractAddressHex = args.ContractAddress
@@ -83,15 +83,15 @@ func (args *cliArguments) populateRunRequest(request *arwendebug.RunRequest) {
 	request.ArgumentsHex = args.Arguments
 }
 
-func (args *cliArguments) toQueryRequest() arwendebug.QueryRequest {
-	request := &arwendebug.QueryRequest{}
+func (args *cliArguments) toQueryRequest() wasmvmdebug.QueryRequest {
+	request := &wasmvmdebug.QueryRequest{}
 	args.populateRunRequest(&request.RunRequest)
 
 	return *request
 }
 
-func (args *cliArguments) toCreateAccountRequest() arwendebug.CreateAccountRequest {
-	request := &arwendebug.CreateAccountRequest{}
+func (args *cliArguments) toCreateAccountRequest() wasmvmdebug.CreateAccountRequest {
+	request := &wasmvmdebug.CreateAccountRequest{}
 	args.populateRequestBase(&request.RequestBase)
 
 	request.AddressHex = args.AccountAddress

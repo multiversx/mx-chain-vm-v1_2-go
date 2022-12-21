@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/ElrondNetwork/elrond-go-logger/pipes"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/arwenpart"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/wasmvmpart"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
 )
 
@@ -77,7 +77,7 @@ func doMain() (int, string) {
 	defer logsPart.StopLoop()
 
 	appVersion = wasmvm.WASMVMVersion
-	part, err := arwenpart.NewArwenPart(
+	part, err := wasmvmpart.NewArwenPart(
 		appVersion,
 		nodeToArwenFile,
 		arwenToNodeFile,

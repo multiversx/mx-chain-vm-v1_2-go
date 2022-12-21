@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwendebug"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvmdebug"
 	"github.com/urfave/cli"
 )
 
-func initializeCLI(facade *arwendebug.DebugFacade) *cli.App {
+func initializeCLI(facade *wasmvmdebug.DebugFacade) *cli.App {
 	app := cli.NewApp()
 	app.Name = "Arwen Debug"
 	app.Usage = ""
@@ -128,7 +128,7 @@ func initializeCLI(facade *arwendebug.DebugFacade) *cli.App {
 			Name:        "server",
 			Description: "start debug server",
 			Action: func(context *cli.Context) error {
-				server := arwendebug.NewDebugServer(facade, args.ServerAddress)
+				server := wasmvmdebug.NewDebugServer(facade, args.ServerAddress)
 				return server.Start()
 			},
 			Flags: []cli.Flag{

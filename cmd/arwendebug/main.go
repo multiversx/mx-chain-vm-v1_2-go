@@ -3,11 +3,11 @@ package main
 import (
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwendebug"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvmdebug"
 )
 
-var log = logger.GetOrCreate("arwendebug")
+var log = logger.GetOrCreate("wasmvmdebug")
 
 const (
 	// ErrCodeSuccess signals success
@@ -20,7 +20,7 @@ func main() {
 	logger.ToggleLoggerName(true)
 	_ = logger.SetLogLevel("*:TRACE")
 
-	facade := arwendebug.NewDebugFacade()
+	facade := wasmvmdebug.NewDebugFacade()
 	app := initializeCLI(facade)
 
 	err := app.Run(os.Args)
