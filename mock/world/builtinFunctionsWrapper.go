@@ -1,10 +1,10 @@
 package worldmock
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/builtInFunctions"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 )
 
 // WorldMarshalizer is the global marshalizer to be used by the components of
@@ -20,6 +20,8 @@ type BuiltinFunctionsWrapper struct {
 	Marshalizer     vmcommon.Marshalizer
 }
 
+var numDNSAddresses = uint8(0xFF)
+
 // NewBuiltinFunctionsWrapper creates a new BuiltinFunctionsWrapper with
 // default dependencies.
 func NewBuiltinFunctionsWrapper(
@@ -27,7 +29,7 @@ func NewBuiltinFunctionsWrapper(
 	gasMap config.GasScheduleMap,
 ) (*BuiltinFunctionsWrapper, error) {
 
-	dnsMap := makeDNSAddresses(numDNSAddresses)
+	dnsMap := make(map[string]struct{}, numDNSAddresses)
 
 	argsBuiltIn := builtInFunctions.ArgsCreateBuiltInFunctionContainer{
 		GasMap:                           gasMap,
