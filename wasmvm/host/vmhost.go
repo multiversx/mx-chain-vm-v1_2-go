@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/ElrondNetwork/elrond-go-core/core/check"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/factory"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/contexts"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/cryptoapi"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/elrondapi"
+	"github.com/multiversx/elrond-go-core/core/check"
+	logger "github.com/multiversx/elrond-go-logger"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/config"
+	"github.com/multiversx/wasm-vm-v1_2/crypto"
+	"github.com/multiversx/wasm-vm-v1_2/crypto/factory"
+	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm/contexts"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm/cryptoapi"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm/elrondapi"
 )
 
 var log = logger.GetOrCreate("wasmvm/host")

@@ -5,12 +5,12 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/elrond-go-core/core"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	logger "github.com/multiversx/elrond-go-logger"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/math"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 var _ wasmvm.OutputContext = (*outputContext)(nil)

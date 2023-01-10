@@ -5,8 +5,8 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
+	"github.com/multiversx/elrond-go-core/core"
+	"github.com/multiversx/elrond-go-core/data/esdt"
 )
 
 // ErrNegativeValue signals that a negative value has been detected and it is not allowed

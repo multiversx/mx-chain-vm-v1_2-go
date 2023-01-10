@@ -89,15 +89,15 @@ import (
 	"math/big"
 	"unsafe"
 
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/parsers"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/elrond-go-core/core"
+	"github.com/multiversx/elrond-go-core/data/esdt"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	logger "github.com/multiversx/elrond-go-logger"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/elrond-vm-common/parsers"
+	"github.com/multiversx/wasm-vm-v1_2/math"
+	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 var logEEI = logger.GetOrCreate("wasmvm/eei")

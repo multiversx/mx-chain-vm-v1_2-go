@@ -3,7 +3,7 @@ package wasmvmdebug
 import (
 	"math/big"
 
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
+	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
 )
 
 // CreateAccountRequest is a CLI / REST request message

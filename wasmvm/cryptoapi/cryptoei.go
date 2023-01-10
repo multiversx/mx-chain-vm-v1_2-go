@@ -17,9 +17,9 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/wasm-vm-v1_2/math"
+	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 const blsPublicKeyLength = 96

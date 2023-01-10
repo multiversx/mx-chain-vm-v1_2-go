@@ -1,8 +1,8 @@
 package common
 
 import (
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
-	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/elrond-go-core/data/esdt"
+	"github.com/multiversx/elrond-vm-common"
 )
 
 // MessageBlockchainNewAddressRequest represents a request message

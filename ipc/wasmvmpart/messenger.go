@@ -3,8 +3,8 @@ package wasmvmpart
 import (
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
 )
 
 // VMMessenger is the messenger on VM's part of the pipe

@@ -1,7 +1,7 @@
 package host
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 func (host *vmHost) handleBreakpointIfAny(executionErr error) error {

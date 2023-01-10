@@ -7,11 +7,11 @@ import (
 	"sync"
 	"syscall"
 
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	"github.com/ElrondNetwork/elrond-go-logger/pipes"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	logger "github.com/multiversx/elrond-go-logger"
+	"github.com/multiversx/elrond-go-logger/pipes"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
 )
 
 var log = logger.GetOrCreate("wasmvmDriver")

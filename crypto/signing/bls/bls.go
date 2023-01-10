@@ -1,10 +1,10 @@
 package bls
 
 import (
-	"github.com/ElrondNetwork/elrond-go-crypto"
-	"github.com/ElrondNetwork/elrond-go-crypto/signing"
-	"github.com/ElrondNetwork/elrond-go-crypto/signing/mcl"
-	"github.com/ElrondNetwork/elrond-go-crypto/signing/mcl/singlesig"
+	"github.com/multiversx/elrond-go-crypto"
+	"github.com/multiversx/elrond-go-crypto/signing"
+	"github.com/multiversx/elrond-go-crypto/signing/mcl"
+	"github.com/multiversx/elrond-go-crypto/signing/mcl/singlesig"
 )
 
 type bls struct {

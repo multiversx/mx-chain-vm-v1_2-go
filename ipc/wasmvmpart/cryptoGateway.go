@@ -6,14 +6,14 @@ import (
 
 	"golang.org/x/crypto/sha3"
 
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/multiversx/elrond-vm-common"
 	"golang.org/x/crypto/ripemd160"
 )
 
 var _ vmcommon.CryptoHook = (*CryptoHookGateway)(nil)
 
 // CryptoHookGateway is a copy of the CryptoHook implementation from the node
-// TODO: Remove this implementation and reference ElrondNetwork/common/crypto when it becomes available
+// TODO: Remove this implementation and reference multiversx/common/crypto when it becomes available
 type CryptoHookGateway struct {
 }
 

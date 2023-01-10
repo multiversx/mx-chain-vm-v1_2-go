@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
+	vmcommon "github.com/multiversx/elrond-vm-common"
 	"github.com/stretchr/testify/require"
 )
 

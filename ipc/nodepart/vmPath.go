@@ -4,7 +4,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
 )
 
 func (driver *VMDriver) getVMPath() (string, error) {

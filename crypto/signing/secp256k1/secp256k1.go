@@ -1,7 +1,7 @@
 package secp256k1
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/signing"
+	"github.com/multiversx/wasm-vm-v1_2/crypto/signing"
 	"github.com/btcsuite/btcd/btcec/v2"
 	"github.com/btcsuite/btcd/btcec/v2/ecdsa"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/elrond-go-core/core"
+	"github.com/multiversx/elrond-go-core/data/esdt"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	"github.com/multiversx/elrond-vm-common"
 )
 
 // ESDTTokenKeyPrefix is the prefix of storage keys belonging to ESDT tokens.

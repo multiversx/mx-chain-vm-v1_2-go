@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"unicode"
 
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 const noArity = -1

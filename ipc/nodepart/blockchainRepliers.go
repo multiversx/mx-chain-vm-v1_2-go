@@ -1,8 +1,8 @@
 package nodepart
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 func (part *NodePart) replyToBlockchainNewAddress(request common.MessageHandler) common.MessageHandler {

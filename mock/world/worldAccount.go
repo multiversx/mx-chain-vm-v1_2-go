@@ -5,9 +5,9 @@ import (
 	"errors"
 	"math/big"
 
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/hashing"
+	logger "github.com/multiversx/elrond-go-logger"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/crypto/hashing"
 )
 
 // ErrOperationNotPermitted indicates an operation rejected due to insufficient

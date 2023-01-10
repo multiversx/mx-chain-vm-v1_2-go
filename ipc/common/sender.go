@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
 )
 
 // Sender intermediates communication (message sending) via pipes

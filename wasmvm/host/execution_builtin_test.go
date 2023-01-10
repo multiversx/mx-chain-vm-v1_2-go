@@ -6,12 +6,12 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/elrond-go-core/core"
+	"github.com/multiversx/elrond-go-core/data/esdt"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 

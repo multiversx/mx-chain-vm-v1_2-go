@@ -3,8 +3,8 @@ package common
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	"github.com/multiversx/elrond-vm-common"
 )
 
 type SerializableVMOutput struct {

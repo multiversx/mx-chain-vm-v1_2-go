@@ -1,9 +1,9 @@
 package wasmvmpart
 
 import (
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/elrond-go-core/data/esdt"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
 )
 
 var _ vmcommon.BlockchainHook = (*BlockchainHookGateway)(nil)

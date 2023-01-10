@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ElrondNetwork/elrond-go-logger/pipes"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/wasmvmpart"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/elrond-go-logger/pipes"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/wasmvmpart"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 const (

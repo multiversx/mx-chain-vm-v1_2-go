@@ -4,11 +4,11 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/config"
+	contextmock "github.com/multiversx/wasm-vm-v1_2/mock/context"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 

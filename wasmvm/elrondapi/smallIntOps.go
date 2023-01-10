@@ -28,9 +28,9 @@ import (
 	"math/big"
 	"unsafe"
 
-	twos "github.com/ElrondNetwork/big-int-util/twos-complement"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	twos "github.com/multiversx/big-int-util/twos-complement"
+	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 // SmallIntImports creates a new wasmer.Imports populated with the small int (int64/uint64) API methods

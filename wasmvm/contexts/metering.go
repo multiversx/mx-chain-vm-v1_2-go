@@ -3,12 +3,12 @@ package contexts
 import (
 	"bytes"
 
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	logger "github.com/multiversx/elrond-go-logger"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/config"
+	"github.com/multiversx/wasm-vm-v1_2/math"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 var logMetering = logger.GetOrCreate("wasmvm/metering")

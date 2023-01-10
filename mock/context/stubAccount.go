@@ -3,7 +3,7 @@ package mock
 import (
 	"math/big"
 
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/multiversx/elrond-vm-common"
 )
 
 // StubAccount is used with the blockchain stub in wasmvm context tests.

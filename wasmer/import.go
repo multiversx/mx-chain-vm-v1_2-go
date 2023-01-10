@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/elrond-vm-common"
 )
 
 // ImportedFunctionError represents any kind of errors related to a

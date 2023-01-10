@@ -1,12 +1,12 @@
 package wasmvmdebug
 
 import (
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/host"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/elrond-vm-common/mock"
+	"github.com/multiversx/wasm-vm-v1_2/config"
+	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm/host"
 )
 
 type worldDataModel struct {

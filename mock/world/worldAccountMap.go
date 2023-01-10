@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/elrond-vm-common"
 )
 
 // AccountMap is a map from address to Account, also implementing the

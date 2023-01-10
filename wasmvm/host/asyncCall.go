@@ -6,13 +6,13 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/parsers"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/elrond-go-core/core"
+	"github.com/multiversx/elrond-go-core/data/vm"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/elrond-vm-common/parsers"
+	"github.com/multiversx/wasm-vm-v1_2/math"
+	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 
 func (host *vmHost) handleAsyncCallBreakpoint() error {

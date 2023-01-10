@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	logger "github.com/ElrondNetwork/elrond-go-logger"
+	logger "github.com/multiversx/elrond-go-logger"
 )
 
 var log = logger.GetOrCreate("wasmvmdebug")

@@ -4,10 +4,10 @@ import (
 	"math/big"
 	"testing"
 
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	contextmock "github.com/multiversx/wasm-vm-v1_2/mock/context"
+	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 

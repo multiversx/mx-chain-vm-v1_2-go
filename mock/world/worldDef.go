@@ -3,8 +3,8 @@ package worldmock
 import (
 	"fmt"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/wasm-vm-v1_2/config"
+	vmcommon "github.com/multiversx/elrond-vm-common"
 )
 
 // NewAddressMock allows tests to specify what new addresses to generate

@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"testing"
 
-	wasmvmHost "github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm/host"
+	wasmvmHost "github.com/multiversx/wasm-vm-v1_2/wasmvm/host"
 	"github.com/stretchr/testify/require"
 )
 

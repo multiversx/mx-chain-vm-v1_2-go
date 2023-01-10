@@ -1,8 +1,8 @@
 package worldmock
 
 import (
-	"github.com/ElrondNetwork/elrond-go-core/core/check"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/elrond-go-core/core/check"
+	vmcommon "github.com/multiversx/elrond-vm-common"
 )
 
 // EpochNotifierStub -

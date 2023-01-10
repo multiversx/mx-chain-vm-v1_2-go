@@ -3,15 +3,15 @@ package tests
 import (
 	"testing"
 
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/nodepart"
-	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvm"
+	logger "github.com/multiversx/elrond-go-logger"
+	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/elrond-vm-common/mock"
+	"github.com/multiversx/wasm-vm-v1_2/config"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/wasm-vm-v1_2/ipc/nodepart"
+	contextmock "github.com/multiversx/wasm-vm-v1_2/mock/context"
+	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 

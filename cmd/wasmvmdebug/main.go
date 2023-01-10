@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmvmdebug"
+	logger "github.com/multiversx/elrond-go-logger"
+	"github.com/multiversx/wasm-vm-v1_2/wasmvmdebug"
 )
 
 var log = logger.GetOrCreate("wasmvmdebug")
