@@ -1,4 +1,4 @@
-.PHONY: test test-short build arwen arwendebug clean
+.PHONY: test test-short build arwendebug clean
 
 ARWEN_VERSION := $(shell git describe --tags --long --dirty --always)
 
@@ -8,11 +8,6 @@ clean:
 build:
 	go build ./...
 
-arwen:
-	go build -ldflags="-X main.appVersion=$(ARWEN_VERSION)" -o ./cmd/arwen/arwen ./cmd/arwen
-	cp ./cmd/arwen/arwen ./ipc/tests
-	cp ./cmd/arwen/arwen ${ARWEN_PATH}
-
 arwendebug:
 ifndef ARWENDEBUG_PATH
 	$(error ARWENDEBUG_PATH is undefined)
@@ -20,10 +15,10 @@ endif
 	go build -o ./cmd/arwendebug/arwendebug ./cmd/arwendebug
 	cp ./cmd/arwendebug/arwendebug ${ARWENDEBUG_PATH}
 
-test: clean arwen
+test: clean
 	go test -count=1 ./...
 
-test-short: arwen
+test-short:
 	go test -short -count=1 ./...
 
 build-test-contracts:

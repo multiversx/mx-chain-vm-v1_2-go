@@ -3,8 +3,8 @@ package arwendebug
 import (
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
@@ -32,7 +32,7 @@ func newWorld(dataModel *worldDataModel) (*world, error) {
 	blockchainHook := worldmock.NewMockWorld()
 	blockchainHook.AcctMap = dataModel.Accounts
 
-	vm, err := host.NewArwenVM(
+	vm, err := host.NewVMHost(
 		blockchainHook,
 		getHostParameters(),
 	)

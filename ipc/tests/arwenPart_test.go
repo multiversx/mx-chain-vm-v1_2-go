@@ -7,7 +7,7 @@ import (
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/arwenpart"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"

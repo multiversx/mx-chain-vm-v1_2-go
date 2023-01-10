@@ -2,7 +2,7 @@ package arwendebug
 
 import (
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 )
 
 func (w *world) prepareDeployInput(request DeployRequest) *vmcommon.ContractCreateInput {

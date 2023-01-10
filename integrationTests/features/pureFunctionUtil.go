@@ -9,8 +9,8 @@ import (
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
-	arwen "github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
-	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/arwen/host"
+	arwen "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
+	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
 	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
@@ -42,7 +42,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 
 	blockGasLimit := uint64(10000000)
 	gasSchedule := config.MakeGasMapForTests()
-	vm, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
+	vm, err := arwenHost.NewVMHost(world, &arwen.VMHostParameters{
 		VMType:                   testVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
