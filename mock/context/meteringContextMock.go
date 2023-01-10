@@ -1,7 +1,7 @@
 package mock
 
 import (
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/config"
 	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )

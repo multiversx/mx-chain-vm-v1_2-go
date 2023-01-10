@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"testing"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

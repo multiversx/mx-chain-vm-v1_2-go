@@ -8,7 +8,7 @@ import (
 	"math/big"
 	"testing"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/config"
 	contextmock "github.com/multiversx/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"

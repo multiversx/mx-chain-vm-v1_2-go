@@ -1,7 +1,7 @@
 package common
 
 import (
-	logger "github.com/multiversx/elrond-go-logger"
+	logger "github.com/multiversx/mx-chain-logger-go"
 )
 
 var logMessages = logger.GetOrCreate("wasmvm/messages")

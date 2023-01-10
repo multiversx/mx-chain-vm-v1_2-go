@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/crypto/sha3"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"golang.org/x/crypto/ripemd160"
 )
 

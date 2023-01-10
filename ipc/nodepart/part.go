@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
 )

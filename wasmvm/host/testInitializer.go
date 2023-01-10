@@ -12,9 +12,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/multiversx/elrond-go-core/data/vm"
-	vmcommon "github.com/multiversx/elrond-vm-common"
-	"github.com/multiversx/elrond-vm-common/mock"
+	"github.com/multiversx/mx-chain-core-go/data/vm"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/wasm-vm-v1_2/config"
 	contextmock "github.com/multiversx/wasm-vm-v1_2/mock/context"
 	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"

@@ -3,7 +3,7 @@ package common
 import (
 	"math/big"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
 // Account holds the account info (is a substructure of an IPC message)

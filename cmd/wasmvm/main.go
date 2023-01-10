@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/multiversx/elrond-go-logger/pipes"
+	"github.com/multiversx/mx-chain-logger-go/pipes"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/wasmvmpart"

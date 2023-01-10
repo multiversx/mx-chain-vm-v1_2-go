@@ -1,7 +1,7 @@
 package common
 
 import (
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
 // MessageContractDeployRequest is a deploy request message (from the Node)

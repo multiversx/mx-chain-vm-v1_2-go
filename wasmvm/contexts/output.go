@@ -5,10 +5,10 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/multiversx/elrond-go-core/core"
-	"github.com/multiversx/elrond-go-core/data/vm"
-	logger "github.com/multiversx/elrond-go-logger"
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/mx-chain-core-go/core"
+	"github.com/multiversx/mx-chain-core-go/data/vm"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/math"
 	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )

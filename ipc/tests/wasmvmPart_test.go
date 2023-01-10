@@ -5,8 +5,8 @@ import (
 	"sync"
 	"testing"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
-	"github.com/multiversx/elrond-vm-common/mock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/wasm-vm-v1_2/config"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"

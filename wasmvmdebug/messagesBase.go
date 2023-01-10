@@ -3,7 +3,7 @@ package wasmvmdebug
 import (
 	"math/big"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
 // RequestBase is a CLI / REST request message

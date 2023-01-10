@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/multiversx/elrond-go-core/data/vm"
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/mx-chain-core-go/data/vm"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/stretchr/testify/require"
 )
 

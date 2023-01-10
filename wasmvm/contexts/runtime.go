@@ -7,8 +7,8 @@ import (
 	"math/big"
 	"unsafe"
 
-	logger "github.com/multiversx/elrond-go-logger"
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/math"
 	"github.com/multiversx/wasm-vm-v1_2/wasmer"
 	"github.com/multiversx/wasm-vm-v1_2/wasmvm"

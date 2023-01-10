@@ -55,7 +55,7 @@ import (
 	"math/big"
 	"unsafe"
 
-	twos "github.com/multiversx/big-int-util/twos-complement"
+	twos "github.com/multiversx/mx-components-big-int/twos-complement"
 	"github.com/multiversx/wasm-vm-v1_2/math"
 	"github.com/multiversx/wasm-vm-v1_2/wasmer"
 	"github.com/multiversx/wasm-vm-v1_2/wasmvm"

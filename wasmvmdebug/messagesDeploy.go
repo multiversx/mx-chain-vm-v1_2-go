@@ -3,7 +3,7 @@ package wasmvmdebug
 import (
 	"io/ioutil"
 
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
 // DeployRequest is a CLI / REST request message

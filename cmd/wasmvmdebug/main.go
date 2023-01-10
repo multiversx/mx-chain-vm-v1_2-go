@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	logger "github.com/multiversx/elrond-go-logger"
+	logger "github.com/multiversx/mx-chain-logger-go"
 	"github.com/multiversx/wasm-vm-v1_2/wasmvmdebug"
 )
 

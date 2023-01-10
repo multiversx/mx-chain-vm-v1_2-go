@@ -3,8 +3,8 @@ package contexts
 import (
 	"math/big"
 
-	"github.com/multiversx/elrond-go-core/data/esdt"
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/mx-chain-core-go/data/esdt"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
 )
 

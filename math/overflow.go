@@ -3,7 +3,7 @@ package math
 import (
 	builtinMath "math"
 
-	logger "github.com/multiversx/elrond-go-logger"
+	logger "github.com/multiversx/mx-chain-logger-go"
 )
 
 var log = logger.GetOrCreate("wasmvm/overflow")

@@ -7,9 +7,9 @@ import (
 	"sync"
 	"syscall"
 
-	logger "github.com/multiversx/elrond-go-logger"
-	"github.com/multiversx/elrond-go-logger/pipes"
-	vmcommon "github.com/multiversx/elrond-vm-common"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	"github.com/multiversx/mx-chain-logger-go/pipes"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
 	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
 )

@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/multiversx/elrond-vm-common"
+	"github.com/multiversx/mx-chain-vm-common-go"
 )
 
 // ImportedFunctionError represents any kind of errors related to a
