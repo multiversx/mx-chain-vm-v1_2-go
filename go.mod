@@ -1,19 +1,19 @@
-module github.com/ElrondNetwork/wasm-vm-v1_2
+module github.com/multiversx/mx-chain-vm-go-v1_2
 
 go 1.17
 
 require (
-	github.com/ElrondNetwork/big-int-util v0.1.0
-	github.com/ElrondNetwork/elrond-go-core v1.1.26
-	github.com/ElrondNetwork/elrond-go-crypto v1.2.2
-	github.com/ElrondNetwork/elrond-go-logger v1.0.10
-	github.com/ElrondNetwork/elrond-vm-common v1.3.28
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/gin-gonic/gin v1.8.1
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/mapstructure v1.4.1
+	github.com/multiversx/mx-chain-core-go v1.1.30
+	github.com/multiversx/mx-chain-crypto v1.2.5
+	github.com/multiversx/mx-chain-logger-go v1.0.11
+	github.com/multiversx/mx-chain-vm-common-go v1.3.32
+	github.com/multiversx/mx-components-big-int v0.1.0
 	github.com/pelletier/go-toml v1.9.3
 	github.com/stretchr/testify v1.7.1
 	github.com/urfave/cli v1.22.5
