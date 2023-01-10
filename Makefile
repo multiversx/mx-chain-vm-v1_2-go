@@ -1,4 +1,4 @@
-.PHONY: test test-short build wasmvm wasmvmdebug clean
+.PHONY: test test-short build wasmvmdebug clean
 
 WASMVM_VERSION := $(shell git describe --tags --long --dirty --always)
 
@@ -8,11 +8,6 @@ clean:
 build:
 	go build ./...
 
-wasmvm:
-	go build -ldflags="-X main.appVersion=$(WASMVM_VERSION)" -o ./cmd/wasmvm/wasmvm ./cmd/wasmvm
-	cp ./cmd/wasmvm/wasmvm ./ipc/tests
-	cp ./cmd/wasmvm/wasmvm ${WASMVM_PATH}
-
 wasmvmdebug:
 ifndef WASMVMDEBUG_PATH
 	$(error WASMVMDEBUG_PATH is undefined)
@@ -20,10 +15,10 @@ endif
 	go build -o ./cmd/wasmvmdebug/wasmvmdebug ./cmd/wasmvmdebug
 	cp ./cmd/wasmvmdebug/wasmvmdebug ${WASMVMDEBUG_PATH}
 
-test: clean wasmvm
+test: clean
 	go test -count=1 ./...
 
-test-short: wasmvm
+test-short:
 	go test -short -count=1 ./...
 
 build-test-contracts:
