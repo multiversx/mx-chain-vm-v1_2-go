@@ -12,7 +12,7 @@ require (
 	github.com/multiversx/mx-chain-core-go v1.1.30
 	github.com/multiversx/mx-chain-crypto v1.2.5
 	github.com/multiversx/mx-chain-logger-go v1.0.11
-	github.com/multiversx/mx-chain-vm-common-go v1.3.32
+	github.com/multiversx/mx-chain-vm-common-go v1.3.33
 	github.com/multiversx/mx-components-big-int v0.1.0
 	github.com/pelletier/go-toml v1.9.3
 	github.com/stretchr/testify v1.7.1
