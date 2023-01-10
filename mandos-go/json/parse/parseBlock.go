@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	oj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/orderedjson"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	oj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/orderedjson"
 )
 
 func (p *Parser) processBlock(blockRaw oj.OJsonObject) (*mj.Block, error) {

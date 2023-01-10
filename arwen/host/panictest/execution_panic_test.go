@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"testing"
 
-	arwenHost "github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
+	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/arwen/host"
 	"github.com/stretchr/testify/require"
 )
 

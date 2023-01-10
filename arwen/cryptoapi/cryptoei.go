@@ -17,9 +17,9 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/math"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/math"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 
 const blsPublicKeyLength = 96

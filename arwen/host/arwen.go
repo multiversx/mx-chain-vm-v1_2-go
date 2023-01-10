@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/ElrondNetwork/elrond-go-core/core/check"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/contexts"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/cryptoapi"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/elrondapi"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/crypto/factory"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-core-go/core/check"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen/contexts"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen/cryptoapi"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen/elrondapi"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto/factory"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 
 var log = logger.GetOrCreate("arwen/host")
@@ -126,7 +126,7 @@ func NewArwenVM(
 		return nil, err
 	}
 
-	host.storageContext, err = contexts.NewStorageContext(host, blockChainHook, hostParameters.ElrondProtectedKeyPrefix)
+	host.storageContext, err = contexts.NewStorageContext(host, blockChainHook, hostParameters.ProtectedKeyPrefix)
 	if err != nil {
 		return nil, err
 	}

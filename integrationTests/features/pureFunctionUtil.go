@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	arwen "github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	arwenHost "github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	worldhook "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
+	arwen "github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/arwen/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/stretchr/testify/require"
 )
 
@@ -47,7 +47,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ElrondProtectedKeyPrefix: []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("ELROND"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

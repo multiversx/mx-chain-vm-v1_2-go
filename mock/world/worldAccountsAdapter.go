@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
 )
 
 // ErrTrieHandlingNotImplemented indicates that no trie-related operations are

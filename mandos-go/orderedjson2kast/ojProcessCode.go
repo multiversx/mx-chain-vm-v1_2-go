@@ -1,7 +1,7 @@
 package orderedjson2kast
 
 import (
-	oj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/orderedjson"
+	oj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/orderedjson"
 )
 
 func processTestCode(jobj oj.OJsonObject, testPath string, processCodeCallback ProcessCodeFunc) {

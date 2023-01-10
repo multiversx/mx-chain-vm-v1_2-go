@@ -5,16 +5,16 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/arwenpart"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/nodepart"
-	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/arwenpart"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/nodepart"
+	contextmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/context"
+	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -69,10 +69,10 @@ func doContractRequest(
 
 	go func() {
 		vmHostParameters := &arwen.VMHostParameters{
-			VMType:                   []byte{5, 0},
-			BlockGasLimit:            uint64(10000000),
-			GasSchedule:              config.MakeGasMapForTests(),
-			ElrondProtectedKeyPrefix: []byte("ELROND"),
+			VMType:             []byte{5, 0},
+			BlockGasLimit:      uint64(10000000),
+			GasSchedule:        config.MakeGasMapForTests(),
+			ProtectedKeyPrefix: []byte("ELROND"),
 			EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 				IsSCDeployFlagEnabledField:            true,
 				IsAheadOfTimeGasUsageFlagEnabledField: true,

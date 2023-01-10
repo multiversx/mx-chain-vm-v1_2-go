@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/elrond-go-core/data/vm"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	"github.com/multiversx/mx-chain-core-go/data/vm"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/stretchr/testify/require"
 )
 
@@ -92,7 +92,7 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasMap,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ElrondProtectedKeyPrefix: []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("ELROND"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

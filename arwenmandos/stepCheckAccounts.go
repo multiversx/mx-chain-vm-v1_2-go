@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"math/big"
 
-	er "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/expression/reconstructor"
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	oj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/orderedjson"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
+	"github.com/multiversx/mx-chain-core-go/data/esdt"
+	er "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/expression/reconstructor"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	oj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/orderedjson"
+	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
 
 // ExecuteCheckStateStep executes a CheckStateStep defined by the current scenario.

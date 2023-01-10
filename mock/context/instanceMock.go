@@ -1,7 +1,7 @@
 package mock
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 
 // InstanceMock is a mock for Wasmer instances; it allows creating mock smart

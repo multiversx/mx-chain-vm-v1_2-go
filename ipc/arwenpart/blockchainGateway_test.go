@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/nodepart"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/nodepart"
 	"github.com/stretchr/testify/require"
 )
 

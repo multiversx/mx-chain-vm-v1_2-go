@@ -4,12 +4,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
 )
 
 var log = logger.GetOrCreate("arwen/part")
