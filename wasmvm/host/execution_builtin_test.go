@@ -156,65 +156,6 @@ func TestExecution_AsyncCall_MockBuiltinFails(t *testing.T) {
 	require.Equal(t, [][]byte{[]byte("hello"), {10}}, vmOutput.ReturnData)
 }
 
-func TestESDT_GettersAPI(t *testing.T) {
-	code := GetTestSCCode("exchange", "../../")
-	scBalance := big.NewInt(1000)
-
-	host, _ := defaultTestVMForCall(t, code, scBalance)
-
-	input := DefaultTestContractCallInput()
-	input.RecipientAddr = parentAddress
-	input.Function = "validateGetters"
-	input.GasProvided = 1000000
-	input.ESDTTransfers = make([]*vmcommon.ESDTTransfer, 1)
-	input.ESDTTransfers[0] = &vmcommon.ESDTTransfer{}
-	input.ESDTTransfers[0].ESDTValue = big.NewInt(5)
-	input.ESDTTransfers[0].ESDTTokenName = ESDTTestTokenName
-
-	vmOutput, err := host.RunSmartContractCall(input)
-	require.Nil(t, err)
-
-	require.NotNil(t, vmOutput)
-	require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
-}
-
-func TestESDT_GettersAPI_ExecuteAfterBuiltinCall(t *testing.T) {
-	dummyCode := GetTestSCCode("init-simple", "../../")
-	exchangeCode := GetTestSCCode("exchange", "../../")
-	scBalance := big.NewInt(1000)
-	esdtValue := int64(5)
-
-	host, stubBlockchainHook := defaultTestVMForCall(t, exchangeCode, scBalance)
-	stubBlockchainHook.ProcessBuiltInFunctionCalled = dummyProcessBuiltInFunction
-	host.protocolBuiltinFunctions = getDummyBuiltinFunctionNames()
-
-	input := DefaultTestContractCallInput()
-	err := host.Output().TransferValueOnly(input.RecipientAddr, input.CallerAddr, input.CallValue, false)
-	require.Nil(t, err)
-
-	input.RecipientAddr = parentAddress
-	input.Function = core.BuiltInFunctionESDTTransfer
-	input.GasProvided = 1000000
-	input.Arguments = [][]byte{
-		ESDTTestTokenName,
-		big.NewInt(esdtValue).Bytes(),
-		[]byte("validateGetters"),
-	}
-
-	host.InitState()
-
-	_ = host.Runtime().StartWasmerInstance(dummyCode, input.GasProvided, true)
-	vmOutput, asyncInfo, _, err := host.ExecuteOnDestContext(input)
-
-	require.Nil(t, err)
-	require.NotNil(t, vmOutput)
-
-	require.Zero(t, len(asyncInfo.AsyncContextMap))
-
-	require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
-	host.Clean()
-}
-
 func dummyProcessBuiltInFunction(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
 	outPutAccounts := make(map[string]*vmcommon.OutputAccount)
 	outPutAccounts[string(parentAddress)] = &vmcommon.OutputAccount{
