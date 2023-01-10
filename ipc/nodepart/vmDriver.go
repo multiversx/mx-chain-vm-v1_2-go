@@ -10,8 +10,8 @@ import (
 	logger "github.com/multiversx/mx-chain-logger-go"
 	"github.com/multiversx/mx-chain-logger-go/pipes"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
-	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/common"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/marshaling"
 )
 
 var log = logger.GetOrCreate("wasmvmDriver")

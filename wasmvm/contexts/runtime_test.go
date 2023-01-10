@@ -9,14 +9,14 @@ import (
 
 	"github.com/multiversx/mx-chain-core-go/core"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/config"
-	"github.com/multiversx/wasm-vm-v1_2/crypto/factory"
-	contextmock "github.com/multiversx/wasm-vm-v1_2/mock/context"
-	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm/cryptoapi"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm/elrondapi"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/config"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/crypto/factory"
+	contextmock "github.com/multiversx/mx-chain-vm-go-v1_2/mock/context"
+	worldmock "github.com/multiversx/mx-chain-vm-go-v1_2/mock/world"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm/cryptoapi"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm/vmhooks"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,9 +24,9 @@ const WASMPageSize = 65536
 const counterWasmCode = "./../../test/contracts/counter/output/counter.wasm"
 
 func MakeAPIImports() *wasmer.Imports {
-	imports, _ := elrondapi.ElrondEIImports()
-	imports, _ = elrondapi.BigIntImports(imports)
-	imports, _ = elrondapi.SmallIntImports(imports)
+	imports, _ := vmhooks.ElrondEIImports()
+	imports, _ = vmhooks.BigIntImports(imports)
+	imports, _ = vmhooks.SmallIntImports(imports)
 	imports, _ = cryptoapi.CryptoImports(imports)
 	return imports
 }

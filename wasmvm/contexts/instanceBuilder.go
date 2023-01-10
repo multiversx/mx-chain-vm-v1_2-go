@@ -1,7 +1,7 @@
 package contexts
 
 import (
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
 )
 
 type wasmerInstanceBuilder struct {

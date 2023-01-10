@@ -9,9 +9,9 @@ import (
 
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/math"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/math"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
 )
 
 var logRuntime = logger.GetOrCreate("wasmvm/runtime")

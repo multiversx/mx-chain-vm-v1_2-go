@@ -17,9 +17,9 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/multiversx/wasm-vm-v1_2/math"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/math"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
 )
 
 const blsPublicKeyLength = 96

@@ -1,10 +1,10 @@
 package bls
 
 import (
-	"github.com/multiversx/mx-chain-crypto"
-	"github.com/multiversx/mx-chain-crypto/signing"
-	"github.com/multiversx/mx-chain-crypto/signing/mcl"
-	"github.com/multiversx/mx-chain-crypto/signing/mcl/singlesig"
+	"github.com/multiversx/mx-chain-crypto-go"
+	"github.com/multiversx/mx-chain-crypto-go/signing"
+	"github.com/multiversx/mx-chain-crypto-go/signing/mcl"
+	"github.com/multiversx/mx-chain-crypto-go/signing/mcl/singlesig"
 )
 
 type bls struct {

@@ -6,9 +6,9 @@ import (
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/config"
-	"github.com/multiversx/wasm-vm-v1_2/crypto"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/config"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/crypto"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
 )
 
 // StateStack defines the functionality for working with a state stack

@@ -7,9 +7,9 @@ import (
 	"testing"
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
-	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
-	"github.com/multiversx/wasm-vm-v1_2/ipc/nodepart"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/common"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/nodepart"
 	"github.com/stretchr/testify/require"
 )
 

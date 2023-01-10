@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 

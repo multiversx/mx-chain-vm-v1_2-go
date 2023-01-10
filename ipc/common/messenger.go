@@ -5,7 +5,7 @@ import (
 	"os"
 
 	logger "github.com/multiversx/mx-chain-logger-go"
-	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/marshaling"
 )
 
 var log = logger.GetOrCreate("wasmvm/baseMessenger")

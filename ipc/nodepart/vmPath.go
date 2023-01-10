@@ -4,7 +4,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/common"
 )
 
 func (driver *VMDriver) getVMPath() (string, error) {

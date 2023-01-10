@@ -7,14 +7,14 @@ import (
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/config"
-	"github.com/multiversx/wasm-vm-v1_2/crypto"
-	"github.com/multiversx/wasm-vm-v1_2/crypto/factory"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm/contexts"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm/cryptoapi"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm/elrondapi"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/config"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/crypto"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/crypto/factory"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm/contexts"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm/cryptoapi"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm/vmhooks"
 )
 
 var log = logger.GetOrCreate("wasmvm/host")
@@ -75,17 +75,17 @@ func NewWASMVM(
 
 	var err error
 
-	imports, err := elrondapi.ElrondEIImports()
+	imports, err := vmhooks.ElrondEIImports()
 	if err != nil {
 		return nil, err
 	}
 
-	imports, err = elrondapi.BigIntImports(imports)
+	imports, err = vmhooks.BigIntImports(imports)
 	if err != nil {
 		return nil, err
 	}
 
-	imports, err = elrondapi.SmallIntImports(imports)
+	imports, err = vmhooks.SmallIntImports(imports)
 	if err != nil {
 		return nil, err
 	}

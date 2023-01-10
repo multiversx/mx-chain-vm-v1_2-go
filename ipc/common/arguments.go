@@ -3,8 +3,8 @@ package common
 import (
 	"os"
 
-	"github.com/multiversx/wasm-vm-v1_2/ipc/marshaling"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
 )
 
 // VMArguments represents the initialization arguments required by VM, passed through the initialization pipe

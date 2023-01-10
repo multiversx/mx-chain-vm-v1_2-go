@@ -1,6 +1,6 @@
 package config
 
-import "github.com/multiversx/wasm-vm-v1_2/wasmer"
+import "github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
 
 type GasCost struct {
 	BaseOperationCost BaseOperationCost

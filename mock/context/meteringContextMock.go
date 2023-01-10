@@ -2,8 +2,8 @@ package mock
 
 import (
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/config"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/config"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
 )
 
 var _ wasmvm.MeteringContext = (*MeteringContextMock)(nil)

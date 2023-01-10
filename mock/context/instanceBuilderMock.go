@@ -2,8 +2,8 @@ package mock
 
 import (
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	worldmock "github.com/multiversx/mx-chain-vm-go-v1_2/mock/world"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
 )
 
 // InstanceBuilderMock can be passed to RuntimeContext as an InstanceBuilder to

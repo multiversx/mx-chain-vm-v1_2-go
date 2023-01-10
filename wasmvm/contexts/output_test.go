@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	contextmock "github.com/multiversx/wasm-vm-v1_2/mock/context"
-	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	contextmock "github.com/multiversx/mx-chain-vm-go-v1_2/mock/context"
+	worldmock "github.com/multiversx/mx-chain-vm-go-v1_2/mock/world"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
 	"github.com/stretchr/testify/require"
 )
 

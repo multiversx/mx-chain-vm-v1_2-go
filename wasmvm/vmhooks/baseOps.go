@@ -1,4 +1,4 @@
-package elrondapi
+package vmhooks
 
 // // Declare the function signatures (see [cgo](https://golang.org/cmd/cgo/)).
 //
@@ -95,9 +95,9 @@ import (
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/parsers"
-	"github.com/multiversx/wasm-vm-v1_2/math"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/math"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
 )
 
 var logEEI = logger.GetOrCreate("wasmvm/eei")

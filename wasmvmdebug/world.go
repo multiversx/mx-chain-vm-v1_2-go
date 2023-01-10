@@ -3,10 +3,10 @@ package wasmvmdebug
 import (
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
-	"github.com/multiversx/wasm-vm-v1_2/config"
-	worldmock "github.com/multiversx/wasm-vm-v1_2/mock/world"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm"
-	"github.com/multiversx/wasm-vm-v1_2/wasmvm/host"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/config"
+	worldmock "github.com/multiversx/mx-chain-vm-go-v1_2/mock/world"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvm/host"
 )
 
 type worldDataModel struct {

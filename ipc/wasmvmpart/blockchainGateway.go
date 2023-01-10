@@ -3,7 +3,7 @@ package wasmvmpart
 import (
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/wasm-vm-v1_2/ipc/common"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/ipc/common"
 )
 
 var _ vmcommon.BlockchainHook = (*BlockchainHookGateway)(nil)

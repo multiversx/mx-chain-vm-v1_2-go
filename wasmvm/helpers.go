@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"unsafe"
 
-	"github.com/multiversx/wasm-vm-v1_2/crypto"
-	"github.com/multiversx/wasm-vm-v1_2/math"
-	"github.com/multiversx/wasm-vm-v1_2/wasmer"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/crypto"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/math"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmer"
 )
 
 // Zero is the big integer 0

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/multiversx/wasm-vm-v1_2/wasmvmdebug"
+	"github.com/multiversx/mx-chain-vm-go-v1_2/wasmvmdebug"
 	"github.com/urfave/cli"
 )
 
