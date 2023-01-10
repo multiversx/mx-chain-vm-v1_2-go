@@ -11,7 +11,7 @@ import (
 )
 
 func TestElrondEI_CallValue(t *testing.T) {
-	code := GetTestSCCode("elrondei", "../../")
+	code := GetTestSCCode("vmhooks", "../../")
 
 	// 1-byte call value
 	host, _ := defaultTestVMForCall(t, code, nil)
@@ -88,7 +88,7 @@ func TestElrondEI_CallValue(t *testing.T) {
 }
 
 func TestElrondEI_int64getArgument(t *testing.T) {
-	code := GetTestSCCode("elrondei", "../../")
+	code := GetTestSCCode("vmhooks", "../../")
 	host, _ := defaultTestVMForCall(t, code, nil)
 	input := DefaultTestContractCallInput()
 	input.GasProvided = 100000

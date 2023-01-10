@@ -35,7 +35,7 @@ build-test-contracts:
 	erdpy contract build ./test/contracts/init-wrong
 	erdpy contract build ./test/contracts/misc
 	erdpy contract build ./test/contracts/signatures
-	erdpy contract build ./test/contracts/elrondei
+	erdpy contract build ./test/contracts/vmhooks
 	erdpy contract build ./test/contracts/breakpoint
 	erdpy contract build --no-optimization ./test/contracts/num-with-fp
 
