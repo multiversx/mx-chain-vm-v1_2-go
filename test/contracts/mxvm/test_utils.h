@@ -1,9 +1,9 @@
 #ifndef _TEST_UTILS_H_
 #define _TEST_UTILS_H_
 
-#include "../elrond/context.h"
-#include "../elrond/bigInt.h"
-#include "../elrond/types.h"
+#include "../mxvm/context.h"
+#include "../mxvm/bigInt.h"
+#include "../mxvm/types.h"
 
 void intTo3String(int value, byte *string, int startPos) {
   string[startPos + 2] = (byte)('0' + value % 10);

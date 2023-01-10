@@ -1,4 +1,4 @@
-#include "../elrond/context.h"
+#include "../mxvm/context.h"
 
 byte msg_ok[] = "ok";
 byte msg_not_ok[] = "not ok";
