@@ -8,11 +8,11 @@ import (
 	"strings"
 
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
-	am "github.com/multiversx/mx-chain-vm-v1_2-go/arwenmandos"
-	fr "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/fileresolver"
-	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
-	mjparse "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/parse"
-	mjwrite "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/write"
+	am "github.com/multiversx/mx-chain-vm-v1_2-go/scenarioexec"
+	fr "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/fileresolver"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
+	mjparse "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/parse"
+	mjwrite "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/write"
 	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
 
@@ -42,7 +42,7 @@ type fuzzDelegationExecutor struct {
 }
 
 func newFuzzDelegationExecutor(fileResolver fr.FileResolver) (*fuzzDelegationExecutor, error) {
-	arwenTestExecutor, err := am.NewArwenTestExecutor("../../arwenmandos")
+	arwenTestExecutor, err := am.NewArwenTestExecutor("../../scenarioexec")
 	if err != nil {
 		return nil, err
 	}
