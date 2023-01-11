@@ -1,4 +1,4 @@
-package arwendebug
+package vmserver
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	logger "github.com/multiversx/mx-chain-logger-go"
 )
 
-var log = logger.GetOrCreate("arwendebug")
+var log = logger.GetOrCreate("vmserver")
 
 // DebugFacade is the debug facade
 type DebugFacade struct {
