@@ -1,4 +1,4 @@
-.PHONY: test test-short build arwendebug clean
+.PHONY: test test-short build vmserver clean
 
 ARWEN_VERSION := $(shell git describe --tags --long --dirty --always)
 
@@ -8,12 +8,12 @@ clean:
 build:
 	go build ./...
 
-arwendebug:
-ifndef ARWENDEBUG_PATH
-	$(error ARWENDEBUG_PATH is undefined)
+vmserver:
+ifndef VMSERVER_PATH
+	$(error VMSERVER_PATH is undefined)
 endif
-	go build -o ./cmd/arwendebug/arwendebug ./cmd/arwendebug
-	cp ./cmd/arwendebug/arwendebug ${ARWENDEBUG_PATH}
+	go build -o ./cmd/vmserver/vmserver ./cmd/vmserver
+	cp ./cmd/vmserver/vmserver ${VMSERVER_PATH}
 
 test: clean
 	go test -count=1 ./...
@@ -30,7 +30,7 @@ build-test-contracts:
 	erdpy contract build ./test/contracts/init-wrong
 	erdpy contract build ./test/contracts/misc
 	erdpy contract build ./test/contracts/signatures
-	erdpy contract build ./test/contracts/elrondei
+	erdpy contract build ./test/contracts/vmhooks
 	erdpy contract build ./test/contracts/breakpoint
 	erdpy contract build --no-optimization ./test/contracts/num-with-fp
 
@@ -63,7 +63,7 @@ ifndef SANDBOX
 	$(error SANDBOX variable is undefined)
 endif
 	rm -rf ${SANDBOX}/sc-delegation-rs
-	git clone --depth=1 --branch=master https://github.com/ElrondNetwork/sc-delegation-rs.git ${SANDBOX}/sc-delegation-rs
+	git clone --depth=1 --branch=master https://github.com/multiversx/sc-delegation-rs.git ${SANDBOX}/sc-delegation-rs
 	rm -rf ${SANDBOX}/sc-delegation-rs/.git
 	erdpy contract build ${SANDBOX}/sc-delegation-rs
 	erdpy contract test --directory="tests" ${SANDBOX}/sc-delegation-rs
@@ -75,7 +75,7 @@ ifndef SANDBOX
 	$(error SANDBOX variable is undefined)
 endif
 	rm -rf ${SANDBOX}/sc-dns-rs
-	git clone --depth=1 --branch=master https://github.com/ElrondNetwork/sc-dns-rs.git ${SANDBOX}/sc-dns-rs
+	git clone --depth=1 --branch=master https://github.com/multiversx/sc-dns-rs.git ${SANDBOX}/sc-dns-rs
 	rm -rf ${SANDBOX}/sc-dns-rs/.git
 	erdpy contract build ${SANDBOX}/sc-dns-rs
 	erdpy contract test --directory="tests" ${SANDBOX}/sc-dns-rs
