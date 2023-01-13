@@ -7,14 +7,14 @@ import (
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
-	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	mc "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/controller"
 	er "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/expression/reconstructor"
 	fr "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/fileresolver"
 	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
-	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
+	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
 )
 
 var log = logger.GetOrCreate("arwen/scenarios")
@@ -27,7 +27,7 @@ type ArwenTestExecutor struct {
 	World                   *worldhook.MockWorld
 	vm                      vmi.VMExecutionHandler
 	checkGas                bool
-	scenarioexecPath         string
+	scenarioexecPath        string
 	mandosGasScheduleLoaded bool
 	fileResolver            fr.FileResolver
 	exprReconstructor       er.ExprReconstructor
@@ -68,7 +68,7 @@ func NewArwenTestExecutor(scenarioexecPath string) (*ArwenTestExecutor, error) {
 		World:                   world,
 		vm:                      vm,
 		checkGas:                true,
-		scenarioexecPath:         scenarioexecPath,
+		scenarioexecPath:        scenarioexecPath,
 		mandosGasScheduleLoaded: false,
 		fileResolver:            nil,
 		exprReconstructor:       er.ExprReconstructor{},

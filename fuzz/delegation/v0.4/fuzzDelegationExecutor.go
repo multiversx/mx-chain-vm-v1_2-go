@@ -8,20 +8,20 @@ import (
 	"strings"
 
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	am "github.com/multiversx/mx-chain-vm-v1_2-go/scenarioexec"
 	fr "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/fileresolver"
 	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 	mjparse "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/parse"
 	mjwrite "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/write"
-	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
 
 type fuzzDelegationExecutor struct {
-	arwenTestExecutor *am.ArwenTestExecutor
-	world             *worldhook.MockWorld
-	vm                vmi.VMExecutionHandler
-	mandosParser      mjparse.Parser
-	txIndex           int
+	vmTestExecutor *am.ArwenTestExecutor
+	world          *worldhook.MockWorld
+	vm             vmi.VMExecutionHandler
+	mandosParser   mjparse.Parser
+	txIndex        int
 
 	serviceFee                  int
 	numBlocksBeforeForceUnstake int
@@ -42,15 +42,15 @@ type fuzzDelegationExecutor struct {
 }
 
 func newFuzzDelegationExecutor(fileResolver fr.FileResolver) (*fuzzDelegationExecutor, error) {
-	arwenTestExecutor, err := am.NewArwenTestExecutor("../../scenarioexec")
+	vmTestExecutor, err := am.NewArwenTestExecutor("../../scenarioexec")
 	if err != nil {
 		return nil, err
 	}
 	parser := mjparse.NewParser(fileResolver)
 	return &fuzzDelegationExecutor{
-		arwenTestExecutor:   arwenTestExecutor,
-		world:               arwenTestExecutor.World,
-		vm:                  arwenTestExecutor.GetVM(),
+		vmTestExecutor:      vmTestExecutor,
+		world:               vmTestExecutor.World,
+		vm:                  vmTestExecutor.GetVM(),
 		mandosParser:        parser,
 		txIndex:             0,
 		numNodes:            0,
@@ -131,7 +131,7 @@ func (pfe *fuzzDelegationExecutor) executeStep(stepSnippet string) error {
 		return err
 	}
 	pfe.addStep(step)
-	return pfe.arwenTestExecutor.ExecuteStep(step)
+	return pfe.vmTestExecutor.ExecuteStep(step)
 }
 
 func (pfe *fuzzDelegationExecutor) executeTxStep(stepSnippet string) (*vmi.VMOutput, error) {
@@ -144,7 +144,7 @@ func (pfe *fuzzDelegationExecutor) executeTxStep(stepSnippet string) (*vmi.VMOut
 	if !isTx {
 		return nil, errors.New("tx step expected")
 	}
-	return pfe.arwenTestExecutor.ExecuteTxStep(txStep)
+	return pfe.vmTestExecutor.ExecuteTxStep(txStep)
 }
 
 func (pfe *fuzzDelegationExecutor) querySingleResult(funcName string, args string) (*big.Int, error) {

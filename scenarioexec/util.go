@@ -8,8 +8,8 @@ import (
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
-	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 )
 
 func convertAccount(testAcct *mj.Account) (*worldmock.Account, error) {

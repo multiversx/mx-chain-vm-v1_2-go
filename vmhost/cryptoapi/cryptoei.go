@@ -17,8 +17,8 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/math"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 

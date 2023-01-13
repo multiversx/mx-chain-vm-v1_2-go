@@ -10,8 +10,8 @@ import (
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/stretchr/testify/require"
 )
 

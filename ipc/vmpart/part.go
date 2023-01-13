@@ -6,10 +6,10 @@ import (
 
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
 )
 
 var log = logger.GetOrCreate("arwen/part")
