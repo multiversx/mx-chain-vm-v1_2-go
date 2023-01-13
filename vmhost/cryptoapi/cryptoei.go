@@ -249,7 +249,7 @@ func v1_2_verifySecp256k1(
 	metering.UseGas(gasToUse)
 
 	if keyLength != secp256k1CompressedPublicKeyLength && keyLength != secp256k1UncompressedPublicKeyLength {
-		arwen.WithFault(arwen.ErrInvalidPublicKeySize, context, runtime.ElrondAPIErrorShouldFailExecution())
+		arwen.WithFault(arwen.ErrInvalidPublicKeySize, context, runtime.BaseOpsErrorShouldFailExecution())
 		return 1
 	}
 

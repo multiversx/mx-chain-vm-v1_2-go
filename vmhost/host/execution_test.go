@@ -605,7 +605,7 @@ func TestExecution_ExecuteOnSameContext_Wrong(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 
-	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+	if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
 		expectedVMOutput := expectedVMOutputSameCtxWrongContractCalled(parentCode)
 		require.Equal(t, expectedVMOutput, vmOutput)
@@ -644,7 +644,7 @@ func TestExecution_ExecuteOnSameContext_OutOfGas(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 
-	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+	if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
 		expectedVMOutput := expectedVMOutputSameCtxOutOfGas(parentCode, childCode)
 		require.Equal(t, expectedVMOutput, vmOutput)
@@ -752,7 +752,7 @@ func TestExecution_ExecuteOnSameContext_Recursive_Direct_ErrMaxInstances(t *test
 	vmOutput, err := host.RunSmartContractCall(input)
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
-	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+	if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
 		expectedVMOutput := expectedVMOutputSameCtxRecursiveDirectErrMaxInstances(code, int(recursiveCalls))
 		expectedVMOutput.GasRemaining = vmOutput.GasRemaining
@@ -874,7 +874,7 @@ func TestExecution_ExecuteOnSameContext_Recursive_Mutual_SCs_OutOfGas(t *testing
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 
-	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+	if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.OutOfGas, vmOutput.ReturnCode)
 		require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 	} else {
@@ -921,7 +921,7 @@ func TestExecution_ExecuteOnDestContext_Wrong(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 
-	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+	if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
 		expectedVMOutput := expectedVMOutputDestCtxWrongContractCalled(parentCode)
 		require.Equal(t, expectedVMOutput, vmOutput)
@@ -960,7 +960,7 @@ func TestExecution_ExecuteOnDestContext_OutOfGas(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 
-	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+	if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
 		expectedVMOutput := expectedVMOutputDestCtxOutOfGas(parentCode)
 		require.Equal(t, expectedVMOutput, vmOutput)
@@ -1203,7 +1203,7 @@ func TestExecution_ExecuteOnDestContext_Recursive_Mutual_SCs_OutOfGas(t *testing
 	require.Nil(t, err)
 	require.NotNil(t, vmOutput)
 
-	if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+	if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 		require.Equal(t, vmcommon.OutOfGas, vmOutput.ReturnCode)
 		require.Equal(t, arwen.ErrNotEnoughGas.Error(), vmOutput.ReturnMessage)
 	} else {

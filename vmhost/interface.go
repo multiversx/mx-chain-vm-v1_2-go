@@ -131,8 +131,8 @@ type RuntimeContext interface {
 	MemStore(offset int32, data []byte) error
 	MemLoad(offset int32, length int32) ([]byte, error)
 	MemLoadMultiple(offset int32, lengths []int32) ([][]byte, error)
-	ElrondAPIErrorShouldFailExecution() bool
-	ElrondSyncExecAPIErrorShouldFailExecution() bool
+	BaseOpsErrorShouldFailExecution() bool
+	SyncExecAPIErrorShouldFailExecution() bool
 	CryptoAPIErrorShouldFailExecution() bool
 	BigIntAPIErrorShouldFailExecution() bool
 	ExecuteAsyncCall(address []byte, data []byte, value []byte) error

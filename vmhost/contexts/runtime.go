@@ -637,13 +637,13 @@ func (context *runtimeContext) checkBackwardCompatibility() error {
 	return nil
 }
 
-// ElrondAPIErrorShouldFailExecution returns true
-func (context *runtimeContext) ElrondAPIErrorShouldFailExecution() bool {
+// BaseOpsErrorShouldFailExecution returns true
+func (context *runtimeContext) BaseOpsErrorShouldFailExecution() bool {
 	return true
 }
 
-// ElrondSyncExecAPIErrorShouldFailExecution returns true
-func (context *runtimeContext) ElrondSyncExecAPIErrorShouldFailExecution() bool {
+// SyncExecAPIErrorShouldFailExecution returns true
+func (context *runtimeContext) SyncExecAPIErrorShouldFailExecution() bool {
 	return true
 }
 
