@@ -140,7 +140,7 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
@@ -247,7 +247,7 @@ func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,

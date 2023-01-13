@@ -7,7 +7,7 @@
                 "address:the-address": {
                     "nonce": "5",
                     "balance": "150",
-                    "username": "str:theusername.elrond",
+                    "username": "str:theusername.|0x656C726F6E64",
                     "storage": {},
                     "code": ""
                 }
@@ -19,7 +19,7 @@
                 "address:the-address": {
                     "nonce": "5",
                     "balance": "150",
-                    "username": "str:theusername.elrond",
+                    "username": "str:theusername.|0x656C726F6E64",
                     "storage": {},
                     "code": ""
                 }

@@ -13,7 +13,7 @@ import (
 	oj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/orderedjson"
 )
 
-const includeElrondProtectedStorage = false
+const includeProtectedStorage = false
 
 func (ae *ArwenTestExecutor) convertMockAccountToMandosFormat(account *worldmock.Account) (*mj.Account, error) {
 	var storageKeys []string
@@ -25,7 +25,7 @@ func (ae *ArwenTestExecutor) convertMockAccountToMandosFormat(account *worldmock
 	var storageKvps []*mj.StorageKeyValuePair
 	for _, storageKey := range storageKeys {
 		storageValue := account.Storage[storageKey]
-		includeKey := includeElrondProtectedStorage || !strings.HasPrefix(storageKey, core.ProtectedKeyPrefix)
+		includeKey := includeProtectedStorage || !strings.HasPrefix(storageKey, core.ProtectedKeyPrefix)
 		if includeKey && len(storageValue) > 0 {
 			storageKvps = append(storageKvps, &mj.StorageKeyValuePair{
 				Key: mj.JSONBytesFromString{

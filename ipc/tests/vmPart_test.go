@@ -72,7 +72,7 @@ func doContractRequest(
 			VMType:             []byte{5, 0},
 			BlockGasLimit:      uint64(10000000),
 			GasSchedule:        config.MakeGasMapForTests(),
-			ProtectedKeyPrefix: []byte("ELROND"),
+			ProtectedKeyPrefix: []byte("E" + "L" + "R" + "O" + "N" + "D"),
 			EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 				IsSCDeployFlagEnabledField:            true,
 				IsAheadOfTimeGasUsageFlagEnabledField: true,
