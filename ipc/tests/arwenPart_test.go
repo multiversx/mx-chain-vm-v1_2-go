@@ -5,7 +5,6 @@ import (
 	"sync"
 	"testing"
 
-	coreMock "github.com/ElrondNetwork/elrond-go-core/core/mock"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
@@ -29,7 +28,7 @@ type testFiles struct {
 
 func TestArwenPart_SendDeployRequest(t *testing.T) {
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 
 	response, err := doContractRequest(t, "2", createDeployRequest(bytecodeCounter), blockchain, adressGenerator)
 	require.NotNil(t, response)
@@ -38,7 +37,7 @@ func TestArwenPart_SendDeployRequest(t *testing.T) {
 
 func TestArwenPart_SendCallRequestWhenNoContract(t *testing.T) {
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 
 	response, err := doContractRequest(t, "3", createCallRequest("increment"), blockchain, adressGenerator)
 	require.NotNil(t, response)
@@ -51,7 +50,7 @@ func TestArwenPart_SendCallRequest(t *testing.T) {
 	blockchain.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
 		return &worldmock.Account{Code: bytecodeCounter}, nil
 	}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 
 	response, err := doContractRequest(t, "3", createCallRequest("increment"), blockchain, adressGenerator)
 	require.NotNil(t, response)
@@ -118,7 +117,7 @@ func doContractRequest(
 	return response, responseError
 }
 
-func createTestFiles(t *testing.T, tag string) testFiles {
+func createTestFiles(t *testing.T, _ string) testFiles {
 	files := testFiles{}
 
 	var err error

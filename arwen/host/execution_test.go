@@ -8,7 +8,6 @@ import (
 	"math/big"
 	"testing"
 
-	coreMock "github.com/ElrondNetwork/elrond-go-core/core/mock"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
@@ -54,7 +53,7 @@ func TestSCMem(t *testing.T) {
 
 func TestExecution_DeployNewAddressErr(t *testing.T) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
-	stubAdressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 	errNewAddress := errors.New("new address error")
 
 	host := defaultTestArwen(t, stubBlockchainHook, stubAdressGenerator)
@@ -240,7 +239,7 @@ func TestExecution_ManyDeployments(t *testing.T) {
 	stubBlockchainHook.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
 		return &contextmock.StubAccount{Nonce: ownerNonce}, nil
 	}
-	stubAdressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 	stubAdressGenerator.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
 		ownerNonce++
 		return []byte(newAddress + " " + fmt.Sprint(ownerNonce)), nil
@@ -373,7 +372,7 @@ func TestExecution_Deploy_DisallowFloatingPoint(t *testing.T) {
 
 func TestExecution_CallGetUserAccountErr(t *testing.T) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
-	stubAdressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 
 	errGetAccount := errors.New("get code error")
 
@@ -393,7 +392,7 @@ func TestExecution_CallGetUserAccountErr(t *testing.T) {
 
 func TestExecution_NotEnoughGasForGetCode(t *testing.T) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
-	stubAdressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 
 	host := defaultTestArwen(t, stubBlockchainHook, stubAdressGenerator)
 	input := DefaultTestContractCallInput()
@@ -1221,7 +1220,7 @@ func TestExecution_ExecuteOnSameContext_MultipleChildren(t *testing.T) {
 	t.Skip("needs gas forwarding fixes")
 
 	world := worldmock.NewMockWorld()
-	stubAdressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 	host := defaultTestArwen(t, world, stubAdressGenerator)
 
 	alphaCode := GetTestSCCodeModule("exec-sync-ctx-multiple/alpha", "alpha", "../../")
@@ -1264,7 +1263,7 @@ func TestExecution_ExecuteOnSameContext_MultipleChildren(t *testing.T) {
 
 func TestExecution_ExecuteOnDestContext_MultipleChildren(t *testing.T) {
 	world := worldmock.NewMockWorld()
-	stubAdressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 	host := defaultTestArwen(t, world, stubAdressGenerator)
 
 	alphaCode := GetTestSCCodeModule("exec-sync-ctx-multiple/alpha", "alpha", "../../")

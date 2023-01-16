@@ -6,7 +6,6 @@ import (
 	"testing"
 	"time"
 
-	coreMock "github.com/ElrondNetwork/elrond-go-core/core/mock"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
@@ -84,8 +83,8 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 		CreatorNonce:   ownerAccount.Nonce,
 		NewAddress:     scAddress,
 	})
-	adressGenerator := &coreMock.AddressGeneratorStub{
-		NewAddressCalled: mockWorld.NewAddress,
+	adressGenerator := &worldmock.AddressGeneratorStub{
+		NewAddressCalled: mockWorld.CreateMockWorldNewAddress,
 	}
 
 	gasMap, err := LoadGasScheduleConfig("../../arwenmandos/gasSchedules/gasScheduleV2.toml")

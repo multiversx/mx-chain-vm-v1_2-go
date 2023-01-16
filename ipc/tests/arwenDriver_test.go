@@ -3,7 +3,6 @@ package tests
 import (
 	"testing"
 
-	coreMock "github.com/ElrondNetwork/elrond-go-core/core/mock"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
@@ -21,7 +20,7 @@ var arwenVirtualMachine = []byte{5, 0}
 func TestArwenDriver_DiagnoseWait(t *testing.T) {
 	t.Skip("driver not supported anymore")
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	driver := newDriver(t, blockchain, adressGenerator)
 
 	err := driver.DiagnoseWait(100)
@@ -31,7 +30,7 @@ func TestArwenDriver_DiagnoseWait(t *testing.T) {
 func TestArwenDriver_DiagnoseWaitWithTimeout(t *testing.T) {
 	t.Skip("driver not supported anymore: requires standalone binary")
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	driver := newDriver(t, blockchain, adressGenerator)
 
 	err := driver.DiagnoseWait(5000)
@@ -46,7 +45,7 @@ func TestArwenDriver_RestartsIfStopped(t *testing.T) {
 	_ = logger.SetLogLevel("*:TRACE")
 
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	driver := newDriver(t, blockchain, adressGenerator)
 
 	blockchain.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
@@ -73,7 +72,7 @@ func TestArwenDriver_RestartsIfStopped(t *testing.T) {
 
 func BenchmarkArwenDriver_RestartsIfStopped(b *testing.B) {
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	driver := newDriver(b, blockchain, adressGenerator)
 
 	for i := 0; i < b.N; i++ {
@@ -86,7 +85,7 @@ func BenchmarkArwenDriver_RestartsIfStopped(b *testing.B) {
 
 func BenchmarkArwenDriver_RestartArwenIfNecessary(b *testing.B) {
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	driver := newDriver(b, blockchain, adressGenerator)
 
 	for i := 0; i < b.N; i++ {
@@ -99,14 +98,14 @@ func TestArwenDriver_GetVersion(t *testing.T) {
 	// This test requires `make arwen` before running, or must be run directly
 	// with `make test`
 	blockchain := &contextmock.BlockchainHookStub{}
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	driver := newDriver(t, blockchain, adressGenerator)
 	version := driver.GetVersion()
 	require.NotZero(t, len(version))
 	require.NotEqual(t, "undefined", version)
 }
 
-func newDriver(tb testing.TB, blockchain *contextmock.BlockchainHookStub, addressGenerator *coreMock.AddressGeneratorStub) *nodepart.ArwenDriver {
+func newDriver(tb testing.TB, blockchain *contextmock.BlockchainHookStub, addressGenerator *worldmock.AddressGeneratorStub) *nodepart.ArwenDriver {
 	driver, err := nodepart.NewArwenDriver(
 		blockchain,
 		addressGenerator,
