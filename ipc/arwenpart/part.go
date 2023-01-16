@@ -34,7 +34,7 @@ func NewArwenPart(
 ) (*ArwenPart, error) {
 	messenger := NewArwenMessenger(input, output, marshalizer)
 	blockchain := NewBlockchainHookGateway(messenger)
-	//pubkeyConverter.NewBech32PubkeyConverter(AddressBytesLen, log)
+
 	converter, err := pubkeyConverter.NewBech32PubkeyConverter(arwen.AddressLen, log)
 	if err != nil {
 		return nil, err

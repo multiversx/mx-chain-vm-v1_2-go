@@ -4,7 +4,6 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ElrondNetwork/elrond-go-core/core/mock"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/context"
@@ -403,7 +402,7 @@ func TestOutputContext_Transfer(t *testing.T) {
 		Nonce:   42,
 		Balance: balance,
 	})
-	adressGenerator := &mock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 
 	blockchainContext, _ := NewBlockchainContext(host, mockWorld, adressGenerator)
 	outputContext, _ := NewOutputContext(host)
@@ -440,7 +439,7 @@ func TestOutputContext_Transfer_Errors_And_Checks(t *testing.T) {
 
 	host := &contextmock.VMHostMock{}
 	outputContext, _ := NewOutputContext(host)
-	adressGenerator := &mock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	blockchainContext, _ := NewBlockchainContext(host, mockWorld, adressGenerator)
 
 	host.RuntimeContext = &contextmock.RuntimeContextMock{VMInput: &vmcommon.VMInput{}}
@@ -508,7 +507,7 @@ func TestOutputContext_Transfer_IsAccountPayable(t *testing.T) {
 
 	host := &contextmock.VMHostMock{}
 	oc, _ := NewOutputContext(host)
-	adressGenerator := &mock.AddressGeneratorStub{}
+	adressGenerator := &worldmock.AddressGeneratorStub{}
 	bc, _ := NewBlockchainContext(host, mockWorld, adressGenerator)
 
 	host.OutputContext = oc
