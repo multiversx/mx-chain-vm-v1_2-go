@@ -1,12 +1,12 @@
 package arwendebug
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
 
 type worldDataModel struct {
@@ -49,10 +49,10 @@ func newWorld(dataModel *worldDataModel) (*world, error) {
 
 func getHostParameters() *arwen.VMHostParameters {
 	return &arwen.VMHostParameters{
-		VMType:                   []byte{5, 0},
-		BlockGasLimit:            uint64(10000000),
-		GasSchedule:              config.MakeGasMap(1, 1),
-		ElrondProtectedKeyPrefix: []byte("ELROND"),
+		VMType:             []byte{5, 0},
+		BlockGasLimit:      uint64(10000000),
+		GasSchedule:        config.MakeGasMap(1, 1),
+		ProtectedKeyPrefix: []byte("ELROND"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

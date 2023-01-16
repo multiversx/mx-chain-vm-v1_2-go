@@ -1,7 +1,7 @@
 package host
 
 import (
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
 )
 
 func (host *vmHost) handleBreakpointIfAny(executionErr error) error {

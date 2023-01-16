@@ -1,7 +1,7 @@
 package common
 
 import (
-	logger "github.com/ElrondNetwork/elrond-go-logger"
+	logger "github.com/multiversx/mx-chain-logger-go"
 )
 
 var logMessages = logger.GetOrCreate("arwen/messages")

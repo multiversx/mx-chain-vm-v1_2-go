@@ -4,12 +4,12 @@ import (
 	"errors"
 	"math/big"
 
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/builtInFunctions"
+	"github.com/multiversx/mx-chain-core-go/core"
+	"github.com/multiversx/mx-chain-core-go/data/esdt"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
 
 func convertAccount(testAcct *mj.Account) (*worldmock.Account, error) {

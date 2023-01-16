@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	mjwrite "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/write"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	mjwrite "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/write"
 )
 
 // RunSingleJSONScenario parses and prepares test, then calls testCallback.

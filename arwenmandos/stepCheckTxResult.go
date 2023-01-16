@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"math/big"
 
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	mjwrite "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/write"
-	oj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/orderedjson"
-	vmi "github.com/ElrondNetwork/elrond-vm-common"
+	vmi "github.com/multiversx/mx-chain-vm-common-go"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	mjwrite "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/write"
+	oj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/orderedjson"
 )
 
 func checkTxResults(

@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	arwenHost "github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	mc "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/controller"
-	er "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/expression/reconstructor"
-	fr "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/fileresolver"
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	worldhook "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmi "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	vmi "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
+	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/arwen/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	mc "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/controller"
+	er "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/expression/reconstructor"
+	fr "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/fileresolver"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
 
 var log = logger.GetOrCreate("arwen/mandos")
@@ -52,7 +52,7 @@ func NewArwenTestExecutor(arwenmandosPath string) (*ArwenTestExecutor, error) {
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasScheduleMap,
 		ProtocolBuiltinFunctions: world.GetBuiltinFunctionNames(),
-		ElrondProtectedKeyPrefix: []byte(ElrondProtectedKeyPrefix),
+		ProtectedKeyPrefix:       []byte(ProtectedKeyPrefix),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

@@ -3,8 +3,8 @@ package arwenpart
 import (
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
 )
 
 // ArwenMessenger is the messenger on Arwen's part of the pipe

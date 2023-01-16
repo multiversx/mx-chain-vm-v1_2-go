@@ -10,13 +10,13 @@ import (
 	"strings"
 	"testing"
 
-	am "github.com/ElrondNetwork/wasm-vm-v1_2/arwenmandos"
-	fr "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/fileresolver"
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	mjparse "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/parse"
-	mjwrite "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/write"
-	worldhook "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmi "github.com/ElrondNetwork/elrond-vm-common"
+	vmi "github.com/multiversx/mx-chain-vm-common-go"
+	am "github.com/multiversx/mx-chain-vm-v1_2-go/arwenmandos"
+	fr "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/fileresolver"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/model"
+	mjparse "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/parse"
+	mjwrite "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/write"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/stretchr/testify/require"
 )
 

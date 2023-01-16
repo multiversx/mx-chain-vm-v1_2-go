@@ -4,9 +4,9 @@ import (
 	"io/ioutil"
 	"testing"
 
-	fr "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/fileresolver"
-	mjparse "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/parse"
-	mjwrite "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/write"
+	fr "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/fileresolver"
+	mjparse "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/parse"
+	mjwrite "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/json/write"
 	"github.com/stretchr/testify/require"
 )
 
