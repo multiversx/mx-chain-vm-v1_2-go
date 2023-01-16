@@ -12,7 +12,6 @@ import (
 	"strings"
 	"testing"
 
-	coreMock "github.com/ElrondNetwork/elrond-go-core/core/mock"
 	"github.com/ElrondNetwork/elrond-go-core/data/vm"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
@@ -92,7 +91,7 @@ func defaultTestArwenForDeployment(t *testing.T, _ uint64, newAddress []byte) *v
 		}, nil
 	}
 
-	stubAddressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 	stubAddressGenerator.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
 		return newAddress, nil
 	}
@@ -113,7 +112,11 @@ func defaultTestArwenForCall(tb testing.TB, code []byte, balance *big.Int) (*vmH
 	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
 		return code
 	}
-	stubAddressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{
+		NewAddressCalled: func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
+			return []byte("newAddress"), nil
+		},
+	}
 
 	host := defaultTestArwen(tb, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook
@@ -132,7 +135,7 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
 		return code
 	}
-	stubAddressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
 	gasSchedule := customGasSchedule
 	if gasSchedule == nil {
@@ -169,7 +172,7 @@ func defaultTestArwenForCallWithInstanceRecorderMock(tb testing.TB, code []byte,
 }
 func defaultTestArwenForCallWithInstanceMocks(tb testing.TB) (*vmHost, *worldmock.MockWorld, *contextmock.InstanceBuilderMock) {
 	world := worldmock.NewMockWorld()
-	stubAddressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 	host := defaultTestArwen(tb, world, stubAddressGenerator)
 
 	instanceBuilderMock := contextmock.NewInstanceBuilderMock(world)
@@ -180,7 +183,7 @@ func defaultTestArwenForCallWithInstanceMocks(tb testing.TB) (*vmHost, *worldmoc
 
 func defaultTestArwenForCallWithWorldMock(tb testing.TB, code []byte, balance *big.Int) (*vmHost, *worldmock.MockWorld) {
 	world := worldmock.NewMockWorld()
-	stubAddressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 	host := defaultTestArwen(tb, world, stubAddressGenerator)
 
 	err := world.InitBuiltinFunctions(host.GetGasScheduleMap())
@@ -237,7 +240,7 @@ func defaultTestArwenForTwoSCs(
 		}
 		return nil
 	}
-	stubAddressGenerator := &coreMock.AddressGeneratorStub{}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
 	host := defaultTestArwen(t, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook

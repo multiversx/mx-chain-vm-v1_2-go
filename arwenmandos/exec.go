@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"path/filepath"
 
-	coreMock "github.com/ElrondNetwork/elrond-go-core/core/mock"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	vmi "github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/elrond-vm-common/mock"
@@ -48,7 +47,9 @@ func NewArwenTestExecutor(arwenmandosPath string) (*ArwenTestExecutor, error) {
 	}
 
 	blockGasLimit := uint64(10000000)
-	adressGenerator := &coreMock.AddressGeneratorStub{}
+	adressGenerator := &worldhook.AddressGeneratorStub{
+		NewAddressCalled: worldhook.CreateMockWorldNewAddress(world),
+	}
 	vm, err := arwenHost.NewArwenVM(world, adressGenerator, &arwen.VMHostParameters{
 		VMType:                   TestVMType,
 		BlockGasLimit:            blockGasLimit,

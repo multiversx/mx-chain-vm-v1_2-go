@@ -1,7 +1,6 @@
 package worldmock
 
 import (
-	"bytes"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -17,30 +16,6 @@ var _ vmcommon.BlockchainHook = (*MockWorld)(nil)
 var ErrBuiltinFuncWrapperNotInitialized = errors.New("builtin function not found or container not initialized")
 
 var zero = big.NewInt(0)
-
-// NewAddress provides the address for a new account.
-// It looks up the explicit new address mocks, if none found generates one using a fake but realistic algorithm.
-func (b *MockWorld) NewAddress(creatorAddress []byte, creatorNonce uint64, _ []byte) ([]byte, error) {
-	// custom error
-	if b.Err != nil {
-		return nil, b.Err
-	}
-
-	// explicit new address mocks
-	// matched by creator address and nonce
-	for _, newAddressMock := range b.NewAddressMocks {
-		if bytes.Equal(creatorAddress, newAddressMock.CreatorAddress) && creatorNonce == newAddressMock.CreatorNonce {
-			b.LastCreatedContractAddress = newAddressMock.NewAddress
-			return newAddressMock.NewAddress, nil
-		}
-	}
-
-	// If a mock address wasn't registered for the specified creatorAddress, generate one automatically.
-	// This is not the real algorithm but it's simple and close enough.
-	result := GenerateMockAddress(creatorAddress, creatorNonce)
-	b.LastCreatedContractAddress = result
-	return result, nil
-}
 
 // GetStorageData yields the storage value for a certain account and storage key.
 // Should return an empty byte array if the key is missing from the account storage
