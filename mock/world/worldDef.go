@@ -138,8 +138,7 @@ func (b *MockWorld) RevertToSnapshot(snapshot int) error {
 }
 
 // CreateMockWorldNewAddress creates a new address, simulating the protocol's address generation.
-func (b *MockWorld) CreateMockWorldNewAddress(address []byte, nonce uint64, vmType []byte) ([]byte, error) {
-
+func (b *MockWorld) CreateMockWorldNewAddress(address []byte, nonce uint64, _ []byte) ([]byte, error) {
 	// custom error
 	if b.Err != nil {
 		return nil, b.Err

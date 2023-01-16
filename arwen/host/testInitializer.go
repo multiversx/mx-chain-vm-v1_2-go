@@ -112,11 +112,7 @@ func defaultTestArwenForCall(tb testing.TB, code []byte, balance *big.Int) (*vmH
 	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
 		return code
 	}
-	stubAddressGenerator := &worldmock.AddressGeneratorStub{
-		NewAddressCalled: func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
-			return []byte("newAddress"), nil
-		},
-	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
 	host := defaultTestArwen(tb, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook
