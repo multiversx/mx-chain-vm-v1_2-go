@@ -84,7 +84,7 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 		NewAddress:     scAddress,
 	})
 	adressGenerator := &worldmock.AddressGeneratorStub{
-		NewAddressCalled: worldmock.CreateMockWorldNewAddress(mockWorld),
+		NewAddressCalled: mockWorld.CreateMockWorldNewAddress,
 	}
 
 	gasMap, err := LoadGasScheduleConfig("../../arwenmandos/gasSchedules/gasScheduleV2.toml")

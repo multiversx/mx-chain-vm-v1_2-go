@@ -48,7 +48,7 @@ func NewArwenTestExecutor(arwenmandosPath string) (*ArwenTestExecutor, error) {
 
 	blockGasLimit := uint64(10000000)
 	adressGenerator := &worldhook.AddressGeneratorStub{
-		NewAddressCalled: worldhook.CreateMockWorldNewAddress(world),
+		NewAddressCalled: world.CreateMockWorldNewAddress,
 	}
 	vm, err := arwenHost.NewArwenVM(world, adressGenerator, &arwen.VMHostParameters{
 		VMType:                   TestVMType,
