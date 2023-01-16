@@ -1,12 +1,13 @@
 package arwendebug
 
 import (
+	coreMock "github.com/ElrondNetwork/elrond-go-core/core/mock"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
 )
 
 type worldDataModel struct {
@@ -31,9 +32,11 @@ func newWorldDataModel(worldID string) *worldDataModel {
 func newWorld(dataModel *worldDataModel) (*world, error) {
 	blockchainHook := worldmock.NewMockWorld()
 	blockchainHook.AcctMap = dataModel.Accounts
+	adressGenerator := &coreMock.AddressGeneratorStub{}
 
 	vm, err := host.NewArwenVM(
 		blockchainHook,
+		adressGenerator,
 		getHostParameters(),
 	)
 	if err != nil {

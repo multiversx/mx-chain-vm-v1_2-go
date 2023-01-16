@@ -5,17 +5,19 @@ import (
 	"os"
 	"time"
 
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/common"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
 )
 
 // NodePart is the endpoint that implements the message loop on Node's side
 type NodePart struct {
-	Messenger  *NodeMessenger
-	blockchain vmcommon.BlockchainHook
-	Repliers   []common.MessageReplier
-	config     Config
+	Messenger        *NodeMessenger
+	blockchain       vmcommon.BlockchainHook
+	addressGenerator arwen.AddressGenerator
+	Repliers         []common.MessageReplier
+	config           Config
 }
 
 // NewNodePart creates the Node part
@@ -23,15 +25,17 @@ func NewNodePart(
 	input *os.File,
 	output *os.File,
 	blockchain vmcommon.BlockchainHook,
+	addressGenerator arwen.AddressGenerator,
 	config Config,
 	marshalizer marshaling.Marshalizer,
 ) (*NodePart, error) {
 	messenger := NewNodeMessenger(input, output, marshalizer)
 
 	part := &NodePart{
-		Messenger:  messenger,
-		blockchain: blockchain,
-		config:     config,
+		Messenger:        messenger,
+		blockchain:       blockchain,
+		addressGenerator: addressGenerator,
+		config:           config,
 	}
 
 	part.Repliers = common.CreateReplySlots(part.noopReplier)

@@ -3,25 +3,28 @@ package contexts
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 )
 
 type blockchainContext struct {
-	host           arwen.VMHost
-	blockChainHook vmcommon.BlockchainHook
+	host             arwen.VMHost
+	blockChainHook   vmcommon.BlockchainHook
+	addressGenerator arwen.AddressGenerator
 }
 
 // NewBlockchainContext creates a new blockchainContext
 func NewBlockchainContext(
 	host arwen.VMHost,
 	blockChainHook vmcommon.BlockchainHook,
+	addressGenerator arwen.AddressGenerator,
 ) (*blockchainContext, error) {
 
 	context := &blockchainContext{
-		blockChainHook: blockChainHook,
-		host:           host,
+		blockChainHook:   blockChainHook,
+		addressGenerator: addressGenerator,
+		host:             host,
 	}
 
 	return context, nil
@@ -42,7 +45,7 @@ func (context *blockchainContext) NewAddress(creatorAddress []byte) ([]byte, err
 	}
 
 	vmType := context.host.Runtime().GetVMType()
-	return context.blockChainHook.NewAddress(creatorAddress, nonce, vmType)
+	return context.addressGenerator.NewAddress(creatorAddress, nonce, vmType)
 }
 
 // AccountExists returns true if there is already an account at the given address
