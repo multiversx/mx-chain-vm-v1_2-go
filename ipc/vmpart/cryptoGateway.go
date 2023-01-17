@@ -1,4 +1,4 @@
-package arwenpart
+package vmpart
 
 import (
 	"crypto/sha256"

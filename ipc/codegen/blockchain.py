@@ -189,7 +189,7 @@ def generate_reply_slots(args):
 
 def generate_gateway(args):
     print("""
-package arwenpart
+package vmpart
 
 import (
     "math/big"

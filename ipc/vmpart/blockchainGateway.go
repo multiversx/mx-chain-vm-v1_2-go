@@ -1,4 +1,4 @@
-package arwenpart
+package vmpart
 
 import (
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
