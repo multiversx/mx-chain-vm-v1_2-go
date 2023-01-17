@@ -4,13 +4,13 @@ import (
 	"math/big"
 	"testing"
 
-	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
 	"github.com/stretchr/testify/require"
 )
 
 func TestExecution_PanicInGoWithSilentWasmer_SIGSEGV(t *testing.T) {
-	code := arwenHost.GetTestSCCode("counter", "../../../")
-	host, blockchain := arwenHost.DefaultTestArwenForCallSigSegv(t, code, big.NewInt(1), true)
+	code := hostCore.GetTestSCCode("counter", "../../../")
+	host, blockchain := hostCore.DefaultTestArwenForCallSigSegv(t, code, big.NewInt(1), true)
 
 	blockchain.GetStorageDataCalled = func(_ []byte, _ []byte) ([]byte, uint32, error) {
 		var i *int
@@ -21,7 +21,7 @@ func TestExecution_PanicInGoWithSilentWasmer_SIGSEGV(t *testing.T) {
 		return nil, 0, nil
 	}
 
-	input := arwenHost.DefaultTestContractCallInput()
+	input := hostCore.DefaultTestContractCallInput()
 	input.GasProvided = 10000000
 	input.Function = "increment"
 

@@ -14,7 +14,7 @@ import (
 var logMetering = logger.GetOrCreate("arwen/metering")
 
 type meteringContext struct {
-	host               arwen.VMHost
+	host               vmhost.VMHost
 	stateStack         []*meteringContext
 	gasSchedule        *config.GasCost
 	blockGasLimit      uint64
@@ -32,7 +32,7 @@ type contractGasState struct {
 
 // NewMeteringContext creates a new meteringContext
 func NewMeteringContext(
-	host arwen.VMHost,
+	host vmhost.VMHost,
 	gasMap config.GasScheduleMap,
 	blockGasLimit uint64,
 ) (*meteringContext, error) {
@@ -302,7 +302,7 @@ func (context *meteringContext) UseGasForAsyncStep() error {
 // otherwise it uses the given gas
 func (context *meteringContext) UseGasBounded(gasToUse uint64) error {
 	if context.GasLeft() <= gasToUse {
-		return arwen.ErrNotEnoughGas
+		return vmhost.ErrNotEnoughGas
 	}
 	context.UseGas(gasToUse)
 	return nil
@@ -360,7 +360,7 @@ func (context *meteringContext) DeductInitialGasForExecution(contract []byte) er
 }
 
 // DeductInitialGasForDirectDeployment deducts gas for the deployment of a contract initiated by a Transaction
-func (context *meteringContext) DeductInitialGasForDirectDeployment(input arwen.CodeDeployInput) error {
+func (context *meteringContext) DeductInitialGasForDirectDeployment(input vmhost.CodeDeployInput) error {
 	return context.deductInitialGas(
 		input.ContractCode,
 		context.gasSchedule.ElrondAPICost.CreateContract,
@@ -369,7 +369,7 @@ func (context *meteringContext) DeductInitialGasForDirectDeployment(input arwen.
 }
 
 // DeductInitialGasForIndirectDeployment deducts gas for the deployment of a contract initiated by another SmartContract
-func (context *meteringContext) DeductInitialGasForIndirectDeployment(input arwen.CodeDeployInput) error {
+func (context *meteringContext) DeductInitialGasForIndirectDeployment(input vmhost.CodeDeployInput) error {
 	return context.deductInitialGas(
 		input.ContractCode,
 		0,
@@ -388,7 +388,7 @@ func (context *meteringContext) deductInitialGas(
 	initialCost := math.AddUint64(baseCost, codeCost)
 
 	if initialCost > input.GasProvided {
-		return arwen.ErrNotEnoughGas
+		return vmhost.ErrNotEnoughGas
 	}
 
 	context.initialCost = initialCost

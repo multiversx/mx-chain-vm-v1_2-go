@@ -4,7 +4,7 @@ import (
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 )
@@ -32,7 +32,7 @@ func newWorld(dataModel *worldDataModel) (*world, error) {
 	blockchainHook := worldmock.NewMockWorld()
 	blockchainHook.AcctMap = dataModel.Accounts
 
-	vm, err := host.NewVMHost(
+	vm, err := hostCore.NewVMHost(
 		blockchainHook,
 		getHostParameters(),
 	)
@@ -47,12 +47,12 @@ func newWorld(dataModel *worldDataModel) (*world, error) {
 	}, nil
 }
 
-func getHostParameters() *arwen.VMHostParameters {
-	return &arwen.VMHostParameters{
+func getHostParameters() *vmhost.VMHostParameters {
+	return &vmhost.VMHostParameters{
 		VMType:             []byte{5, 0},
 		BlockGasLimit:      uint64(10000000),
 		GasSchedule:        config.MakeGasMap(1, 1),
-		ProtectedKeyPrefix: []byte("ELROND"),
+		ProtectedKeyPrefix: []byte("E"+"L"+"R"+"O"+"N"+"D"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

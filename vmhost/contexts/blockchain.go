@@ -9,13 +9,13 @@ import (
 )
 
 type blockchainContext struct {
-	host           arwen.VMHost
+	host           vmhost.VMHost
 	blockChainHook vmcommon.BlockchainHook
 }
 
 // NewBlockchainContext creates a new blockchainContext
 func NewBlockchainContext(
-	host arwen.VMHost,
+	host vmhost.VMHost,
 	blockChainHook vmcommon.BlockchainHook,
 ) (*blockchainContext, error) {
 
@@ -52,7 +52,7 @@ func (context *blockchainContext) AccountExists(address []byte) bool {
 		return false
 	}
 
-	exists := !arwen.IfNil(account)
+	exists := !vmhost.IfNil(account)
 	return exists
 }
 
@@ -69,7 +69,7 @@ func (context *blockchainContext) GetBalanceBigInt(address []byte) *big.Int {
 	if !isNew {
 		if outputAccount.Balance == nil {
 			account, err := context.blockChainHook.GetUserAccount(address)
-			if err != nil || arwen.IfNil(account) {
+			if err != nil || vmhost.IfNil(account) {
 				return big.NewInt(0)
 			}
 
@@ -81,7 +81,7 @@ func (context *blockchainContext) GetBalanceBigInt(address []byte) *big.Int {
 	}
 
 	account, err := context.blockChainHook.GetUserAccount(address)
-	if err != nil || arwen.IfNil(account) {
+	if err != nil || vmhost.IfNil(account) {
 		return big.NewInt(0)
 	}
 
@@ -101,7 +101,7 @@ func (context *blockchainContext) GetNonce(address []byte) (uint64, error) {
 	}
 
 	account, err := context.blockChainHook.GetUserAccount(address)
-	if err != nil || arwen.IfNil(account) {
+	if err != nil || vmhost.IfNil(account) {
 		return 0, err
 	}
 
@@ -129,7 +129,7 @@ func (context *blockchainContext) GetCodeHash(address []byte) []byte {
 	if err != nil {
 		return nil
 	}
-	if arwen.IfNil(account) {
+	if vmhost.IfNil(account) {
 		return nil
 	}
 
@@ -149,13 +149,13 @@ func (context *blockchainContext) GetCode(address []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if arwen.IfNil(account) {
-		return nil, arwen.ErrInvalidAccount
+	if vmhost.IfNil(account) {
+		return nil, vmhost.ErrInvalidAccount
 	}
 
 	code := context.blockChainHook.GetCode(account)
 	if len(code) == 0 {
-		return nil, arwen.ErrContractNotFound
+		return nil, vmhost.ErrContractNotFound
 	}
 
 	outputAccount.Code = code
@@ -166,7 +166,7 @@ func (context *blockchainContext) GetCode(address []byte) ([]byte, error) {
 // GetCodeSize returns the size of the code that is set tho the given account.
 func (context *blockchainContext) GetCodeSize(address []byte) (int32, error) {
 	account, err := context.blockChainHook.GetUserAccount(address)
-	if err != nil || arwen.IfNil(account) {
+	if err != nil || vmhost.IfNil(account) {
 		return 0, err
 	}
 
@@ -248,7 +248,7 @@ func (context *blockchainContext) CurrentRandomSeed() []byte {
 func (context *blockchainContext) GetOwnerAddress() ([]byte, error) {
 	scAddress := context.host.Runtime().GetSCAddress()
 	scAccount, err := context.blockChainHook.GetUserAccount(scAddress)
-	if err != nil || arwen.IfNil(scAccount) {
+	if err != nil || vmhost.IfNil(scAccount) {
 		return nil, err
 	}
 

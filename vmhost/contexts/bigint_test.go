@@ -46,8 +46,8 @@ func TestBigIntContext_InitPushPopState(t *testing.T) {
 	bigIntContext.InitState()
 
 	bigValue1, bigValue2 = bigIntContext.GetTwo(index1, index2)
-	require.Equal(t, arwen.Zero, bigValue1)
-	require.Equal(t, arwen.Zero, bigValue2)
+	require.Equal(t, vmhost.Zero, bigValue1)
+	require.Equal(t, vmhost.Zero, bigValue2)
 
 	// Add a value on the current active state
 	index3 := bigIntContext.Put(value3)
@@ -62,9 +62,9 @@ func TestBigIntContext_InitPushPopState(t *testing.T) {
 	bigIntContext.InitState()
 
 	bigValue1, bigValue2, bigValue3 = bigIntContext.GetThree(index1, index2, index3)
-	require.Equal(t, arwen.Zero, bigValue1)
-	require.Equal(t, arwen.Zero, bigValue2)
-	require.Equal(t, arwen.Zero, bigValue3)
+	require.Equal(t, vmhost.Zero, bigValue1)
+	require.Equal(t, vmhost.Zero, bigValue2)
+	require.Equal(t, vmhost.Zero, bigValue3)
 
 	value4 := int64(84)
 	index4 := bigIntContext.Put(value4)
@@ -109,7 +109,7 @@ func TestBigIntContext_PutGet(t *testing.T) {
 	require.Equal(t, big.NewInt(value2), bigValue2)
 
 	zeroRes := bigIntContext.GetOne(123)
-	require.Equal(t, arwen.Zero, zeroRes)
+	require.Equal(t, vmhost.Zero, zeroRes)
 
 	bigValue1, bigValue2 = bigIntContext.GetTwo(index1, index2)
 	require.Equal(t, big.NewInt(value1), bigValue1)
@@ -118,7 +118,7 @@ func TestBigIntContext_PutGet(t *testing.T) {
 	bigValue1, bigValue2, zeroRes = bigIntContext.GetThree(index1, index2, 123)
 	require.Equal(t, big.NewInt(value1), bigValue1)
 	require.Equal(t, big.NewInt(value2), bigValue2)
-	require.Equal(t, arwen.Zero, zeroRes)
+	require.Equal(t, vmhost.Zero, zeroRes)
 
 	bigValue1, bigValue2, bigValue3 := bigIntContext.GetThree(index1, index2, index3)
 	require.Equal(t, big.NewInt(value1), bigValue1)

@@ -1,4 +1,4 @@
-package host
+package hostCore
 
 import (
 	"math/big"
@@ -103,7 +103,7 @@ func TestElrondEI_int64getArgument(t *testing.T) {
 	assert.Equal(t, []byte("ok"), data[0])
 	assert.Equal(t, []byte{57, 48, 0, 0}, data[1])
 
-	invBytes := arwen.InverseBytes(data[1])
+	invBytes := vmhost.InverseBytes(data[1])
 	val12345 := big.NewInt(0).SetBytes(invBytes)
 	assert.Equal(t, big.NewInt(12345), val12345)
 
@@ -122,7 +122,7 @@ func TestElrondEI_int64getArgument(t *testing.T) {
 	assert.Equal(t, []byte("ok"), data[0])
 	assert.Equal(t, []byte{57, 48, 0, 0}, data[1])
 
-	invBytes = arwen.InverseBytes(data[1])
+	invBytes = vmhost.InverseBytes(data[1])
 	val12345 = big.NewInt(0).SetBytes(invBytes)
 	assert.Equal(t, big.NewInt(12345), val12345)
 

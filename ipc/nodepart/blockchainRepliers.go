@@ -123,7 +123,7 @@ func (part *NodePart) replyToBlockchainGetUserAccount(request common.MessageHand
 	typedRequest := request.(*common.MessageBlockchainGetUserAccountRequest)
 	account, err := part.blockchain.GetUserAccount(typedRequest.Address)
 
-	if err != nil || arwen.IfNil(account) {
+	if err != nil || vmhost.IfNil(account) {
 		return common.NewMessageBlockchainGetUserAccountResponse(nil, err)
 	}
 

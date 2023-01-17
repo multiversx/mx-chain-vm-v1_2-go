@@ -24,5 +24,5 @@ func TestReservedFunctions_IsFunctionReserved(t *testing.T) {
 	require.True(t, reserved.IsReserved("rockets"))
 	require.True(t, reserved.IsReserved("protocolFunctionFoo"))
 	require.True(t, reserved.IsReserved("protocolFunctionBar"))
-	require.True(t, reserved.IsReserved(arwen.UpgradeFunctionName))
+	require.True(t, reserved.IsReserved(vmhost.UpgradeFunctionName))
 }
