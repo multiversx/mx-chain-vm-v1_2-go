@@ -1,4 +1,4 @@
-package host
+package hostCore
 
 import (
 	"bytes"
@@ -135,12 +135,12 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
-	host, err := NewVMHost(stubBlockchainHook, &arwen.VMHostParameters{
+	host, err := NewVMHost(stubBlockchainHook, &vmhost.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E"+"L"+"R"+"O"+"N"+"D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
@@ -242,12 +242,12 @@ func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
-	host, err := NewVMHost(blockchain, &arwen.VMHostParameters{
+	host, err := NewVMHost(blockchain, &vmhost.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E"+"L"+"R"+"O"+"N"+"D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,

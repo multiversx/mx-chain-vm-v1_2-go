@@ -9,7 +9,7 @@ import (
 
 // ArwenArguments represents the initialization arguments required by Arwen, passed through the initialization pipe
 type ArwenArguments struct {
-	arwen.VMHostParameters
+	vmhost.VMHostParameters
 	LogsMarshalizer     marshaling.MarshalizerKind
 	MessagesMarshalizer marshaling.MarshalizerKind
 }

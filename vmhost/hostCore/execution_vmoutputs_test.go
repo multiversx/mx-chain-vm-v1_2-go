@@ -1,4 +1,4 @@
-package host
+package hostCore
 
 import (
 	"fmt"
@@ -492,7 +492,7 @@ func expectedVMOutputDestCtxBuiltinDoSomething(input *vmcommon.ContractCallInput
 
 func expectedVMOutputDestCtxBuiltinNonexistent(_ *vmcommon.ContractCallInput, _ []byte) *vmcommon.VMOutput {
 	vmOutput := MakeVMOutputError()
-	vmOutput.ReturnMessage = arwen.ErrFuncNotFound.Error()
+	vmOutput.ReturnMessage = vmhost.ErrFuncNotFound.Error()
 
 	return vmOutput
 }

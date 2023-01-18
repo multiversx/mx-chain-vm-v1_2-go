@@ -9,8 +9,8 @@ import (
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
-	arwen "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
-	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
@@ -42,12 +42,12 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 
 	blockGasLimit := uint64(10000000)
 	gasSchedule := config.MakeGasMapForTests()
-	vm, err := arwenHost.NewVMHost(world, &arwen.VMHostParameters{
+	vm, err := hostCore.NewVMHost(world, &vmhost.VMHostParameters{
 		VMType:                   testVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E"+"L"+"R"+"O"+"N"+"D"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

@@ -7,7 +7,7 @@ import (
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
 )
@@ -27,13 +27,13 @@ func NewArwenPart(
 	version string,
 	input *os.File,
 	output *os.File,
-	vmHostParameters *arwen.VMHostParameters,
+	vmHostParameters *vmhost.VMHostParameters,
 	marshalizer marshaling.Marshalizer,
 ) (*ArwenPart, error) {
 	messenger := NewArwenMessenger(input, output, marshalizer)
 	blockchain := NewBlockchainHookGateway(messenger)
 
-	newArwenHost, err := host.NewVMHost(
+	newArwenHost, err := hostCore.NewVMHost(
 		blockchain,
 		vmHostParameters,
 	)

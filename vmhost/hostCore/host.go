@@ -1,4 +1,4 @@
-package host
+package hostCore
 
 import (
 	"fmt"
@@ -36,12 +36,12 @@ type vmHost struct {
 
 	ethInput []byte
 
-	blockchainContext arwen.BlockchainContext
-	runtimeContext    arwen.RuntimeContext
-	outputContext     arwen.OutputContext
-	meteringContext   arwen.MeteringContext
-	storageContext    arwen.StorageContext
-	bigIntContext     arwen.BigIntContext
+	blockchainContext vmhost.BlockchainContext
+	runtimeContext    vmhost.RuntimeContext
+	outputContext     vmhost.OutputContext
+	meteringContext   vmhost.MeteringContext
+	storageContext    vmhost.StorageContext
+	bigIntContext     vmhost.BigIntContext
 
 	gasSchedule              config.GasScheduleMap
 	scAPIMethods             *wasmer.Imports
@@ -52,10 +52,10 @@ type vmHost struct {
 // NewVMHost creates a new Arwen vmHost
 func NewVMHost(
 	blockChainHook vmcommon.BlockchainHook,
-	hostParameters *arwen.VMHostParameters,
+	hostParameters *vmhost.VMHostParameters,
 ) (*vmHost, error) {
 	if check.IfNil(hostParameters.EnableEpochsHandler) {
-		return nil, arwen.ErrNilEnableEpochsHandler
+		return nil, vmhost.ErrNilEnableEpochsHandler
 	}
 
 	cryptoHook := factory.NewVMCrypto()
@@ -157,7 +157,7 @@ func NewVMHost(
 
 // GetVersion returns the Arwen version string
 func (host *vmHost) GetVersion() string {
-	return arwen.ArwenVersion
+	return vmhost.ArwenVersion
 }
 
 // Crypto returns the VMCrypto instance of the host
@@ -166,32 +166,32 @@ func (host *vmHost) Crypto() crypto.VMCrypto {
 }
 
 // Blockchain returns the BlockchainContext instance of the host
-func (host *vmHost) Blockchain() arwen.BlockchainContext {
+func (host *vmHost) Blockchain() vmhost.BlockchainContext {
 	return host.blockchainContext
 }
 
 // Runtime returns the RuntimeContext instance of the host
-func (host *vmHost) Runtime() arwen.RuntimeContext {
+func (host *vmHost) Runtime() vmhost.RuntimeContext {
 	return host.runtimeContext
 }
 
 // Output returns the OutputContext instance of the host
-func (host *vmHost) Output() arwen.OutputContext {
+func (host *vmHost) Output() vmhost.OutputContext {
 	return host.outputContext
 }
 
 // Metering returns the MeteringContext instance of the host
-func (host *vmHost) Metering() arwen.MeteringContext {
+func (host *vmHost) Metering() vmhost.MeteringContext {
 	return host.meteringContext
 }
 
 // Storage returns the StorageContext instance of the host
-func (host *vmHost) Storage() arwen.StorageContext {
+func (host *vmHost) Storage() vmhost.StorageContext {
 	return host.storageContext
 }
 
 // BigInt returns the BigIntContext instance of the host
-func (host *vmHost) BigInt() arwen.BigIntContext {
+func (host *vmHost) BigInt() vmhost.BigIntContext {
 	return host.bigIntContext
 }
 
@@ -222,12 +222,12 @@ func (host *vmHost) IsESDTFunctionsEnabled() bool {
 
 // GetContexts returns the main contexts of the host
 func (host *vmHost) GetContexts() (
-	arwen.BigIntContext,
-	arwen.BlockchainContext,
-	arwen.MeteringContext,
-	arwen.OutputContext,
-	arwen.RuntimeContext,
-	arwen.StorageContext,
+	vmhost.BigIntContext,
+	vmhost.BlockchainContext,
+	vmhost.MeteringContext,
+	vmhost.OutputContext,
+	vmhost.RuntimeContext,
+	vmhost.StorageContext,
 ) {
 	return host.bigIntContext,
 		host.blockchainContext,
@@ -318,7 +318,7 @@ func (host *vmHost) RunSmartContractCreate(input *vmcommon.ContractCreateInput) 
 		log.Error("RunSmartContractCreate", "error", err)
 	}
 
-	TryCatch(try, catch, "arwen.RunSmartContractCreate")
+	TryCatch(try, catch, "vmhost.RunSmartContractCreate")
 	if vmOutput != nil {
 		log.Trace("RunSmartContractCreate end", "returnCode", vmOutput.ReturnCode, "returnMessage", vmOutput.ReturnMessage)
 	}
@@ -351,11 +351,11 @@ func (host *vmHost) RunSmartContractCall(input *vmcommon.ContractCallInput) (vmO
 		log.Error("RunSmartContractCall", "error", err)
 	}
 
-	isUpgrade := input.Function == arwen.UpgradeFunctionName
+	isUpgrade := input.Function == vmhost.UpgradeFunctionName
 	if isUpgrade {
-		TryCatch(tryUpgrade, catch, "arwen.RunSmartContractUpgrade")
+		TryCatch(tryUpgrade, catch, "vmhost.RunSmartContractUpgrade")
 	} else {
-		TryCatch(tryCall, catch, "arwen.RunSmartContractCall")
+		TryCatch(tryCall, catch, "vmhost.RunSmartContractCall")
 	}
 
 	return

@@ -103,11 +103,11 @@ func newDriver(tb testing.TB, blockchain *contextmock.BlockchainHookStub) *nodep
 	driver, err := nodepart.NewArwenDriver(
 		blockchain,
 		common.ArwenArguments{
-			VMHostParameters: arwen.VMHostParameters{
+			VMHostParameters: vmhost.VMHostParameters{
 				VMType:             arwenVirtualMachine,
 				BlockGasLimit:      uint64(10000000),
 				GasSchedule:        config.MakeGasMapForTests(),
-				ProtectedKeyPrefix: []byte("ELROND"),
+				ProtectedKeyPrefix: []byte("E"+"L"+"R"+"O"+"N"+"D"),
 				EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 					IsSCDeployFlagEnabledField:            true,
 					IsAheadOfTimeGasUsageFlagEnabledField: true,

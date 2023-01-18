@@ -1,4 +1,4 @@
-package host
+package hostCore
 
 import (
 	"encoding/hex"
@@ -263,7 +263,7 @@ func dummyProcessBuiltInFunction(input *vmcommon.ContractCallInput) (*vmcommon.V
 		return vmOutput, nil
 	}
 
-	return nil, arwen.ErrFuncNotFound
+	return nil, vmhost.ErrFuncNotFound
 }
 
 func getDummyBuiltinFunctionNames() vmcommon.FunctionNames {

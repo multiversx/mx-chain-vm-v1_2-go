@@ -10,7 +10,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 
-var _ arwen.VMHost = (*VMHostMock)(nil)
+var _ vmhost.VMHost = (*VMHostMock)(nil)
 
 // VMHostMock is used in tests to check the VMHost interface method calls
 type VMHostMock struct {
@@ -19,12 +19,12 @@ type VMHostMock struct {
 
 	EthInput []byte
 
-	BlockchainContext arwen.BlockchainContext
-	RuntimeContext    arwen.RuntimeContext
-	OutputContext     arwen.OutputContext
-	MeteringContext   arwen.MeteringContext
-	StorageContext    arwen.StorageContext
-	BigIntContext     arwen.BigIntContext
+	BlockchainContext vmhost.BlockchainContext
+	RuntimeContext    vmhost.RuntimeContext
+	OutputContext     vmhost.OutputContext
+	MeteringContext   vmhost.MeteringContext
+	StorageContext    vmhost.StorageContext
+	BigIntContext     vmhost.BigIntContext
 
 	SCAPIMethods  *wasmer.Imports
 	IsBuiltinFunc bool
@@ -36,32 +36,32 @@ func (host *VMHostMock) Crypto() crypto.VMCrypto {
 }
 
 // Blockchain mocked method
-func (host *VMHostMock) Blockchain() arwen.BlockchainContext {
+func (host *VMHostMock) Blockchain() vmhost.BlockchainContext {
 	return host.BlockchainContext
 }
 
 // Runtime mocked method
-func (host *VMHostMock) Runtime() arwen.RuntimeContext {
+func (host *VMHostMock) Runtime() vmhost.RuntimeContext {
 	return host.RuntimeContext
 }
 
 // Output mocked method
-func (host *VMHostMock) Output() arwen.OutputContext {
+func (host *VMHostMock) Output() vmhost.OutputContext {
 	return host.OutputContext
 }
 
 // Metering mocked method
-func (host *VMHostMock) Metering() arwen.MeteringContext {
+func (host *VMHostMock) Metering() vmhost.MeteringContext {
 	return host.MeteringContext
 }
 
 // Storage mocked method
-func (host *VMHostMock) Storage() arwen.StorageContext {
+func (host *VMHostMock) Storage() vmhost.StorageContext {
 	return host.StorageContext
 }
 
 // BigInt mocked method
-func (host *VMHostMock) BigInt() arwen.BigIntContext {
+func (host *VMHostMock) BigInt() vmhost.BigIntContext {
 	return host.BigIntContext
 }
 
@@ -110,12 +110,12 @@ func (host *VMHostMock) CreateNewContract(_ *vmcommon.ContractCreateInput) ([]by
 }
 
 // ExecuteOnSameContext mocked method
-func (host *VMHostMock) ExecuteOnSameContext(_ *vmcommon.ContractCallInput) (*arwen.AsyncContextInfo, error) {
+func (host *VMHostMock) ExecuteOnSameContext(_ *vmcommon.ContractCallInput) (*vmhost.AsyncContextInfo, error) {
 	return nil, nil
 }
 
 // ExecuteOnDestContext mocked method
-func (host *VMHostMock) ExecuteOnDestContext(_ *vmcommon.ContractCallInput) (*vmcommon.VMOutput, *arwen.AsyncContextInfo, uint64, error) {
+func (host *VMHostMock) ExecuteOnDestContext(_ *vmcommon.ContractCallInput) (*vmcommon.VMOutput, *vmhost.AsyncContextInfo, uint64, error) {
 	return nil, nil, 0, nil
 }
 

@@ -457,7 +457,7 @@ func ElrondEIImports() (*wasmer.Imports, error) {
 
 //export v1_2_getGasLeft
 func v1_2_getGasLeft(context unsafe.Pointer) int64 {
-	metering := arwen.GetMeteringContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetGasLeft
 	metering.UseGas(gasToUse)
@@ -467,50 +467,50 @@ func v1_2_getGasLeft(context unsafe.Pointer) int64 {
 
 //export v1_2_getSCAddress
 func v1_2_getSCAddress(context unsafe.Pointer, resultOffset int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetSCAddress
 	metering.UseGas(gasToUse)
 
 	owner := runtime.GetSCAddress()
 	err := runtime.MemStore(resultOffset, owner)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 }
 
 //export v1_2_getOwnerAddress
 func v1_2_getOwnerAddress(context unsafe.Pointer, resultOffset int32) {
-	blockchain := arwen.GetBlockchainContext(context)
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetOwnerAddress
 	metering.UseGas(gasToUse)
 
 	owner, err := blockchain.GetOwnerAddress()
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	err = runtime.MemStore(resultOffset, owner)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 }
 
 //export v1_2_getShardOfAddress
 func v1_2_getShardOfAddress(context unsafe.Pointer, addressOffset int32) int32 {
-	blockchain := arwen.GetBlockchainContext(context)
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetShardOfAddress
 	metering.UseGas(gasToUse)
 
-	address, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	address, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 
@@ -519,32 +519,32 @@ func v1_2_getShardOfAddress(context unsafe.Pointer, addressOffset int32) int32 {
 
 //export v1_2_isSmartContract
 func v1_2_isSmartContract(context unsafe.Pointer, addressOffset int32) int32 {
-	blockchain := arwen.GetBlockchainContext(context)
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.IsSmartContract
 	metering.UseGas(gasToUse)
 
-	address, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	address, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 
 	isSmartContract := blockchain.IsSmartContract(address)
-	return int32(arwen.BooleanToInt(isSmartContract))
+	return int32(vmhost.BooleanToInt(isSmartContract))
 }
 
 //export v1_2_signalError
 func v1_2_signalError(context unsafe.Pointer, messageOffset int32, messageLength int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.SignalError
 	metering.UseGas(gasToUse)
 
 	message, err := runtime.MemLoad(messageOffset, messageLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 	runtime.SignalUserError(string(message))
@@ -552,45 +552,45 @@ func v1_2_signalError(context unsafe.Pointer, messageOffset int32, messageLength
 
 //export v1_2_getExternalBalance
 func v1_2_getExternalBalance(context unsafe.Pointer, addressOffset int32, resultOffset int32) {
-	blockchain := arwen.GetBlockchainContext(context)
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetExternalBalance
 	metering.UseGas(gasToUse)
 
-	address, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	address, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	balance := blockchain.GetBalance(address)
 
 	err = runtime.MemStore(resultOffset, balance)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 }
 
 //export v1_2_blockHash
 func v1_2_blockHash(context unsafe.Pointer, nonce int64, resultOffset int32) int32 {
-	blockchain := arwen.GetBlockchainContext(context)
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockHash
 	metering.UseGas(gasToUse)
 
 	hash := blockchain.BlockHash(nonce)
 	err := runtime.MemStore(resultOffset, hash)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
 	return 0
 }
 
-func isBuiltInCall(data string, host arwen.VMHost) bool {
+func isBuiltInCall(data string, host vmhost.VMHost) bool {
 	argParser := parsers.NewCallArgsParser()
 	functionName, _, _ := argParser.ParseData(data)
 	return host.IsBuiltinFunctionName(functionName)
@@ -603,14 +603,14 @@ func getESDTDataFromBlockchainHook(
 	tokenIDLen int32,
 	nonce int64,
 ) (*esdt.ESDigitalToken, error) {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
-	blockchain := arwen.GetBlockchainContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetExternalBalance
 	metering.UseGas(gasToUse)
 
-	address, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
+	address, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
 	if err != nil {
 		return nil, err
 	}
@@ -637,13 +637,13 @@ func v1_2_getESDTBalance(
 	nonce int64,
 	resultOffset int32,
 ) int32 {
-	runtime := arwen.GetRuntimeContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
 	esdtData, err := getESDTDataFromBlockchainHook(context, addressOffset, tokenIDOffset, tokenIDLen, nonce)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 	err = runtime.MemStore(resultOffset, esdtData.Value.Bytes())
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 
@@ -658,9 +658,9 @@ func v1_2_getESDTNFTNameLength(
 	tokenIDLen int32,
 	nonce int64,
 ) int32 {
-	runtime := arwen.GetRuntimeContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
 	esdtData, err := getESDTDataFromBlockchainHook(context, addressOffset, tokenIDOffset, tokenIDLen, nonce)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 	if esdtData == nil || esdtData.TokenMetaData == nil {
@@ -678,9 +678,9 @@ func v1_2_getESDTNFTAttributeLength(
 	tokenIDLen int32,
 	nonce int64,
 ) int32 {
-	runtime := arwen.GetRuntimeContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
 	esdtData, err := getESDTDataFromBlockchainHook(context, addressOffset, tokenIDOffset, tokenIDLen, nonce)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 	if esdtData == nil || esdtData.TokenMetaData == nil {
@@ -698,9 +698,9 @@ func v1_2_getESDTNFTURILength(
 	tokenIDLen int32,
 	nonce int64,
 ) int32 {
-	runtime := arwen.GetRuntimeContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
 	esdtData, err := getESDTDataFromBlockchainHook(context, addressOffset, tokenIDOffset, tokenIDLen, nonce)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 	if esdtData == nil || esdtData.TokenMetaData == nil {
@@ -729,45 +729,45 @@ func v1_2_getESDTTokenData(
 	royaltiesOffset int32,
 	urisOffset int32,
 ) int32 {
-	runtime := arwen.GetRuntimeContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
 	esdtData, err := getESDTDataFromBlockchainHook(context, addressOffset, tokenIDOffset, tokenIDLen, nonce)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 
 	err = runtime.MemStore(valueOffset, esdtData.Value.Bytes())
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 	err = runtime.MemStore(propertiesOffset, esdtData.Properties)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 
 	if esdtData.TokenMetaData != nil {
 		err = runtime.MemStore(hashOffset, esdtData.TokenMetaData.Hash)
-		if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 			return 0
 		}
 		err = runtime.MemStore(nameOffset, esdtData.TokenMetaData.Name)
-		if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 			return 0
 		}
 		err = runtime.MemStore(attributesOffset, esdtData.TokenMetaData.Attributes)
-		if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 			return 0
 		}
 		err = runtime.MemStore(creatorOffset, esdtData.TokenMetaData.Creator)
-		if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 			return 0
 		}
 		err = runtime.MemStore(royaltiesOffset, big.NewInt(int64(esdtData.TokenMetaData.Royalties)).Bytes())
-		if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 			return 0
 		}
 		if len(esdtData.TokenMetaData.URIs) > 0 {
 			err = runtime.MemStore(urisOffset, esdtData.TokenMetaData.URIs[0])
-			if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+			if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 				return 0
 			}
 		}
@@ -777,7 +777,7 @@ func v1_2_getESDTTokenData(
 
 //export v1_2_transferValue
 func v1_2_transferValue(context unsafe.Pointer, destOffset int32, valueOffset int32, dataOffset int32, length int32) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 	output := host.Output()
@@ -786,13 +786,13 @@ func v1_2_transferValue(context unsafe.Pointer, destOffset int32, valueOffset in
 	metering.UseGas(gasToUse)
 
 	send := runtime.GetSCAddress()
-	dest, err := runtime.MemLoad(destOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	dest, err := runtime.MemLoad(destOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
-	valueBytes, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	valueBytes, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -800,7 +800,7 @@ func v1_2_transferValue(context unsafe.Pointer, destOffset int32, valueOffset in
 	metering.UseGas(gasToUse)
 
 	data, err := runtime.MemLoad(dataOffset, length)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -809,7 +809,7 @@ func v1_2_transferValue(context unsafe.Pointer, destOffset int32, valueOffset in
 	}
 
 	err = output.Transfer(dest, send, 0, 0, big.NewInt(0).SetBytes(valueBytes), data, vm.DirectCall)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -828,7 +828,7 @@ func v1_2_transferValueExecute(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 	output := host.Output()
@@ -837,13 +837,13 @@ func v1_2_transferValueExecute(
 	metering.UseGas(gasToUse)
 
 	send := runtime.GetSCAddress()
-	dest, err := runtime.MemLoad(destOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	dest, err := runtime.MemLoad(destOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
-	valueBytes, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	valueBytes, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -862,7 +862,7 @@ func v1_2_transferValueExecute(
 			dataOffset,
 			false,
 		)
-		if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			return 1
 		}
 	}
@@ -886,7 +886,7 @@ func v1_2_transferValueExecute(
 
 	data := makeCrossShardCallFromInput(contractCallInput)
 	err = output.Transfer(dest, send, uint64(gasLimit), 0, big.NewInt(0).SetBytes(valueBytes), []byte(data), vm.DirectCall)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -917,7 +917,7 @@ func v1_2_transferESDT(
 	dataOffset int32,
 	length int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	metering := host.Metering()
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.TransferValue
@@ -963,7 +963,7 @@ func v1_2_transferESDTNFTExecute(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 	output := host.Output()
@@ -972,18 +972,18 @@ func v1_2_transferESDTNFTExecute(
 	metering.UseGas(gasToUse)
 
 	sender := runtime.GetSCAddress()
-	dest, err := runtime.MemLoad(destOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	dest, err := runtime.MemLoad(destOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
-	valueBytes, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	valueBytes, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
 	tokenIdentifier, err := runtime.MemLoad(tokenIDOffset, tokenIDLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -1002,7 +1002,7 @@ func v1_2_transferESDTNFTExecute(
 			dataOffset,
 			false,
 		)
-		if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			return 1
 		}
 
@@ -1020,7 +1020,7 @@ func v1_2_transferESDTNFTExecute(
 	}
 
 	gasLimitForExec, err := output.TransferESDT(dest, sender, tokenIdentifier, uint64(nonce), big.NewInt(0).SetBytes(valueBytes), contractCallInput)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -1033,7 +1033,7 @@ func v1_2_transferESDTNFTExecute(
 			_, _, err = host.ExecuteESDTTransfer(sender, dest, tokenIdentifier, uint64(nonce), big.NewInt(0).SetBytes(valueBytes), vm.AsynchronousCallBack, true)
 			if err != nil {
 				logEEI.Warn("ESDT revert failed - forced fail execution for context", "error", err)
-				_ = arwen.WithFault(err, context, true)
+				_ = vmhost.WithFault(err, context, true)
 			}
 			return 1
 		}
@@ -1058,42 +1058,42 @@ func v1_2_createAsyncCall(context unsafe.Pointer,
 	errorLength int32,
 	gas int64,
 ) {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 
 	// TODO consume gas
 
 	acIdentifier, err := runtime.MemLoad(asyncContextIdentifier, identifierLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
-	calledSCAddress, err := runtime.MemLoad(destOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	calledSCAddress, err := runtime.MemLoad(destOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
-	value, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	value, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	data, err := runtime.MemLoad(dataOffset, length)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	successFunc, err := runtime.MemLoad(successOffset, successLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	errorFunc, err := runtime.MemLoad(errorOffset, errorLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
-	err = runtime.AddAsyncContextCall(acIdentifier, &arwen.AsyncGeneratedCall{
+	err = runtime.AddAsyncContextCall(acIdentifier, &vmhost.AsyncGeneratedCall{
 		Destination:     calledSCAddress,
 		Data:            data,
 		ValueBytes:      value,
@@ -1101,7 +1101,7 @@ func v1_2_createAsyncCall(context unsafe.Pointer,
 		ErrorCallback:   string(errorFunc),
 		ProvidedGas:     uint64(gas),
 	})
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 }
@@ -1113,23 +1113,23 @@ func v1_2_setAsyncContextCallback(context unsafe.Pointer,
 	callback int32,
 	callbackLength int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 
 	// TODO consume gas
 
 	acIdentifier, err := runtime.MemLoad(asyncContextIdentifier, identifierLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
 	asyncContext, err := runtime.GetAsyncContext(acIdentifier)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
 	callbackFunc, err := runtime.MemLoad(callback, callbackLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1151,25 +1151,25 @@ func v1_2_upgradeContract(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.CreateContract
 	metering.UseGas(gasToUse)
 
-	value, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	value, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	code, err := runtime.MemLoad(codeOffset, length)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
-	codeMetadata, err := runtime.MemLoad(codeMetadataOffset, arwen.CodeMetadataLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	codeMetadata, err := runtime.MemLoad(codeMetadataOffset, vmhost.CodeMetadataLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
@@ -1183,7 +1183,7 @@ func v1_2_upgradeContract(
 	gasToUse = math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(actualLen))
 	metering.UseGas(gasToUse)
 
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
@@ -1191,8 +1191,8 @@ func v1_2_upgradeContract(
 	gasToUse = gasSchedule.ElrondAPICost.AsyncCallStep
 	metering.UseGas(gasToUse)
 
-	calledSCAddress, err := runtime.MemLoad(destOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	calledSCAddress, err := runtime.MemLoad(destOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
@@ -1203,7 +1203,7 @@ func v1_2_upgradeContract(
 		math.MulUint64(2, gasSchedule.ElrondAPICost.AsyncCallStep),
 		gasSchedule.ElrondAPICost.AsyncCallbackGasLock)
 	if uint64(gasLimit) < minAsyncCallCost {
-		runtime.SetRuntimeBreakpointValue(arwen.BreakpointOutOfGas)
+		runtime.SetRuntimeBreakpointValue(vmhost.BreakpointOutOfGas)
 		return
 	}
 
@@ -1212,12 +1212,12 @@ func v1_2_upgradeContract(
 	// in the handler for BreakpointAsyncCall.
 	codeEncoded := hex.EncodeToString(code)
 	codeMetadataEncoded := hex.EncodeToString(codeMetadata)
-	finalData := arwen.UpgradeFunctionName + "@" + codeEncoded + "@" + codeMetadataEncoded
+	finalData := vmhost.UpgradeFunctionName + "@" + codeEncoded + "@" + codeMetadataEncoded
 	for _, arg := range data {
 		finalData += "@" + string(arg)
 	}
 
-	runtime.SetAsyncCallInfo(&arwen.AsyncCallInfo{
+	runtime.SetAsyncCallInfo(&vmhost.AsyncCallInfo{
 		Destination: calledSCAddress,
 		Data:        []byte(finalData),
 		GasLimit:    uint64(gasLimit),
@@ -1225,12 +1225,12 @@ func v1_2_upgradeContract(
 	})
 
 	// Instruct Wasmer to interrupt the execution of the caller SC.
-	runtime.SetRuntimeBreakpointValue(arwen.BreakpointAsyncCall)
+	runtime.SetRuntimeBreakpointValue(vmhost.BreakpointAsyncCall)
 }
 
 //export v1_2_asyncCall
 func v1_2_asyncCall(context unsafe.Pointer, destOffset int32, valueOffset int32, dataOffset int32, length int32) {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
@@ -1238,13 +1238,13 @@ func v1_2_asyncCall(context unsafe.Pointer, destOffset int32, valueOffset int32,
 	gasToUse := gasSchedule.ElrondAPICost.AsyncCallStep
 	metering.UseGas(gasToUse)
 
-	calledSCAddress, err := runtime.MemLoad(destOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	calledSCAddress, err := runtime.MemLoad(destOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
-	value, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	value, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
@@ -1252,24 +1252,24 @@ func v1_2_asyncCall(context unsafe.Pointer, destOffset int32, valueOffset int32,
 	metering.UseGas(gasToUse)
 
 	data, err := runtime.MemLoad(dataOffset, length)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	err = runtime.ExecuteAsyncCall(calledSCAddress, data, value)
-	if errors.Is(err, arwen.ErrNotEnoughGas) {
-		runtime.SetRuntimeBreakpointValue(arwen.BreakpointOutOfGas)
+	if errors.Is(err, vmhost.ErrNotEnoughGas) {
+		runtime.SetRuntimeBreakpointValue(vmhost.BreakpointOutOfGas)
 		return
 	}
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 }
 
 //export v1_2_getArgumentLength
 func v1_2_getArgumentLength(context unsafe.Pointer, id int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetArgument
 	metering.UseGas(gasToUse)
@@ -1284,8 +1284,8 @@ func v1_2_getArgumentLength(context unsafe.Pointer, id int32) int32 {
 
 //export v1_2_getArgument
 func v1_2_getArgument(context unsafe.Pointer, id int32, argOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetArgument
 	metering.UseGas(gasToUse)
@@ -1296,7 +1296,7 @@ func v1_2_getArgument(context unsafe.Pointer, id int32, argOffset int32) int32 {
 	}
 
 	err := runtime.MemStore(argOffset, args[id])
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1305,15 +1305,15 @@ func v1_2_getArgument(context unsafe.Pointer, id int32, argOffset int32) int32 {
 
 //export v1_2_getFunction
 func v1_2_getFunction(context unsafe.Pointer, functionOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetFunction
 	metering.UseGas(gasToUse)
 
 	function := runtime.Function()
 	err := runtime.MemStore(functionOffset, []byte(function))
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1322,8 +1322,8 @@ func v1_2_getFunction(context unsafe.Pointer, functionOffset int32) int32 {
 
 //export v1_2_getNumArguments
 func v1_2_getNumArguments(context unsafe.Pointer) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetNumArguments
 	metering.UseGas(gasToUse)
@@ -1334,25 +1334,25 @@ func v1_2_getNumArguments(context unsafe.Pointer) int32 {
 
 //export v1_2_storageStore
 func v1_2_storageStore(context unsafe.Pointer, keyOffset int32, keyLength int32, dataOffset int32, dataLength int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	storage := arwen.GetStorageContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	storage := vmhost.GetStorageContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.StorageStore
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
 	data, err := runtime.MemLoad(dataOffset, dataLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
 	storageStatus, err := storage.SetStorage(key, data)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1361,15 +1361,15 @@ func v1_2_storageStore(context unsafe.Pointer, keyOffset int32, keyLength int32,
 
 //export v1_2_storageLoadLength
 func v1_2_storageLoadLength(context unsafe.Pointer, keyOffset int32, keyLength int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	storage := arwen.GetStorageContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	storage := vmhost.GetStorageContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.StorageLoad
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1380,27 +1380,27 @@ func v1_2_storageLoadLength(context unsafe.Pointer, keyOffset int32, keyLength i
 
 //export v1_2_storageLoadFromAddress
 func v1_2_storageLoadFromAddress(context unsafe.Pointer, addressOffset int32, keyOffset int32, keyLength int32, dataOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	storage := arwen.GetStorageContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	storage := vmhost.GetStorageContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.StorageLoad
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
-	address, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	address, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
 	data := storage.GetStorageFromAddress(address, key)
 
 	err = runtime.MemStore(dataOffset, data)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1409,22 +1409,22 @@ func v1_2_storageLoadFromAddress(context unsafe.Pointer, addressOffset int32, ke
 
 //export v1_2_storageLoad
 func v1_2_storageLoad(context unsafe.Pointer, keyOffset int32, keyLength int32, dataOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	storage := arwen.GetStorageContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	storage := vmhost.GetStorageContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.StorageLoad
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
 	data := storage.GetStorage(key)
 
 	err = runtime.MemStore(dataOffset, data)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1433,22 +1433,22 @@ func v1_2_storageLoad(context unsafe.Pointer, keyOffset int32, keyLength int32, 
 
 //export v1_2_setStorageLock
 func v1_2_setStorageLock(context unsafe.Pointer, keyOffset int32, keyLength int32, lockTimestamp int64) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	storage := arwen.GetStorageContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	storage := vmhost.GetStorageContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.Int64StorageStore
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
-	timeLockKey := arwen.CustomStorageKey(arwen.TimeLockKeyPrefix, key)
+	timeLockKey := vmhost.CustomStorageKey(vmhost.TimeLockKeyPrefix, key)
 	bigTimestamp := big.NewInt(0).SetInt64(lockTimestamp)
 	storageStatus, err := storage.SetProtectedStorage(timeLockKey, bigTimestamp.Bytes())
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 	return int32(storageStatus)
@@ -1456,19 +1456,19 @@ func v1_2_setStorageLock(context unsafe.Pointer, keyOffset int32, keyLength int3
 
 //export v1_2_getStorageLock
 func v1_2_getStorageLock(context unsafe.Pointer, keyOffset int32, keyLength int32) int64 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
-	storage := arwen.GetStorageContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
+	storage := vmhost.GetStorageContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.StorageLoad
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
-	timeLockKey := arwen.CustomStorageKey(arwen.TimeLockKeyPrefix, key)
+	timeLockKey := vmhost.CustomStorageKey(vmhost.TimeLockKeyPrefix, key)
 	data := storage.GetStorage(timeLockKey)
 	timeLock := big.NewInt(0).SetBytes(data).Int64()
 
@@ -1497,8 +1497,8 @@ func v1_2_clearStorageLock(context unsafe.Pointer, keyOffset int32, keyLength in
 
 //export v1_2_getCaller
 func v1_2_getCaller(context unsafe.Pointer, resultOffset int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCaller
 	metering.UseGas(gasToUse)
@@ -1506,45 +1506,45 @@ func v1_2_getCaller(context unsafe.Pointer, resultOffset int32) {
 	caller := runtime.GetVMInput().CallerAddr
 
 	err := runtime.MemStore(resultOffset, caller)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 }
 
 //export v1_2_checkNoPayment
 func v1_2_checkNoPayment(context unsafe.Pointer) {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCallValue
 	metering.UseGas(gasToUse)
 
 	vmInput := runtime.GetVMInput()
 	if vmInput.CallValue.Sign() > 0 {
-		runtime := arwen.GetRuntimeContext(context)
-		arwen.WithFault(arwen.ErrNonPayableFunctionEgld, context, runtime.ElrondAPIErrorShouldFailExecution())
+		runtime := vmhost.GetRuntimeContext(context)
+		vmhost.WithFault(vmhost.ErrNonPayableFunctionEgld, context, runtime.ElrondAPIErrorShouldFailExecution())
 		return
 	}
 	if len(vmInput.ESDTTransfers) > 0 {
-		runtime := arwen.GetRuntimeContext(context)
-		arwen.WithFault(arwen.ErrNonPayableFunctionEsdt, context, runtime.ElrondAPIErrorShouldFailExecution())
+		runtime := vmhost.GetRuntimeContext(context)
+		vmhost.WithFault(vmhost.ErrNonPayableFunctionEsdt, context, runtime.ElrondAPIErrorShouldFailExecution())
 		return
 	}
 }
 
 //export v1_2_callValue
 func v1_2_callValue(context unsafe.Pointer, resultOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCallValue
 	metering.UseGas(gasToUse)
 
 	value := runtime.GetVMInput().CallValue.Bytes()
-	value = arwen.PadBytesLeft(value, arwen.BalanceLen)
+	value = vmhost.PadBytesLeft(value, vmhost.BalanceLen)
 
 	err := runtime.MemStore(resultOffset, value)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1553,8 +1553,8 @@ func v1_2_callValue(context unsafe.Pointer, resultOffset int32) int32 {
 
 //export v1_2_getESDTValue
 func v1_2_getESDTValue(context unsafe.Pointer, resultOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCallValue
 	metering.UseGas(gasToUse)
@@ -1562,13 +1562,13 @@ func v1_2_getESDTValue(context unsafe.Pointer, resultOffset int32) int32 {
 	var value []byte
 
 	esdtTransfer := getFirstESDTTransferIfExist(runtime.GetVMInput())
-	if esdtTransfer.ESDTValue.Cmp(arwen.Zero) > 0 {
+	if esdtTransfer.ESDTValue.Cmp(vmhost.Zero) > 0 {
 		value = esdtTransfer.ESDTValue.Bytes()
-		value = arwen.PadBytesLeft(value, arwen.BalanceLen)
+		value = vmhost.PadBytesLeft(value, vmhost.BalanceLen)
 	}
 
 	err := runtime.MemStore(resultOffset, value)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1577,8 +1577,8 @@ func v1_2_getESDTValue(context unsafe.Pointer, resultOffset int32) int32 {
 
 //export v1_2_getESDTTokenName
 func v1_2_getESDTTokenName(context unsafe.Pointer, resultOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCallValue
 	metering.UseGas(gasToUse)
@@ -1587,7 +1587,7 @@ func v1_2_getESDTTokenName(context unsafe.Pointer, resultOffset int32) int32 {
 	tokenName := esdtTransfer.ESDTTokenName
 
 	err := runtime.MemStore(resultOffset, tokenName)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1596,8 +1596,8 @@ func v1_2_getESDTTokenName(context unsafe.Pointer, resultOffset int32) int32 {
 
 //export v1_2_getESDTTokenNonce
 func v1_2_getESDTTokenNonce(context unsafe.Pointer) int64 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCallValue
 	metering.UseGas(gasToUse)
@@ -1608,14 +1608,14 @@ func v1_2_getESDTTokenNonce(context unsafe.Pointer) int64 {
 
 //export v1_2_getCurrentESDTNFTNonce
 func v1_2_getCurrentESDTNFTNonce(context unsafe.Pointer, addressOffset int32, tokenIDOffset int32, tokenIDLen int32) int64 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
-	storage := arwen.GetStorageContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
+	storage := vmhost.GetStorageContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.StorageLoad
 	metering.UseGas(gasToUse)
 
-	destination, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
+	destination, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
 	if err != nil {
 		return 0
 	}
@@ -1634,8 +1634,8 @@ func v1_2_getCurrentESDTNFTNonce(context unsafe.Pointer, addressOffset int32, to
 
 //export v1_2_getESDTTokenType
 func v1_2_getESDTTokenType(context unsafe.Pointer) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCallValue
 	metering.UseGas(gasToUse)
@@ -1646,8 +1646,8 @@ func v1_2_getESDTTokenType(context unsafe.Pointer) int32 {
 
 //export v1_2_getCallValueTokenName
 func v1_2_getCallValueTokenName(context unsafe.Pointer, callValueOffset int32, tokenNameOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetCallValue
 	metering.UseGas(gasToUse)
@@ -1661,15 +1661,15 @@ func v1_2_getCallValueTokenName(context unsafe.Pointer, callValueOffset int32, t
 		copy(tokenName, esdtTransfer.ESDTTokenName)
 		callValue = esdtTransfer.ESDTValue.Bytes()
 	}
-	callValue = arwen.PadBytesLeft(callValue, arwen.BalanceLen)
+	callValue = vmhost.PadBytesLeft(callValue, vmhost.BalanceLen)
 
 	err := runtime.MemStore(tokenNameOffset, tokenName)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
 	err = runtime.MemStore(callValueOffset, callValue)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -1679,28 +1679,28 @@ func v1_2_getCallValueTokenName(context unsafe.Pointer, callValueOffset int32, t
 //export v1_2_writeLog
 func v1_2_writeLog(context unsafe.Pointer, dataPointer int32, dataLength int32, topicPtr int32, numTopics int32) {
 	// note: deprecated
-	runtime := arwen.GetRuntimeContext(context)
-	output := arwen.GetOutputContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	output := vmhost.GetOutputContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.Log
-	gas := math.MulUint64(metering.GasSchedule().BaseOperationCost.PersistPerByte, uint64(numTopics*arwen.HashLen+dataLength))
+	gas := math.MulUint64(metering.GasSchedule().BaseOperationCost.PersistPerByte, uint64(numTopics*vmhost.HashLen+dataLength))
 	gasToUse = math.AddUint64(gasToUse, gas)
 	metering.UseGas(gasToUse)
 
 	log, err := runtime.MemLoad(dataPointer, dataLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
-	topics, err := arwen.GuardedMakeByteSlice2D(numTopics)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	topics, err := vmhost.GuardedMakeByteSlice2D(numTopics)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	for i := int32(0); i < numTopics; i++ {
-		topics[i], err = runtime.MemLoad(topicPtr+i*arwen.HashLen, arwen.HashLen)
-		if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+		topics[i], err = runtime.MemLoad(topicPtr+i*vmhost.HashLen, vmhost.HashLen)
+		if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 			return
 		}
 	}
@@ -1717,10 +1717,10 @@ func v1_2_writeEventLog(
 	dataOffset int32,
 	dataLength int32) {
 
-	host := arwen.GetVMHost(context)
-	runtime := arwen.GetRuntimeContext(context)
-	output := arwen.GetOutputContext(context)
-	metering := arwen.GetMeteringContext(context)
+	host := vmhost.GetVMHost(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	output := vmhost.GetOutputContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	topics, topicDataTotalLen, err := getArgumentsFromMemory(
 		host,
@@ -1728,12 +1728,12 @@ func v1_2_writeEventLog(
 		topicLengthsOffset,
 		topicOffset,
 	)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
 	data, err := runtime.MemLoad(dataOffset, dataLength)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
@@ -1749,8 +1749,8 @@ func v1_2_writeEventLog(
 
 //export v1_2_getBlockTimestamp
 func v1_2_getBlockTimestamp(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockTimeStamp
 	metering.UseGas(gasToUse)
@@ -1760,8 +1760,8 @@ func v1_2_getBlockTimestamp(context unsafe.Pointer) int64 {
 
 //export v1_2_getBlockNonce
 func v1_2_getBlockNonce(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockNonce
 	metering.UseGas(gasToUse)
@@ -1771,8 +1771,8 @@ func v1_2_getBlockNonce(context unsafe.Pointer) int64 {
 
 //export v1_2_getBlockRound
 func v1_2_getBlockRound(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockRound
 	metering.UseGas(gasToUse)
@@ -1782,8 +1782,8 @@ func v1_2_getBlockRound(context unsafe.Pointer) int64 {
 
 //export v1_2_getBlockEpoch
 func v1_2_getBlockEpoch(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockEpoch
 	metering.UseGas(gasToUse)
@@ -1793,36 +1793,36 @@ func v1_2_getBlockEpoch(context unsafe.Pointer) int64 {
 
 //export v1_2_getBlockRandomSeed
 func v1_2_getBlockRandomSeed(context unsafe.Pointer, pointer int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockRandomSeed
 	metering.UseGas(gasToUse)
 
 	randomSeed := blockchain.CurrentRandomSeed()
 	err := runtime.MemStore(pointer, randomSeed)
-	arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
+	vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
 }
 
 //export v1_2_getStateRootHash
 func v1_2_getStateRootHash(context unsafe.Pointer, pointer int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetStateRootHash
 	metering.UseGas(gasToUse)
 
 	stateRootHash := blockchain.GetStateRootHash()
 	err := runtime.MemStore(pointer, stateRootHash)
-	arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
+	vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
 }
 
 //export v1_2_getPrevBlockTimestamp
 func v1_2_getPrevBlockTimestamp(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockTimeStamp
 	metering.UseGas(gasToUse)
@@ -1832,8 +1832,8 @@ func v1_2_getPrevBlockTimestamp(context unsafe.Pointer) int64 {
 
 //export v1_2_getPrevBlockNonce
 func v1_2_getPrevBlockNonce(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockNonce
 	metering.UseGas(gasToUse)
@@ -1843,8 +1843,8 @@ func v1_2_getPrevBlockNonce(context unsafe.Pointer) int64 {
 
 //export v1_2_getPrevBlockRound
 func v1_2_getPrevBlockRound(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockRound
 	metering.UseGas(gasToUse)
@@ -1854,8 +1854,8 @@ func v1_2_getPrevBlockRound(context unsafe.Pointer) int64 {
 
 //export v1_2_getPrevBlockEpoch
 func v1_2_getPrevBlockEpoch(context unsafe.Pointer) int64 {
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockEpoch
 	metering.UseGas(gasToUse)
@@ -1865,23 +1865,23 @@ func v1_2_getPrevBlockEpoch(context unsafe.Pointer) int64 {
 
 //export v1_2_getPrevBlockRandomSeed
 func v1_2_getPrevBlockRandomSeed(context unsafe.Pointer, pointer int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	blockchain := arwen.GetBlockchainContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	blockchain := vmhost.GetBlockchainContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockRandomSeed
 	metering.UseGas(gasToUse)
 
 	randomSeed := blockchain.LastRandomSeed()
 	err := runtime.MemStore(pointer, randomSeed)
-	arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
+	vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
 }
 
 //export v1_2_returnData
 func v1_2_returnData(context unsafe.Pointer, pointer int32, length int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	output := arwen.GetOutputContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	output := vmhost.GetOutputContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.Finish
 	gas := math.MulUint64(metering.GasSchedule().BaseOperationCost.PersistPerByte, uint64(length))
@@ -1889,7 +1889,7 @@ func v1_2_returnData(context unsafe.Pointer, pointer int32, length int32) {
 	metering.UseGas(gasToUse)
 
 	data, err := runtime.MemLoad(pointer, length)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return
 	}
 
@@ -1908,15 +1908,15 @@ func v1_2_executeOnSameContext(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.ExecuteOnSameContext
 	metering.UseGas(gasToUse)
 
-	value, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	value, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -1935,7 +1935,7 @@ func v1_2_executeOnSameContext(
 		dataOffset,
 		true,
 	)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -1944,7 +1944,7 @@ func v1_2_executeOnSameContext(
 	}
 
 	_, err = host.ExecuteOnSameContext(contractCallInput)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -1974,18 +1974,18 @@ func doESDTTransferAndExecuteSynchronously(
 	args [][]byte,
 	gasLimit int64,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	output := host.Output()
 	metering := host.Metering()
 
-	if value.Cmp(arwen.Zero) > 0 {
-		if arwen.WithFault(arwen.ErrTransferValueOnESDTCall, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if value.Cmp(vmhost.Zero) > 0 {
+		if vmhost.WithFault(vmhost.ErrTransferValueOnESDTCall, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			return 1
 		}
 	}
 	if len(args) < 1 {
-		if arwen.WithFault(arwen.ErrArgOutOfRange, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(vmhost.ErrArgOutOfRange, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			return 1
 		}
 	}
@@ -2015,7 +2015,7 @@ func doESDTTransferAndExecuteSynchronously(
 	switch function {
 	case core.BuiltInFunctionESDTTransfer:
 		if len(args) < core.MinLenArgumentsESDTTransfer {
-			if arwen.WithFault(arwen.ErrArgOutOfRange, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+			if vmhost.WithFault(vmhost.ErrArgOutOfRange, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 				return 1
 			}
 		}
@@ -2026,14 +2026,14 @@ func doESDTTransferAndExecuteSynchronously(
 
 	case core.BuiltInFunctionESDTNFTTransfer:
 		if len(args) < core.MinLenArgumentsESDTNFTTransfer {
-			if arwen.WithFault(arwen.ErrArgOutOfRange, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+			if vmhost.WithFault(vmhost.ErrArgOutOfRange, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 				return 1
 			}
 		}
 		nonce = big.NewInt(0).SetBytes(args[1]).Uint64()
 		esdtValue.SetBytes(args[2])
 		if !bytes.Equal(destination, args[3]) {
-			if arwen.WithFault(arwen.ErrFailedTransfer, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+			if vmhost.WithFault(vmhost.ErrFailedTransfer, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 				return 1
 			}
 		}
@@ -2041,7 +2041,7 @@ func doESDTTransferAndExecuteSynchronously(
 		fillContractCallInputFromArgs(contractCallInput, args, core.MinLenArgumentsESDTNFTTransfer)
 
 	default:
-		if arwen.WithFault(arwen.ErrFuncNotFound, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(vmhost.ErrFuncNotFound, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			return 1
 		}
 	}
@@ -2053,7 +2053,7 @@ func doESDTTransferAndExecuteSynchronously(
 		contractCallInput = nil
 	}
 	gasLimitForExec, err := output.TransferESDT(destination, sender, tokenID, nonce, esdtValue, contractCallInput)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2061,12 +2061,12 @@ func doESDTTransferAndExecuteSynchronously(
 		contractCallInput.GasProvided = gasLimitForExec
 		logEEI.Trace("ESDT post-transfer execution begin")
 		_, _, _, err = host.ExecuteOnDestContext(contractCallInput)
-		if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			logEEI.Trace("ESDT post-transfer execution failed", "error", err)
 			_, _, err = host.ExecuteESDTTransfer(sender, destination, tokenID, nonce, esdtValue, vm.AsynchronousCallBack, true)
 			if err != nil {
 				logEEI.Warn("ESDT revert failed - forced fail execution for context", "error", err)
-				_ = arwen.WithFault(err, context, true)
+				_ = vmhost.WithFault(err, context, true)
 			}
 			return 1
 		}
@@ -2080,7 +2080,7 @@ func detectSyncESDTTransfer(
 	functionOffset int32,
 	functionLength int32,
 ) (string, bool, error) {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 
 	if !host.IsESDTFunctionsEnabled() {
@@ -2107,17 +2107,17 @@ func getDestinationAndArguments(
 	addressOffset int32,
 	dataOffset int32,
 ) ([]byte, [][]byte, error) {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
-	destination, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
+	destination, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	if !host.AreInSameShard(runtime.GetSCAddress(), destination) {
-		return nil, nil, arwen.ErrSyncExecutionNotInSameShard
+		return nil, nil, vmhost.ErrSyncExecutionNotInSameShard
 	}
 
 	data, actualLen, err := getArgumentsFromMemory(
@@ -2148,26 +2148,26 @@ func v1_2_executeOnDestContext(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.ExecuteOnDestContext
 	metering.UseGas(gasToUse)
 
-	value, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	value, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
 	function, isSyncESDT, err := detectSyncESDTTransfer(context, functionOffset, functionLength)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
 	if isSyncESDT {
 		destination, data, err := getDestinationAndArguments(context, numArguments, argumentsLengthOffset, addressOffset, dataOffset)
-		if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+		if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 			return 1
 		}
 
@@ -2189,12 +2189,12 @@ func v1_2_executeOnDestContext(
 		dataOffset,
 		true,
 	)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
 	_, _, gasUsedBeforeReset, err := host.ExecuteOnDestContext(contractCallInput)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 	metering.UseGas(gasUsedBeforeReset)
@@ -2214,15 +2214,15 @@ func v1_2_executeOnDestContextByCaller(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.ExecuteOnDestContext
 	metering.UseGas(gasToUse)
 
-	value, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	value, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2241,7 +2241,7 @@ func v1_2_executeOnDestContextByCaller(
 		dataOffset,
 		true,
 	)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2250,7 +2250,7 @@ func v1_2_executeOnDestContextByCaller(
 	}
 
 	_, _, _, err = host.ExecuteOnDestContext(contractCallInput)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2268,7 +2268,7 @@ func v1_2_delegateExecution(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
@@ -2291,7 +2291,7 @@ func v1_2_delegateExecution(
 		dataOffset,
 		true,
 	)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2300,7 +2300,7 @@ func v1_2_delegateExecution(
 	}
 
 	_, err = host.ExecuteOnSameContext(contractCallInput)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2318,7 +2318,7 @@ func v1_2_executeReadOnly(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
@@ -2342,7 +2342,7 @@ func v1_2_executeReadOnly(
 		dataOffset,
 		true,
 	)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2353,7 +2353,7 @@ func v1_2_executeReadOnly(
 	runtime.SetReadOnly(true)
 	_, err = host.ExecuteOnSameContext(contractCallInput)
 	runtime.SetReadOnly(false)
-	if arwen.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondSyncExecAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2373,7 +2373,7 @@ func v1_2_createContract(
 	argumentsLengthOffset int32,
 	dataOffset int32,
 ) int32 {
-	host := arwen.GetVMHost(context)
+	host := vmhost.GetVMHost(context)
 	runtime := host.Runtime()
 	metering := host.Metering()
 
@@ -2381,18 +2381,18 @@ func v1_2_createContract(
 	metering.UseGas(gasToUse)
 
 	sender := runtime.GetSCAddress()
-	value, err := runtime.MemLoad(valueOffset, arwen.BalanceLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	value, err := runtime.MemLoad(valueOffset, vmhost.BalanceLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
 	code, err := runtime.MemLoad(codeOffset, length)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
-	codeMetadata, err := runtime.MemLoad(codeMetadataOffset, arwen.CodeMetadataLen)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	codeMetadata, err := runtime.MemLoad(codeMetadataOffset, vmhost.CodeMetadataLen)
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2406,7 +2406,7 @@ func v1_2_createContract(
 	gasToUse = math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(actualLen))
 	metering.UseGas(gasToUse)
 
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2428,7 +2428,7 @@ func v1_2_createContract(
 	}
 
 	err = runtime.MemStore(resultOffset, newAddress)
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 1
 	}
 
@@ -2437,8 +2437,8 @@ func v1_2_createContract(
 
 //export v1_2_getNumReturnData
 func v1_2_getNumReturnData(context unsafe.Pointer) int32 {
-	output := arwen.GetOutputContext(context)
-	metering := arwen.GetMeteringContext(context)
+	output := vmhost.GetOutputContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetNumReturnData
 	metering.UseGas(gasToUse)
@@ -2449,8 +2449,8 @@ func v1_2_getNumReturnData(context unsafe.Pointer) int32 {
 
 //export v1_2_getReturnDataSize
 func v1_2_getReturnDataSize(context unsafe.Pointer, resultID int32) int32 {
-	output := arwen.GetOutputContext(context)
-	metering := arwen.GetMeteringContext(context)
+	output := vmhost.GetOutputContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetReturnDataSize
 	metering.UseGas(gasToUse)
@@ -2465,9 +2465,9 @@ func v1_2_getReturnDataSize(context unsafe.Pointer, resultID int32) int32 {
 
 //export v1_2_getReturnData
 func v1_2_getReturnData(context unsafe.Pointer, resultID int32, dataOffset int32) int32 {
-	runtime := arwen.GetRuntimeContext(context)
-	output := arwen.GetOutputContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	output := vmhost.GetOutputContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetReturnData
 	metering.UseGas(gasToUse)
@@ -2478,7 +2478,7 @@ func v1_2_getReturnData(context unsafe.Pointer, resultID int32, dataOffset int32
 	}
 
 	err := runtime.MemStore(dataOffset, returnData[resultID])
-	if arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
 		return 0
 	}
 
@@ -2487,18 +2487,18 @@ func v1_2_getReturnData(context unsafe.Pointer, resultID int32, dataOffset int32
 
 //export v1_2_getOriginalTxHash
 func v1_2_getOriginalTxHash(context unsafe.Pointer, dataOffset int32) {
-	runtime := arwen.GetRuntimeContext(context)
-	metering := arwen.GetMeteringContext(context)
+	runtime := vmhost.GetRuntimeContext(context)
+	metering := vmhost.GetMeteringContext(context)
 
 	gasToUse := metering.GasSchedule().ElrondAPICost.GetBlockHash
 	metering.UseGas(gasToUse)
 
 	err := runtime.MemStore(dataOffset, runtime.GetOriginalTxHash())
-	_ = arwen.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
+	_ = vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution())
 }
 
 func prepareIndirectContractCallInput(
-	host arwen.VMHost,
+	host vmhost.VMHost,
 	sender []byte,
 	value *big.Int,
 	gasLimit int64,
@@ -2513,13 +2513,13 @@ func prepareIndirectContractCallInput(
 	runtime := host.Runtime()
 	metering := host.Metering()
 
-	destination, err := runtime.MemLoad(addressOffset, arwen.AddressLen)
+	destination, err := runtime.MemLoad(addressOffset, vmhost.AddressLen)
 	if err != nil {
 		return nil, err
 	}
 
 	if syncExecutionRequired && !host.AreInSameShard(runtime.GetSCAddress(), destination) {
-		return nil, arwen.ErrSyncExecutionNotInSameShard
+		return nil, vmhost.ErrSyncExecutionNotInSameShard
 	}
 
 	function, err := runtime.MemLoad(functionOffset, functionLength)
@@ -2556,7 +2556,7 @@ func prepareIndirectContractCallInput(
 }
 
 func getArgumentsFromMemory(
-	host arwen.VMHost,
+	host vmhost.VMHost,
 	numArguments int32,
 	argumentsLengthOffset int32,
 	dataOffset int32,

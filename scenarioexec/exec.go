@@ -8,7 +8,7 @@ import (
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
-	arwenHost "github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/host"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	mc "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/controller"
 	er "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/expression/reconstructor"
@@ -47,7 +47,7 @@ func NewArwenTestExecutor(scenarioexecPath string) (*ArwenTestExecutor, error) {
 	}
 
 	blockGasLimit := uint64(10000000)
-	vm, err := arwenHost.NewVMHost(world, &arwen.VMHostParameters{
+	vm, err := hostCore.NewVMHost(world, &vmhost.VMHostParameters{
 		VMType:                   TestVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasScheduleMap,
@@ -83,15 +83,15 @@ func (ae *ArwenTestExecutor) GetVM() vmi.VMExecutionHandler {
 func (ae *ArwenTestExecutor) gasScheduleMapFromMandos(mandosGasSchedule mj.GasSchedule) (config.GasScheduleMap, error) {
 	switch mandosGasSchedule {
 	case mj.GasScheduleDefault:
-		return arwenHost.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV3.toml"))
+		return hostCore.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV3.toml"))
 	case mj.GasScheduleDummy:
 		return config.MakeGasMapForTests(), nil
 	case mj.GasScheduleV1:
-		return arwenHost.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV1.toml"))
+		return hostCore.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV1.toml"))
 	case mj.GasScheduleV2:
-		return arwenHost.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV2.toml"))
+		return hostCore.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV2.toml"))
 	case mj.GasScheduleV3:
-		return arwenHost.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV3.toml"))
+		return hostCore.LoadGasScheduleConfig(filepath.Join(ae.scenarioexecPath, "gasSchedules/gasScheduleV3.toml"))
 	default:
 		return nil, fmt.Errorf("unknown mandos GasSchedule: %d", mandosGasSchedule)
 	}

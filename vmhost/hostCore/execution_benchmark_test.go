@@ -1,4 +1,4 @@
-package host
+package hostCore
 
 import (
 	"fmt"
@@ -87,12 +87,12 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 	gasMap, err := LoadGasScheduleConfig("../../scenarioexec/gasSchedules/gasScheduleV2.toml")
 	require.Nil(tb, err)
 
-	host, err := NewVMHost(mockWorld, &arwen.VMHostParameters{
+	host, err := NewVMHost(mockWorld, &vmhost.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasMap,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E"+"L"+"R"+"O"+"N"+"D"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,
@@ -136,7 +136,7 @@ func verifyTransfers(tb testing.TB, mockWorld *worldmock.MockWorld, totalTokenSu
 	scStorage := mockWorld.AcctMap.GetAccount(scAddress).Storage
 	ownerTokens := big.NewInt(0).SetBytes(scStorage[ownerKey])
 	receiverTokens := big.NewInt(0).SetBytes(scStorage[receiverKey])
-	require.Equal(tb, arwen.Zero, ownerTokens)
+	require.Equal(tb, vmhost.Zero, ownerTokens)
 	require.Equal(tb, totalTokenSupply, receiverTokens)
 }
 
