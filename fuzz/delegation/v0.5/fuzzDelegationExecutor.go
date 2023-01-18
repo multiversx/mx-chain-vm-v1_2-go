@@ -40,10 +40,10 @@ type fuzzDelegationExecutorInitArgs struct {
 }
 
 type fuzzDelegationExecutor struct {
-	arwenTestExecutor *am.ArwenTestExecutor
+	vmTestExecutor *am.VMTestExecutor
 	world             *worldhook.MockWorld
 	vm                vmi.VMExecutionHandler
-	mandosParser      mjparse.Parser
+	parser      mjparse.Parser
 	txIndex           int
 
 	serviceFee                  int
@@ -65,19 +65,19 @@ type fuzzDelegationExecutor struct {
 }
 
 func newFuzzDelegationExecutor(fileResolver fr.FileResolver) (*fuzzDelegationExecutor, error) {
-	arwenTestExecutor, err := am.NewArwenTestExecutor("../../scenarioexec")
+	vmTestExecutor, err := am.NewVMTestExecutor("../../scenarioexec")
 	if err != nil {
 		return nil, err
 	}
-	arwenTestExecutor.SetMandosGasSchedule(mj.GasScheduleV2)
+	vmTestExecutor.SetMandosGasSchedule(mj.GasScheduleV2)
 
 	parser := mjparse.NewParser(fileResolver)
 
 	return &fuzzDelegationExecutor{
-		arwenTestExecutor:   arwenTestExecutor,
-		world:               arwenTestExecutor.World,
-		vm:                  arwenTestExecutor.GetVM(),
-		mandosParser:        parser,
+		vmTestExecutor:   vmTestExecutor,
+		world:               vmTestExecutor.World,
+		vm:                  vmTestExecutor.GetVM(),
+		parser:        parser,
 		txIndex:             0,
 		numNodes:            0,
 		totalStakeAdded:     big.NewInt(0),
@@ -90,13 +90,13 @@ func newFuzzDelegationExecutor(fileResolver fr.FileResolver) (*fuzzDelegationExe
 }
 
 func (pfe *fuzzDelegationExecutor) executeStep(stepSnippet string) error {
-	step, err := pfe.mandosParser.ParseScenarioStep(stepSnippet)
+	step, err := pfe.parser.ParseScenarioStep(stepSnippet)
 	if err != nil {
 		return err
 	}
 
 	pfe.addStep(step)
-	return pfe.arwenTestExecutor.ExecuteStep(step)
+	return pfe.vmTestExecutor.ExecuteStep(step)
 }
 
 func (pfe *fuzzDelegationExecutor) addStep(step mj.Step) {
@@ -121,7 +121,7 @@ func (pfe *fuzzDelegationExecutor) delegatorAddress(delegIndex int) []byte {
 }
 
 func (pfe *fuzzDelegationExecutor) executeTxStep(stepSnippet string) (*vmi.VMOutput, error) {
-	step, err := pfe.mandosParser.ParseScenarioStep(stepSnippet)
+	step, err := pfe.parser.ParseScenarioStep(stepSnippet)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +133,7 @@ func (pfe *fuzzDelegationExecutor) executeTxStep(stepSnippet string) (*vmi.VMOut
 
 	pfe.addStep(step)
 
-	return pfe.arwenTestExecutor.ExecuteTxStep(txStep)
+	return pfe.vmTestExecutor.ExecuteTxStep(txStep)
 }
 
 func (pfe *fuzzDelegationExecutor) log(info string, args ...interface{}) {

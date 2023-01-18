@@ -65,13 +65,13 @@ func (host *VMHostMock) BigInt() vmhost.BigIntContext {
 	return host.BigIntContext
 }
 
-// IsArwenV2Enabled mocked method
-func (host *VMHostMock) IsArwenV2Enabled() bool {
+// IsVMV2Enabled mocked method
+func (host *VMHostMock) IsVMV2Enabled() bool {
 	return true
 }
 
-// IsArwenV3Enabled mocked method
-func (host *VMHostMock) IsArwenV3Enabled() bool {
+// IsVMV3Enabled mocked method
+func (host *VMHostMock) IsVMV3Enabled() bool {
 	return true
 }
 

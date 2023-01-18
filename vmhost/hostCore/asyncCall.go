@@ -326,7 +326,7 @@ func (host *vmHost) createDestinationContractCallInput(asyncCallInfo vmhost.Asyn
 }
 
 func (host *vmHost) computeCallValueFromLastOutputTransfer(destinationVMOutput *vmcommon.VMOutput) *big.Int {
-	if !host.IsArwenV3Enabled() {
+	if !host.IsVMV3Enabled() {
 		return big.NewInt(0)
 	}
 	if len(destinationVMOutput.ReturnData) > 0 {
@@ -384,7 +384,7 @@ func (host *vmHost) createCallbackContractCallInput(
 	gasLimit := destinationVMOutput.GasRemaining + asyncCallInfo.GetGasLocked()
 	dataLength := host.computeDataLengthFromArguments(callbackFunction, arguments)
 
-	gasToUse := gasSchedule.ElrondAPICost.AsyncCallStep
+	gasToUse := gasSchedule.BaseOpsAPICost.AsyncCallStep
 	gas := math.MulUint64(gasSchedule.BaseOperationCost.DataCopyPerByte, uint64(dataLength))
 	gasToUse = math.AddUint64(gasToUse, gas)
 	if gasLimit <= gasToUse {

@@ -10,11 +10,11 @@ var _ vmcommon.BlockchainHook = (*BlockchainHookGateway)(nil)
 
 // BlockchainHookGateway forwards requests to the actual hook
 type BlockchainHookGateway struct {
-	messenger *ArwenMessenger
+	messenger *VMMessenger
 }
 
 // NewBlockchainHookGateway creates a new gateway
-func NewBlockchainHookGateway(messenger *ArwenMessenger) *BlockchainHookGateway {
+func NewBlockchainHookGateway(messenger *VMMessenger) *BlockchainHookGateway {
 	return &BlockchainHookGateway{messenger: messenger}
 }
 

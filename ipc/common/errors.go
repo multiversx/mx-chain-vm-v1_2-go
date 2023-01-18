@@ -29,29 +29,29 @@ func IsCriticalError(err error) bool {
 	return ok
 }
 
-// ErrBadArwenArguments signals a critical error
-var ErrBadArwenArguments = &CriticalError{InnerErr: fmt.Errorf("bad arguments passed to arwen")}
+// ErrBadVMArguments signals a critical error
+var ErrBadVMArguments = &CriticalError{InnerErr: fmt.Errorf("bad arguments passed to vm")}
 
-// ErrArwenClosed signals a critical error
-var ErrArwenClosed = &CriticalError{InnerErr: fmt.Errorf("arwen closed")}
+// ErrVMClosed signals a critical error
+var ErrVMClosed = &CriticalError{InnerErr: fmt.Errorf("vm closed")}
 
-// ErrArwenTimeExpired signals a critical error
-var ErrArwenTimeExpired = &CriticalError{InnerErr: fmt.Errorf("arwen time expired")}
+// ErrVMTimeExpired signals a critical error
+var ErrVMTimeExpired = &CriticalError{InnerErr: fmt.Errorf("vm time expired")}
 
-// ErrArwenNotFound signals a critical error
-var ErrArwenNotFound = &CriticalError{InnerErr: fmt.Errorf("arwen binary not found")}
+// ErrVMNotFound signals a critical error
+var ErrVMNotFound = &CriticalError{InnerErr: fmt.Errorf("vm binary not found")}
 
 // ErrInvalidMessageNonce signals a critical error
 var ErrInvalidMessageNonce = &CriticalError{InnerErr: fmt.Errorf("invalid dialogue nonce")}
 
 // ErrStopPerNodeRequest signals a critical error
-var ErrStopPerNodeRequest = &CriticalError{InnerErr: fmt.Errorf("arwen will stop, as requested")}
+var ErrStopPerNodeRequest = &CriticalError{InnerErr: fmt.Errorf("vm will stop, as requested")}
 
 // ErrBadRequestFromNode signals a critical error
 var ErrBadRequestFromNode = &CriticalError{InnerErr: fmt.Errorf("bad message from node")}
 
-// ErrBadMessageFromArwen signals a critical error
-var ErrBadMessageFromArwen = &CriticalError{InnerErr: fmt.Errorf("bad message from arwen")}
+// ErrBadMessageFromVM signals a critical error
+var ErrBadMessageFromVM = &CriticalError{InnerErr: fmt.Errorf("bad message from vm")}
 
 // ErrCannotSendContractRequest signals a critical error
 var ErrCannotSendContractRequest = &CriticalError{InnerErr: fmt.Errorf("cannot send contract request")}

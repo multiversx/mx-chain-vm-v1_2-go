@@ -43,9 +43,9 @@ func main() {
 
 	// init
 	scenarioexecPath := filepath.Join(exeDir, "../scenarioexec")
-	executor, err := am.NewArwenTestExecutor(scenarioexecPath)
+	executor, err := am.NewVMTestExecutor(scenarioexecPath)
 	if err != nil {
-		panic("Could not instantiate Arwen VM")
+		panic("Could not instantiate VM VM")
 	}
 
 	// execute

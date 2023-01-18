@@ -165,8 +165,8 @@ func runHookScenario(t *testing.T, callHook func(*BlockchainHookGateway), handle
 	testFiles := createTestFiles(t)
 	marshalizer := marshaling.CreateMarshalizer(marshaling.JSON)
 	nodeMessenger := nodepart.NewNodeMessenger(testFiles.inputOfNode, testFiles.outputOfNode, marshalizer)
-	arwenMessenger := NewArwenMessenger(testFiles.inputOfArwen, testFiles.outputOfArwen, marshalizer)
-	gateway := NewBlockchainHookGateway(arwenMessenger)
+	vmMessenger := NewVMMessenger(testFiles.inputOfVM, testFiles.outputOfVM, marshalizer)
+	gateway := NewBlockchainHookGateway(vmMessenger)
 
 	go func() {
 		request, err := nodeMessenger.Receive(0)
@@ -181,8 +181,8 @@ func runHookScenario(t *testing.T, callHook func(*BlockchainHookGateway), handle
 
 type testFiles struct {
 	outputOfNode  *os.File
-	inputOfArwen  *os.File
-	outputOfArwen *os.File
+	inputOfVM  *os.File
+	outputOfVM *os.File
 	inputOfNode   *os.File
 }
 
@@ -190,9 +190,9 @@ func createTestFiles(t *testing.T) testFiles {
 	files := testFiles{}
 
 	var err error
-	files.inputOfArwen, files.outputOfNode, err = os.Pipe()
+	files.inputOfVM, files.outputOfNode, err = os.Pipe()
 	require.NoError(t, err)
-	files.inputOfNode, files.outputOfArwen, err = os.Pipe()
+	files.inputOfNode, files.outputOfVM, err = os.Pipe()
 	require.NoError(t, err)
 
 	return files

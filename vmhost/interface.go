@@ -35,10 +35,10 @@ type VMHost interface {
 	Output() OutputContext
 	Metering() MeteringContext
 	Storage() StorageContext
-	IsArwenV2Enabled() bool
+	IsVMV2Enabled() bool
 	IsAheadOfTimeCompileEnabled() bool
 	IsDynamicGasLockingEnabled() bool
-	IsArwenV3Enabled() bool
+	IsVMV3Enabled() bool
 	IsESDTFunctionsEnabled() bool
 
 	ExecuteESDTTransfer(destination []byte, sender []byte, tokenIdentifier []byte, nonce uint64, value *big.Int, callType vm.CallType, isRevert bool) (*vmcommon.VMOutput, uint64, error)
@@ -131,8 +131,8 @@ type RuntimeContext interface {
 	MemStore(offset int32, data []byte) error
 	MemLoad(offset int32, length int32) ([]byte, error)
 	MemLoadMultiple(offset int32, lengths []int32) ([][]byte, error)
-	ElrondAPIErrorShouldFailExecution() bool
-	ElrondSyncExecAPIErrorShouldFailExecution() bool
+	BaseOpsErrorShouldFailExecution() bool
+	SyncExecAPIErrorShouldFailExecution() bool
 	CryptoAPIErrorShouldFailExecution() bool
 	BigIntAPIErrorShouldFailExecution() bool
 	ExecuteAsyncCall(address []byte, data []byte, value []byte) error

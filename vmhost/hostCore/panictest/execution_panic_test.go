@@ -10,7 +10,7 @@ import (
 
 func TestExecution_PanicInGoWithSilentWasmer_SIGSEGV(t *testing.T) {
 	code := hostCore.GetTestSCCode("counter", "../../../")
-	host, blockchain := hostCore.DefaultTestArwenForCallSigSegv(t, code, big.NewInt(1), true)
+	host, blockchain := hostCore.DefaultTestVMForCallSigSegv(t, code, big.NewInt(1), true)
 
 	blockchain.GetStorageDataCalled = func(_ []byte, _ []byte) ([]byte, uint32, error) {
 		var i *int

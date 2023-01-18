@@ -21,8 +21,8 @@ func getTestRoot() string {
 	if err != nil {
 		panic(err)
 	}
-	arwenTestRoot := filepath.Join(exePath, "../../test")
-	return arwenTestRoot
+	vmTestRoot := filepath.Join(exePath, "../../test")
+	return vmTestRoot
 }
 
 // Tests Mandos consistency, no smart contracts.
@@ -146,7 +146,7 @@ func TestTimelocks(t *testing.T) {
 }
 
 // func TestPromises(t *testing.T) {
-// 	executor, err := am.NewArwenTestExecutor()
+// 	executor, err := am.NewVMTestExecutor()
 // 	require.Nil(t, err)
 // 	runner := mc.NewScenarioRunner(
 // 		executor,
@@ -180,7 +180,7 @@ func runAllTestsInFolder(t *testing.T, folder string) {
 }
 
 func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
-	executor, err := am.NewArwenTestExecutor("../../scenarioexec")
+	executor, err := am.NewVMTestExecutor("../../scenarioexec")
 	require.Nil(t, err)
 	runner := mc.NewScenarioRunner(
 		executor,
@@ -199,7 +199,7 @@ func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
 }
 
 func runSingleTest(t *testing.T, folder string, filename string) {
-	executor, err := am.NewArwenTestExecutor("../../scenarioexec")
+	executor, err := am.NewVMTestExecutor("../../scenarioexec")
 	require.Nil(t, err)
 	runner := mc.NewScenarioRunner(
 		executor,

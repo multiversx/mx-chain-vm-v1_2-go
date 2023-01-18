@@ -7,41 +7,41 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
 )
 
-func (driver *ArwenDriver) getArwenPath() (string, error) {
-	arwenPath, err := driver.getArwenPathInCurrentDirectory()
+func (driver *VMDriver) getVMPath() (string, error) {
+	vmPath, err := driver.getVMPathInCurrentDirectory()
 	if err == nil {
-		return arwenPath, nil
+		return vmPath, nil
 	}
 
-	arwenPath, err = driver.getArwenPathFromEnvironment()
+	vmPath, err = driver.getVMPathFromEnvironment()
 	if err == nil {
-		return arwenPath, nil
+		return vmPath, nil
 	}
 
-	return "", common.ErrArwenNotFound
+	return "", common.ErrVMNotFound
 }
 
-func (driver *ArwenDriver) getArwenPathInCurrentDirectory() (string, error) {
+func (driver *VMDriver) getVMPathInCurrentDirectory() (string, error) {
 	cwd, err := os.Getwd()
 	if err != nil {
 		return "", err
 	}
 
-	arwenPath := path.Join(cwd, "arwen")
-	if fileExists(arwenPath) {
-		return arwenPath, nil
+	vmPath := path.Join(cwd, "vm")
+	if fileExists(vmPath) {
+		return vmPath, nil
 	}
 
-	return "", common.ErrArwenNotFound
+	return "", common.ErrVMNotFound
 }
 
-func (driver *ArwenDriver) getArwenPathFromEnvironment() (string, error) {
-	arwenPath := os.Getenv(common.EnvVarArwenPath)
-	if fileExists(arwenPath) {
-		return arwenPath, nil
+func (driver *VMDriver) getVMPathFromEnvironment() (string, error) {
+	vmPath := os.Getenv(common.EnvVarVMPath)
+	if fileExists(vmPath) {
+		return vmPath, nil
 	}
 
-	return "", common.ErrArwenNotFound
+	return "", common.ErrVMNotFound
 }
 
 func fileExists(filename string) bool {

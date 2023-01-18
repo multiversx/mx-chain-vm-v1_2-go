@@ -107,19 +107,19 @@ func v1_2_smallIntGetUnsignedArgument(context unsafe.Pointer, id int32) int64 {
 	runtime := vmhost.GetRuntimeContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64GetArgument
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64GetArgument
 	metering.UseGas(gasToUse)
 
 	args := runtime.Arguments()
 	if id < 0 || id >= int32(len(args)) {
-		vmhost.WithFault(vmhost.ErrArgIndexOutOfRange, context, runtime.ElrondAPIErrorShouldFailExecution())
+		vmhost.WithFault(vmhost.ErrArgIndexOutOfRange, context, runtime.BaseOpsErrorShouldFailExecution())
 		return 0
 	}
 
 	arg := args[id]
 	argBigInt := big.NewInt(0).SetBytes(arg)
 	if !argBigInt.IsUint64() {
-		vmhost.WithFault(vmhost.ErrArgOutOfRange, context, runtime.ElrondAPIErrorShouldFailExecution())
+		vmhost.WithFault(vmhost.ErrArgOutOfRange, context, runtime.BaseOpsErrorShouldFailExecution())
 		return 0
 	}
 	return int64(argBigInt.Uint64())
@@ -130,19 +130,19 @@ func v1_2_smallIntGetSignedArgument(context unsafe.Pointer, id int32) int64 {
 	runtime := vmhost.GetRuntimeContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64GetArgument
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64GetArgument
 	metering.UseGas(gasToUse)
 
 	args := runtime.Arguments()
 	if id < 0 || id >= int32(len(args)) {
-		vmhost.WithFault(vmhost.ErrArgIndexOutOfRange, context, runtime.ElrondAPIErrorShouldFailExecution())
+		vmhost.WithFault(vmhost.ErrArgIndexOutOfRange, context, runtime.BaseOpsErrorShouldFailExecution())
 		return 0
 	}
 
 	arg := args[id]
 	argBigInt := twos.SetBytes(big.NewInt(0), arg)
 	if !argBigInt.IsInt64() {
-		vmhost.WithFault(vmhost.ErrArgOutOfRange, context, runtime.ElrondAPIErrorShouldFailExecution())
+		vmhost.WithFault(vmhost.ErrArgOutOfRange, context, runtime.BaseOpsErrorShouldFailExecution())
 		return 0
 	}
 	return argBigInt.Int64()
@@ -153,7 +153,7 @@ func v1_2_smallIntFinishUnsigned(context unsafe.Pointer, value int64) {
 	output := vmhost.GetOutputContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64Finish
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64Finish
 	metering.UseGas(gasToUse)
 
 	valueBytes := big.NewInt(0).SetUint64(uint64(value)).Bytes()
@@ -165,7 +165,7 @@ func v1_2_smallIntFinishSigned(context unsafe.Pointer, value int64) {
 	output := vmhost.GetOutputContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64Finish
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64Finish
 	metering.UseGas(gasToUse)
 
 	valueBytes := twos.ToBytes(big.NewInt(value))
@@ -178,17 +178,17 @@ func v1_2_smallIntStorageStoreUnsigned(context unsafe.Pointer, keyOffset int32, 
 	storage := vmhost.GetStorageContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64StorageStore
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64StorageStore
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return -1
 	}
 
 	valueBytes := big.NewInt(0).SetUint64(uint64(value)).Bytes()
 	storageStatus, err := storage.SetStorage(key, valueBytes)
-	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -201,17 +201,17 @@ func v1_2_smallIntStorageStoreSigned(context unsafe.Pointer, keyOffset int32, ke
 	storage := vmhost.GetStorageContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64StorageStore
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64StorageStore
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return -1
 	}
 
 	valueBytes := twos.ToBytes(big.NewInt(value))
 	storageStatus, err := storage.SetStorage(key, valueBytes)
-	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return -1
 	}
 
@@ -224,18 +224,18 @@ func v1_2_smallIntStorageLoadUnsigned(context unsafe.Pointer, keyOffset int32, k
 	storage := vmhost.GetStorageContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64StorageLoad
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64StorageLoad
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return 0
 	}
 
 	data := storage.GetStorage(key)
 	valueBigInt := big.NewInt(0).SetBytes(data)
 	if !valueBigInt.IsUint64() {
-		vmhost.WithFault(vmhost.ErrStorageValueOutOfRange, context, runtime.ElrondAPIErrorShouldFailExecution())
+		vmhost.WithFault(vmhost.ErrStorageValueOutOfRange, context, runtime.BaseOpsErrorShouldFailExecution())
 		return 0
 	}
 
@@ -248,18 +248,18 @@ func v1_2_smallIntStorageLoadSigned(context unsafe.Pointer, keyOffset int32, key
 	storage := vmhost.GetStorageContext(context)
 	metering := vmhost.GetMeteringContext(context)
 
-	gasToUse := metering.GasSchedule().ElrondAPICost.Int64StorageLoad
+	gasToUse := metering.GasSchedule().BaseOpsAPICost.Int64StorageLoad
 	metering.UseGas(gasToUse)
 
 	key, err := runtime.MemLoad(keyOffset, keyLength)
-	if vmhost.WithFault(err, context, runtime.ElrondAPIErrorShouldFailExecution()) {
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return 0
 	}
 
 	data := storage.GetStorage(key)
 	valueBigInt := twos.SetBytes(big.NewInt(0), data)
 	if !valueBigInt.IsInt64() {
-		vmhost.WithFault(vmhost.ErrStorageValueOutOfRange, context, runtime.ElrondAPIErrorShouldFailExecution())
+		vmhost.WithFault(vmhost.ErrStorageValueOutOfRange, context, runtime.BaseOpsErrorShouldFailExecution())
 		return 0
 	}
 

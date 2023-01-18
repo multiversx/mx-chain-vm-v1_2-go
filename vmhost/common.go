@@ -5,7 +5,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 )
 
-const ArwenVersion = "v1.2"
+const VMVersion = "v1.2"
 
 // BreakpointValue encodes Wasmer runtime breakpoint types
 type BreakpointValue uint64
@@ -14,10 +14,10 @@ const (
 	// BreakpointNone signifies the lack of a breakpoint
 	BreakpointNone BreakpointValue = iota
 
-	// BreakpointExecutionFailed means that Wasmer must stop immediately due to failure indicated by Arwen
+	// BreakpointExecutionFailed means that Wasmer must stop immediately due to failure indicated by VM
 	BreakpointExecutionFailed
 
-	// BreakpointAsyncCall means that Wasmer must stop immediately so Arwen can execute an AsyncCall
+	// BreakpointAsyncCall means that Wasmer must stop immediately so VM can execute an AsyncCall
 	BreakpointAsyncCall
 
 	// BreakpointSignalError means that Wasmer must stop immediately due to a contract-signalled error
@@ -55,7 +55,7 @@ const (
 const CallbackFunctionName = "callBack"
 
 // ProtectedStoragePrefix is the storage key prefix that will be protected by
-// Arwen explicitly, and implicitly by the Elrond node due to '@'; the
+// VM explicitly, and implicitly by the Elrond node due to '@'; the
 // protection can be disabled temporarily by the StorageContext
 const ProtectedStoragePrefix = "A"+"R"+"W"+"E"+"N@"
 
