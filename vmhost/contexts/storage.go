@@ -11,7 +11,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/math"
 )
 
-var logStorage = logger.GetOrCreate("arwen/storage")
+var logStorage = logger.GetOrCreate("vm/storage")
 
 type storageContext struct {
 	host                          vmhost.VMHost
@@ -19,7 +19,7 @@ type storageContext struct {
 	address                       []byte
 	stateStack                    [][]byte
 	ProtectedKeyPrefix            []byte
-	arwenStorageProtectionEnabled bool
+	vmStorageProtectionEnabled bool
 }
 
 // NewStorageContext creates a new storageContext
@@ -36,7 +36,7 @@ func NewStorageContext(
 		blockChainHook:                blockChainHook,
 		stateStack:                    make([][]byte, 0),
 		ProtectedKeyPrefix:            ProtectedKeyPrefix,
-		arwenStorageProtectionEnabled: true,
+		vmStorageProtectionEnabled: true,
 	}
 
 	return context, nil
@@ -139,7 +139,7 @@ func (context *storageContext) GetStorageFromAddress(address []byte, key []byte)
 	// protected keys must always be retrieved from the node, not from the cached
 	// StorageUpdates.
 	var value []byte
-	if context.isElrondReservedKey(key) {
+	if context.isProtocolProtectedKey(key) {
 		value, _, _ = context.blockChainHook.GetStorageData(address, key)
 	} else {
 		value = context.getStorageFromAddressUnmetered(address, key)
@@ -177,19 +177,19 @@ func (context *storageContext) GetStorageUnmetered(key []byte) []byte {
 
 // enableStorageProtection will prevent writing to protected keys
 func (context *storageContext) enableStorageProtection() {
-	context.arwenStorageProtectionEnabled = true
+	context.vmStorageProtectionEnabled = true
 }
 
 // disableStorageProtection will prevent writing to protected keys
 func (context *storageContext) disableStorageProtection() {
-	context.arwenStorageProtectionEnabled = false
+	context.vmStorageProtectionEnabled = false
 }
 
-func (context *storageContext) isArwenProtectedKey(key []byte) bool {
+func (context *storageContext) isVMProtectedKey(key []byte) bool {
 	return bytes.HasPrefix(key, []byte(vmhost.ProtectedStoragePrefix))
 }
 
-func (context *storageContext) isElrondReservedKey(key []byte) bool {
+func (context *storageContext) isProtocolProtectedKey(key []byte) bool {
 	return bytes.HasPrefix(key, context.ProtectedKeyPrefix)
 }
 
@@ -206,11 +206,11 @@ func (context *storageContext) SetStorage(key []byte, value []byte) (vmhost.Stor
 		logStorage.Trace("storage set", "error", "cannot set storage in readonly mode")
 		return vmhost.StorageUnchanged, nil
 	}
-	if context.isElrondReservedKey(key) {
-		logStorage.Trace("storage set", "error", vmhost.ErrStoreElrondReservedKey, "key", key)
-		return vmhost.StorageUnchanged, vmhost.ErrStoreElrondReservedKey
+	if context.isProtocolProtectedKey(key) {
+		logStorage.Trace("storage set", "error", vmhost.ErrStoreReservedKey, "key", key)
+		return vmhost.StorageUnchanged, vmhost.ErrStoreReservedKey
 	}
-	if context.isArwenProtectedKey(key) && context.arwenStorageProtectionEnabled {
+	if context.isVMProtectedKey(key) && context.vmStorageProtectionEnabled {
 		logStorage.Trace("storage set", "error", vmhost.ErrCannotWriteProtectedKey, "key", key)
 		return vmhost.StorageUnchanged, vmhost.ErrCannotWriteProtectedKey
 	}

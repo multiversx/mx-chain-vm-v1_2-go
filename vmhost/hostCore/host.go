@@ -17,7 +17,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 
-var log = logger.GetOrCreate("arwen/host")
+var log = logger.GetOrCreate("vm/host")
 
 // MaximumWasmerInstanceCount represents the maximum number of Wasmer instances that can be active at the same time
 var MaximumWasmerInstanceCount = uint64(10)
@@ -49,7 +49,7 @@ type vmHost struct {
 	enableEpochsHandler      vmcommon.EnableEpochsHandler
 }
 
-// NewVMHost creates a new Arwen vmHost
+// NewVMHost creates a new VM vmHost
 func NewVMHost(
 	blockChainHook vmcommon.BlockchainHook,
 	hostParameters *vmhost.VMHostParameters,
@@ -75,7 +75,7 @@ func NewVMHost(
 
 	var err error
 
-	imports, err := vmhooks.ElrondEIImports()
+	imports, err := vmhooks.BaseOpsAPIImports()
 	if err != nil {
 		return nil, err
 	}
@@ -155,9 +155,9 @@ func NewVMHost(
 	return host, nil
 }
 
-// GetVersion returns the Arwen version string
+// GetVersion returns the VM version string
 func (host *vmHost) GetVersion() string {
-	return vmhost.ArwenVersion
+	return vmhost.VMVersion
 }
 
 // Crypto returns the VMCrypto instance of the host
@@ -195,13 +195,13 @@ func (host *vmHost) BigInt() vmhost.BigIntContext {
 	return host.bigIntContext
 }
 
-// IsArwenV2Enabled returns whether the Arwen V2 mode is enabled
-func (host *vmHost) IsArwenV2Enabled() bool {
+// IsVMV2Enabled returns whether the VM V2 mode is enabled
+func (host *vmHost) IsVMV2Enabled() bool {
 	return host.enableEpochsHandler.IsSCDeployFlagEnabled()
 }
 
-// IsArwenV3Enabled returns whether the V3 features are enabled
-func (host *vmHost) IsArwenV3Enabled() bool {
+// IsVMV3Enabled returns whether the V3 features are enabled
+func (host *vmHost) IsVMV3Enabled() bool {
 	return host.enableEpochsHandler.IsRepairCallbackFlagEnabled()
 }
 

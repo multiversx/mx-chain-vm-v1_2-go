@@ -11,7 +11,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/math"
 )
 
-var logMetering = logger.GetOrCreate("arwen/metering")
+var logMetering = logger.GetOrCreate("vm/metering")
 
 type meteringContext struct {
 	host               vmhost.VMHost
@@ -228,7 +228,7 @@ func (context *meteringContext) GasUsedByContract() (uint64, uint64) {
 	executionGasUsed := runtime.GetPointsUsed()
 
 	gasUsed := uint64(0)
-	if context.host.IsArwenV2Enabled() {
+	if context.host.IsVMV2Enabled() {
 		gasUsed = context.initialCost
 	}
 
@@ -255,7 +255,7 @@ func (context *meteringContext) GasSpentByContract() uint64 {
 	executionGasUsed := runtime.GetPointsUsed()
 
 	gasSpent := uint64(0)
-	if context.host.IsArwenV2Enabled() {
+	if context.host.IsVMV2Enabled() {
 		gasSpent = context.initialCost
 	}
 
@@ -293,7 +293,7 @@ func (context *meteringContext) BoundGasLimit(value int64) uint64 {
 // UseGasForAsyncStep consumes the AsyncCallStep gas cost on the currently
 // running Wasmer instance
 func (context *meteringContext) UseGasForAsyncStep() error {
-	gasSchedule := context.GasSchedule().ElrondAPICost
+	gasSchedule := context.GasSchedule().BaseOpsAPICost
 	gasToDeduct := gasSchedule.AsyncCallStep
 	return context.UseGasBounded(gasToDeduct)
 }
@@ -311,7 +311,7 @@ func (context *meteringContext) UseGasBounded(gasToUse uint64) error {
 // ComputeGasLockedForAsync calculates the minimum amount of gas to lock for async callbacks
 func (context *meteringContext) ComputeGasLockedForAsync() uint64 {
 	baseGasSchedule := context.GasSchedule().BaseOperationCost
-	apiGasSchedule := context.GasSchedule().ElrondAPICost
+	apiGasSchedule := context.GasSchedule().BaseOpsAPICost
 	codeSize := context.host.Runtime().GetSCCodeSize()
 
 	costPerByte := baseGasSchedule.CompilePerByte
@@ -363,7 +363,7 @@ func (context *meteringContext) DeductInitialGasForExecution(contract []byte) er
 func (context *meteringContext) DeductInitialGasForDirectDeployment(input vmhost.CodeDeployInput) error {
 	return context.deductInitialGas(
 		input.ContractCode,
-		context.gasSchedule.ElrondAPICost.CreateContract,
+		context.gasSchedule.BaseOpsAPICost.CreateContract,
 		context.gasSchedule.BaseOperationCost.CompilePerByte,
 	)
 }

@@ -14,24 +14,24 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
 )
 
-var log = logger.GetOrCreate("arwenDriver")
+var log = logger.GetOrCreate("vmDriver")
 
-var _ vmcommon.VMExecutionHandler = (*ArwenDriver)(nil)
+var _ vmcommon.VMExecutionHandler = (*VMDriver)(nil)
 
-// ArwenDriver manages the execution of the Arwen process
-type ArwenDriver struct {
+// VMDriver manages the execution of the VM process
+type VMDriver struct {
 	blockchainHook      vmcommon.BlockchainHook
-	arwenArguments      common.ArwenArguments
+	vmArguments      common.VMArguments
 	config              Config
 	logsMarshalizer     marshaling.Marshalizer
 	messagesMarshalizer marshaling.Marshalizer
 
-	arwenInitRead    *os.File
-	arwenInitWrite   *os.File
-	arwenInputRead   *os.File
-	arwenInputWrite  *os.File
-	arwenOutputRead  *os.File
-	arwenOutputWrite *os.File
+	vmInitRead    *os.File
+	vmInitWrite   *os.File
+	vmInputRead   *os.File
+	vmInputWrite  *os.File
+	vmOutputRead  *os.File
+	vmOutputWrite *os.File
 
 	counterDeploy uint64
 	counterCall   uint64
@@ -40,31 +40,31 @@ type ArwenDriver struct {
 	part     *NodePart
 	logsPart ParentLogsPart
 
-	// When the ArwenDriver is used to resolve contract queries, it might happen that a query request executes concurrently with other operations (such as "GasScheduleChange").
+	// When the VMDriver is used to resolve contract queries, it might happen that a query request executes concurrently with other operations (such as "GasScheduleChange").
 	// Query requests are ordered sequentially within the API layer (see the QueryService dispatcher and other related components), but this sequence of queries might
-	// interleave with Arwen-management operations, which are or might be triggered within a different flow (e.g. the processing flow). For example, "GasScheduleChange" is triggered synchronously
+	// interleave with VM-management operations, which are or might be triggered within a different flow (e.g. the processing flow). For example, "GasScheduleChange" is triggered synchronously
 	// with the processing flow (on a certain epoch change), but in asynchronicity with the querying flow.
 	// This might lead to issues (such as interleaving message sequences on the communication pipes).
-	// A solution is to use a mutex, and treat each operation within a critical section (in the ArwenDriver, thus on node's part).
+	// A solution is to use a mutex, and treat each operation within a critical section (in the VMDriver, thus on node's part).
 	// Thus, for any two concurrent operations, the first one reaching the mutex also wins the pipe and holds ownership upon its completion.
 	operationsMutex sync.Mutex
 }
 
-// NewArwenDriver creates a new driver
-func NewArwenDriver(
+// NewVMDriver creates a new driver
+func NewVMDriver(
 	blockchainHook vmcommon.BlockchainHook,
-	arwenArguments common.ArwenArguments,
+	vmArguments common.VMArguments,
 	config Config,
-) (*ArwenDriver, error) {
-	driver := &ArwenDriver{
+) (*VMDriver, error) {
+	driver := &VMDriver{
 		blockchainHook:      blockchainHook,
-		arwenArguments:      arwenArguments,
+		vmArguments:      vmArguments,
 		config:              config,
-		logsMarshalizer:     marshaling.CreateMarshalizer(arwenArguments.LogsMarshalizer),
-		messagesMarshalizer: marshaling.CreateMarshalizer(arwenArguments.MessagesMarshalizer),
+		logsMarshalizer:     marshaling.CreateMarshalizer(vmArguments.LogsMarshalizer),
+		messagesMarshalizer: marshaling.CreateMarshalizer(vmArguments.MessagesMarshalizer),
 	}
 
-	err := driver.startArwen()
+	err := driver.startVM()
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func NewArwenDriver(
 	return driver, nil
 }
 
-func (driver *ArwenDriver) startArwen() error {
-	log.Info("ArwenDriver.startArwen()")
+func (driver *VMDriver) startVM() error {
+	log.Info("VMDriver.startVM()")
 
 	logsProfileReader, logsWriter, err := driver.resetLogsPart()
 	if err != nil {
@@ -85,26 +85,26 @@ func (driver *ArwenDriver) startArwen() error {
 		return err
 	}
 
-	arwenPath, err := driver.getArwenPath()
+	vmPath, err := driver.getVMPath()
 	if err != nil {
 		return err
 	}
 
-	driver.command = exec.Command(arwenPath)
+	driver.command = exec.Command(vmPath)
 	driver.command.ExtraFiles = []*os.File{
-		driver.arwenInitRead,
-		driver.arwenInputRead,
-		driver.arwenOutputWrite,
+		driver.vmInitRead,
+		driver.vmInputRead,
+		driver.vmOutputWrite,
 		logsProfileReader,
 		logsWriter,
 	}
 
-	arwenStdout, err := driver.command.StdoutPipe()
+	vmStdout, err := driver.command.StdoutPipe()
 	if err != nil {
 		return err
 	}
 
-	arwenStderr, err := driver.command.StderrPipe()
+	vmStderr, err := driver.command.StderrPipe()
 	if err != nil {
 		return err
 	}
@@ -114,7 +114,7 @@ func (driver *ArwenDriver) startArwen() error {
 		return err
 	}
 
-	err = common.SendArwenArguments(driver.arwenInitWrite, driver.arwenArguments)
+	err = common.SendVMArguments(driver.vmInitWrite, driver.vmArguments)
 	if err != nil {
 		return err
 	}
@@ -122,8 +122,8 @@ func (driver *ArwenDriver) startArwen() error {
 	driver.blockchainHook.ClearCompiledCodes()
 
 	driver.part, err = NewNodePart(
-		driver.arwenOutputRead,
-		driver.arwenInputWrite,
+		driver.vmOutputRead,
+		driver.vmInputWrite,
 		driver.blockchainHook,
 		driver.config,
 		driver.messagesMarshalizer,
@@ -132,7 +132,7 @@ func (driver *ArwenDriver) startArwen() error {
 		return err
 	}
 
-	err = driver.logsPart.StartLoop(arwenStdout, arwenStderr)
+	err = driver.logsPart.StartLoop(vmStdout, vmStderr)
 	if err != nil {
 		return err
 	}
@@ -140,8 +140,8 @@ func (driver *ArwenDriver) startArwen() error {
 	return nil
 }
 
-func (driver *ArwenDriver) resetLogsPart() (*os.File, *os.File, error) {
-	logsPart, err := pipes.NewParentPart("Arwen", driver.logsMarshalizer)
+func (driver *VMDriver) resetLogsPart() (*os.File, *os.File, error) {
+	logsPart, err := pipes.NewParentPart("VM", driver.logsMarshalizer)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -151,27 +151,27 @@ func (driver *ArwenDriver) resetLogsPart() (*os.File, *os.File, error) {
 	return readProfile, writeLogs, nil
 }
 
-func (driver *ArwenDriver) resetPipeStreams() error {
-	closeFile(driver.arwenInitRead)
-	closeFile(driver.arwenInitWrite)
-	closeFile(driver.arwenInputRead)
-	closeFile(driver.arwenInputWrite)
-	closeFile(driver.arwenOutputRead)
-	closeFile(driver.arwenOutputWrite)
+func (driver *VMDriver) resetPipeStreams() error {
+	closeFile(driver.vmInitRead)
+	closeFile(driver.vmInitWrite)
+	closeFile(driver.vmInputRead)
+	closeFile(driver.vmInputWrite)
+	closeFile(driver.vmOutputRead)
+	closeFile(driver.vmOutputWrite)
 
 	var err error
 
-	driver.arwenInitRead, driver.arwenInitWrite, err = os.Pipe()
+	driver.vmInitRead, driver.vmInitWrite, err = os.Pipe()
 	if err != nil {
 		return err
 	}
 
-	driver.arwenInputRead, driver.arwenInputWrite, err = os.Pipe()
+	driver.vmInputRead, driver.vmInputWrite, err = os.Pipe()
 	if err != nil {
 		return err
 	}
 
-	driver.arwenOutputRead, driver.arwenOutputWrite, err = os.Pipe()
+	driver.vmOutputRead, driver.vmOutputWrite, err = os.Pipe()
 	if err != nil {
 		return err
 	}
@@ -188,18 +188,18 @@ func closeFile(file *os.File) {
 	}
 }
 
-// RestartArwenIfNecessary restarts Arwen if the process is closed
-func (driver *ArwenDriver) RestartArwenIfNecessary() error {
+// RestartVMIfNecessary restarts VM if the process is closed
+func (driver *VMDriver) RestartVMIfNecessary() error {
 	if !driver.IsClosed() {
 		return nil
 	}
 
-	err := driver.startArwen()
+	err := driver.startVM()
 	return err
 }
 
-// IsClosed checks whether the Arwen process is closed
-func (driver *ArwenDriver) IsClosed() bool {
+// IsClosed checks whether the VM process is closed
+func (driver *VMDriver) IsClosed() bool {
 	pid := driver.command.Process.Pid
 	process, err := os.FindProcess(pid)
 	if err != nil {
@@ -210,14 +210,14 @@ func (driver *ArwenDriver) IsClosed() bool {
 	return err != nil
 }
 
-// GetVersion gets the Arwen version
-func (driver *ArwenDriver) GetVersion() string {
+// GetVersion gets the VM version
+func (driver *VMDriver) GetVersion() string {
 	driver.operationsMutex.Lock()
 	defer driver.operationsMutex.Unlock()
 
 	log.Trace("GetVersion")
 
-	err := driver.RestartArwenIfNecessary()
+	err := driver.RestartVMIfNecessary()
 	if err != nil {
 		log.Warn("GetVersion", "err", err)
 		return ""
@@ -236,15 +236,15 @@ func (driver *ArwenDriver) GetVersion() string {
 	return typedResponse.Version
 }
 
-// GasScheduleChange sends a "gas change" request to Arwen and waits for the output
-func (driver *ArwenDriver) GasScheduleChange(newGasSchedule map[string]map[string]uint64) {
+// GasScheduleChange sends a "gas change" request to VM and waits for the output
+func (driver *VMDriver) GasScheduleChange(newGasSchedule map[string]map[string]uint64) {
 	driver.operationsMutex.Lock()
 	defer driver.operationsMutex.Unlock()
 
-	driver.arwenArguments.GasSchedule = newGasSchedule
-	err := driver.RestartArwenIfNecessary()
+	driver.vmArguments.GasSchedule = newGasSchedule
+	err := driver.RestartVMIfNecessary()
 	if err != nil {
-		log.Error("GasScheduleChange RestartArwenIfNecessary", "error", err)
+		log.Error("GasScheduleChange RestartVMIfNecessary", "error", err)
 		return
 	}
 
@@ -263,15 +263,15 @@ func (driver *ArwenDriver) GasScheduleChange(newGasSchedule map[string]map[strin
 	}
 }
 
-// RunSmartContractCreate sends a deploy request to Arwen and waits for the output
-func (driver *ArwenDriver) RunSmartContractCreate(input *vmcommon.ContractCreateInput) (*vmcommon.VMOutput, error) {
+// RunSmartContractCreate sends a deploy request to VM and waits for the output
+func (driver *VMDriver) RunSmartContractCreate(input *vmcommon.ContractCreateInput) (*vmcommon.VMOutput, error) {
 	driver.operationsMutex.Lock()
 	defer driver.operationsMutex.Unlock()
 
 	driver.counterDeploy++
 	log.Trace("RunSmartContractCreate", "counter", driver.counterDeploy)
 
-	err := driver.RestartArwenIfNecessary()
+	err := driver.RestartVMIfNecessary()
 	if err != nil {
 		return nil, common.WrapCriticalError(err)
 	}
@@ -293,15 +293,15 @@ func (driver *ArwenDriver) RunSmartContractCreate(input *vmcommon.ContractCreate
 	return vmOutput, nil
 }
 
-// RunSmartContractCall sends an execution request to Arwen and waits for the output
-func (driver *ArwenDriver) RunSmartContractCall(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
+// RunSmartContractCall sends an execution request to VM and waits for the output
+func (driver *VMDriver) RunSmartContractCall(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
 	driver.operationsMutex.Lock()
 	defer driver.operationsMutex.Unlock()
 
 	driver.counterCall++
 	log.Trace("RunSmartContractCall", "counter", driver.counterCall, "func", input.Function, "sc", input.RecipientAddr)
 
-	err := driver.RestartArwenIfNecessary()
+	err := driver.RestartVMIfNecessary()
 	if err != nil {
 		return nil, common.WrapCriticalError(err)
 	}
@@ -323,12 +323,12 @@ func (driver *ArwenDriver) RunSmartContractCall(input *vmcommon.ContractCallInpu
 	return vmOutput, nil
 }
 
-// DiagnoseWait sends a diagnose message to Arwen
-func (driver *ArwenDriver) DiagnoseWait(milliseconds uint32) error {
+// DiagnoseWait sends a diagnose message to VM
+func (driver *VMDriver) DiagnoseWait(milliseconds uint32) error {
 	driver.operationsMutex.Lock()
 	defer driver.operationsMutex.Unlock()
 
-	err := driver.RestartArwenIfNecessary()
+	err := driver.RestartVMIfNecessary()
 	if err != nil {
 		return common.WrapCriticalError(err)
 	}
@@ -344,20 +344,20 @@ func (driver *ArwenDriver) DiagnoseWait(milliseconds uint32) error {
 	return response.GetError()
 }
 
-// Close stops Arwen
-func (driver *ArwenDriver) Close() error {
+// Close stops VM
+func (driver *VMDriver) Close() error {
 	driver.logsPart.StopLoop()
 
-	err := driver.stopArwen()
+	err := driver.stopVM()
 	if err != nil {
-		log.Error("ArwenDriver.Close()", "err", err)
+		log.Error("VMDriver.Close()", "err", err)
 		return err
 	}
 
 	return nil
 }
 
-func (driver *ArwenDriver) stopArwen() error {
+func (driver *VMDriver) stopVM() error {
 	err := driver.command.Process.Kill()
 	if err != nil {
 		return err
@@ -372,6 +372,6 @@ func (driver *ArwenDriver) stopArwen() error {
 }
 
 // IsInterfaceNil returns true if there is no value under the interface
-func (driver *ArwenDriver) IsInterfaceNil() bool {
+func (driver *VMDriver) IsInterfaceNil() bool {
 	return driver == nil
 }

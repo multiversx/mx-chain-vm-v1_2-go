@@ -21,7 +21,7 @@ var ESDTTestTokenName = []byte("TT")
 func TestExecution_ExecuteOnDestContext_ESDTTransferWithoutExecute(t *testing.T) {
 	code := GetTestSCCodeModule("exec-dest-ctx-esdt/basic", "basic", "../../")
 	scBalance := big.NewInt(1000)
-	host, world := defaultTestArwenForCallWithWorldMock(t, code, scBalance)
+	host, world := defaultTestVMForCallWithWorldMock(t, code, scBalance)
 
 	tokenKey := worldmock.MakeTokenKey(ESDTTestTokenName, 0)
 	err := world.BuiltinFuncs.SetTokenData(parentAddress, tokenKey, &esdt.ESDigitalToken{
@@ -50,7 +50,7 @@ func TestExecution_ExecuteOnDestContext_MockBuiltinFunctions_Claim(t *testing.T)
 	code := GetTestSCCode("exec-dest-ctx-builtin", "../../")
 	scBalance := big.NewInt(1000)
 
-	host, stubBlockchainHook := defaultTestArwenForCall(t, code, scBalance)
+	host, stubBlockchainHook := defaultTestVMForCall(t, code, scBalance)
 	stubBlockchainHook.ProcessBuiltInFunctionCalled = dummyProcessBuiltInFunction
 	host.protocolBuiltinFunctions = getDummyBuiltinFunctionNames()
 
@@ -72,7 +72,7 @@ func TestExecution_ExecuteOnDestContext_MockBuiltinFunctions_DoSomething(t *test
 	code := GetTestSCCode("exec-dest-ctx-builtin", "../../")
 	scBalance := big.NewInt(1000)
 
-	host, stubBlockchainHook := defaultTestArwenForCall(t, code, scBalance)
+	host, stubBlockchainHook := defaultTestVMForCall(t, code, scBalance)
 	stubBlockchainHook.ProcessBuiltInFunctionCalled = dummyProcessBuiltInFunction
 	host.protocolBuiltinFunctions = getDummyBuiltinFunctionNames()
 
@@ -94,7 +94,7 @@ func TestExecution_ExecuteOnDestContext_MockBuiltinFunctions_Nonexistent(t *test
 	code := GetTestSCCode("exec-dest-ctx-builtin", "../../")
 	scBalance := big.NewInt(1000)
 
-	host, stubBlockchainHook := defaultTestArwenForCall(t, code, scBalance)
+	host, stubBlockchainHook := defaultTestVMForCall(t, code, scBalance)
 	stubBlockchainHook.ProcessBuiltInFunctionCalled = dummyProcessBuiltInFunction
 	host.protocolBuiltinFunctions = getDummyBuiltinFunctionNames()
 
@@ -116,7 +116,7 @@ func TestExecution_ExecuteOnDestContext_MockBuiltinFunctions_Fail(t *testing.T) 
 	code := GetTestSCCode("exec-dest-ctx-builtin", "../../")
 	scBalance := big.NewInt(1000)
 
-	host, stubBlockchainHook := defaultTestArwenForCall(t, code, scBalance)
+	host, stubBlockchainHook := defaultTestVMForCall(t, code, scBalance)
 	stubBlockchainHook.ProcessBuiltInFunctionCalled = dummyProcessBuiltInFunction
 	host.protocolBuiltinFunctions = getDummyBuiltinFunctionNames()
 
@@ -138,7 +138,7 @@ func TestExecution_AsyncCall_MockBuiltinFails(t *testing.T) {
 	code := GetTestSCCode("async-call-builtin", "../../")
 	scBalance := big.NewInt(1000)
 
-	host, stubBlockchainHook := defaultTestArwenForCall(t, code, scBalance)
+	host, stubBlockchainHook := defaultTestVMForCall(t, code, scBalance)
 	stubBlockchainHook.ProcessBuiltInFunctionCalled = dummyProcessBuiltInFunction
 	host.protocolBuiltinFunctions = getDummyBuiltinFunctionNames()
 
@@ -160,7 +160,7 @@ func TestESDT_GettersAPI(t *testing.T) {
 	code := GetTestSCCode("exchange", "../../")
 	scBalance := big.NewInt(1000)
 
-	host, _ := defaultTestArwenForCall(t, code, scBalance)
+	host, _ := defaultTestVMForCall(t, code, scBalance)
 
 	input := DefaultTestContractCallInput()
 	input.RecipientAddr = parentAddress
@@ -184,7 +184,7 @@ func TestESDT_GettersAPI_ExecuteAfterBuiltinCall(t *testing.T) {
 	scBalance := big.NewInt(1000)
 	esdtValue := int64(5)
 
-	host, stubBlockchainHook := defaultTestArwenForCall(t, exchangeCode, scBalance)
+	host, stubBlockchainHook := defaultTestVMForCall(t, exchangeCode, scBalance)
 	stubBlockchainHook.ProcessBuiltInFunctionCalled = dummyProcessBuiltInFunction
 	host.protocolBuiltinFunctions = getDummyBuiltinFunctionNames()
 

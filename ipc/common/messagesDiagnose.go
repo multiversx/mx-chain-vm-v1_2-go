@@ -14,7 +14,7 @@ func NewMessageDiagnoseWaitRequest(milliseconds uint32) *MessageDiagnoseWaitRequ
 	return message
 }
 
-// MessageDiagnoseWaitResponse is a diagnose response message (from Arwen)
+// MessageDiagnoseWaitResponse is a diagnose response message (from VM)
 type MessageDiagnoseWaitResponse struct {
 	Message
 }

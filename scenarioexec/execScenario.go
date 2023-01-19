@@ -9,12 +9,12 @@ import (
 
 // Reset clears state/world.
 // Is called in RunAllJSONScenariosInDirectory, but not in RunSingleJSONScenario.
-func (ae *ArwenTestExecutor) Reset() {
+func (ae *VMTestExecutor) Reset() {
 	ae.World.Clear()
 }
 
 // ExecuteScenario executes an individual test.
-func (ae *ArwenTestExecutor) ExecuteScenario(scenario *mj.Scenario, fileResolver fr.FileResolver) error {
+func (ae *VMTestExecutor) ExecuteScenario(scenario *mj.Scenario, fileResolver fr.FileResolver) error {
 	ae.fileResolver = fileResolver
 	ae.checkGas = scenario.CheckGas
 	err := ae.SetMandosGasSchedule(scenario.GasSchedule)
@@ -36,7 +36,7 @@ func (ae *ArwenTestExecutor) ExecuteScenario(scenario *mj.Scenario, fileResolver
 }
 
 // ExecuteStep executes an individual step from a scenario.
-func (ae *ArwenTestExecutor) ExecuteStep(generalStep mj.Step) error {
+func (ae *VMTestExecutor) ExecuteStep(generalStep mj.Step) error {
 	err := error(nil)
 
 	switch step := generalStep.(type) {
@@ -56,7 +56,7 @@ func (ae *ArwenTestExecutor) ExecuteStep(generalStep mj.Step) error {
 }
 
 // ExecuteExternalStep executes an external step referenced by the scenario.
-func (ae *ArwenTestExecutor) ExecuteExternalStep(step *mj.ExternalStepsStep) error {
+func (ae *VMTestExecutor) ExecuteExternalStep(step *mj.ExternalStepsStep) error {
 	log.Trace("ExternalStepsStep", "path", step.Path)
 	if len(step.Comment) > 0 {
 		log.Trace("ExternalStepsStep", "comment", step.Comment)
@@ -78,7 +78,7 @@ func (ae *ArwenTestExecutor) ExecuteExternalStep(step *mj.ExternalStepsStep) err
 }
 
 // ExecuteSetStateStep executes a SetStateStep.
-func (ae *ArwenTestExecutor) ExecuteSetStateStep(step *mj.SetStateStep) error {
+func (ae *VMTestExecutor) ExecuteSetStateStep(step *mj.SetStateStep) error {
 	if len(step.Comment) > 0 {
 		log.Trace("SetStateStep", "comment", step.Comment)
 	}
@@ -106,7 +106,7 @@ func (ae *ArwenTestExecutor) ExecuteSetStateStep(step *mj.SetStateStep) error {
 }
 
 // ExecuteTxStep executes a TxStep.
-func (ae *ArwenTestExecutor) ExecuteTxStep(step *mj.TxStep) (*vmi.VMOutput, error) {
+func (ae *VMTestExecutor) ExecuteTxStep(step *mj.TxStep) (*vmi.VMOutput, error) {
 	log.Trace("ExecuteTxStep", "id", step.TxIdent)
 	if len(step.Comment) > 0 {
 		log.Trace("ExecuteTxStep", "comment", step.Comment)

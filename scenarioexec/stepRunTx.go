@@ -12,7 +12,7 @@ import (
 	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 )
 
-func (ae *ArwenTestExecutor) executeTx(txIndex string, tx *mj.Transaction) (*vmcommon.VMOutput, error) {
+func (ae *VMTestExecutor) executeTx(txIndex string, tx *mj.Transaction) (*vmcommon.VMOutput, error) {
 	ae.World.CreateStateBackup()
 
 	var err error
@@ -105,7 +105,7 @@ func (ae *ArwenTestExecutor) executeTx(txIndex string, tx *mj.Transaction) (*vmc
 	return output, nil
 }
 
-func (ae *ArwenTestExecutor) senderHasEnoughBalance(tx *mj.Transaction) bool {
+func (ae *VMTestExecutor) senderHasEnoughBalance(tx *mj.Transaction) bool {
 	if !tx.Type.HasSender() {
 		return true
 	}
@@ -113,7 +113,7 @@ func (ae *ArwenTestExecutor) senderHasEnoughBalance(tx *mj.Transaction) bool {
 	return sender.Balance.Cmp(tx.Value.Value) >= 0
 }
 
-func (ae *ArwenTestExecutor) simpleTransferOutput(tx *mj.Transaction) *vmcommon.VMOutput {
+func (ae *VMTestExecutor) simpleTransferOutput(tx *mj.Transaction) *vmcommon.VMOutput {
 	outputAccounts := make(map[string]*vmcommon.OutputAccount)
 	outputAccounts[string(tx.To.Value)] = &vmcommon.OutputAccount{
 		Address:      tx.To.Value,
@@ -133,7 +133,7 @@ func (ae *ArwenTestExecutor) simpleTransferOutput(tx *mj.Transaction) *vmcommon.
 	}
 }
 
-func (ae *ArwenTestExecutor) validatorRewardOutput(tx *mj.Transaction) (*vmcommon.VMOutput, error) {
+func (ae *VMTestExecutor) validatorRewardOutput(tx *mj.Transaction) (*vmcommon.VMOutput, error) {
 	reward := tx.Value.Value
 	recipient := ae.World.AcctMap.GetAccount(tx.To.Value)
 	if recipient == nil {
@@ -184,7 +184,7 @@ func outOfFundsResult() *vmcommon.VMOutput {
 	}
 }
 
-func (ae *ArwenTestExecutor) scCreate(txIndex string, tx *mj.Transaction, gasLimit uint64) (*vmcommon.VMOutput, error) {
+func (ae *VMTestExecutor) scCreate(txIndex string, tx *mj.Transaction, gasLimit uint64) (*vmcommon.VMOutput, error) {
 	txHash := generateTxHash(txIndex)
 	vmInput := vmcommon.VMInput{
 		CallerAddr:     tx.From.Value,
@@ -205,7 +205,7 @@ func (ae *ArwenTestExecutor) scCreate(txIndex string, tx *mj.Transaction, gasLim
 	return ae.vm.RunSmartContractCreate(input)
 }
 
-func (ae *ArwenTestExecutor) scCall(txIndex string, tx *mj.Transaction, gasLimit uint64) (*vmcommon.VMOutput, error) {
+func (ae *VMTestExecutor) scCall(txIndex string, tx *mj.Transaction, gasLimit uint64) (*vmcommon.VMOutput, error) {
 	recipient := ae.World.AcctMap.GetAccount(tx.To.Value)
 	if recipient == nil {
 		return nil, fmt.Errorf("tx recipient (address: %s) does not exist", hex.EncodeToString(tx.To.Value))
@@ -234,7 +234,7 @@ func (ae *ArwenTestExecutor) scCall(txIndex string, tx *mj.Transaction, gasLimit
 	return ae.vm.RunSmartContractCall(input)
 }
 
-func (ae *ArwenTestExecutor) directESDTTransferFromTx(tx *mj.Transaction) (uint64, error) {
+func (ae *VMTestExecutor) directESDTTransferFromTx(tx *mj.Transaction) (uint64, error) {
 	return ae.World.BuiltinFuncs.PerformDirectESDTTransfer(
 		tx.From.Value,
 		tx.To.Value,
@@ -246,7 +246,7 @@ func (ae *ArwenTestExecutor) directESDTTransferFromTx(tx *mj.Transaction) (uint6
 		tx.GasPrice.Value)
 }
 
-func (ae *ArwenTestExecutor) updateStateAfterTx(
+func (ae *VMTestExecutor) updateStateAfterTx(
 	tx *mj.Transaction,
 	output *vmcommon.VMOutput) error {
 
