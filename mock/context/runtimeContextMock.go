@@ -26,8 +26,8 @@ type RuntimeContextMock struct {
 	MemLoadResult          []byte
 	MemLoadMultipleResult  [][]byte
 	FailCryptoAPI          bool
-	FailElrondAPI          bool
-	FailElrondSyncExecAPI  bool
+	FailBaseOpsAPI         bool
+	FailSyncExecAPI        bool
 	FailBigIntAPI          bool
 	AsyncCallInfo          *vmhost.AsyncCallInfo
 	RunningInstances       uint64
@@ -273,12 +273,12 @@ func (r *RuntimeContextMock) MemStore(_ int32, _ []byte) error {
 
 // BaseOpsErrorShouldFailExecution mocked method
 func (r *RuntimeContextMock) BaseOpsErrorShouldFailExecution() bool {
-	return r.FailElrondAPI
+	return r.FailBaseOpsAPI
 }
 
 // SyncExecAPIErrorShouldFailExecution mocked method
 func (r *RuntimeContextMock) SyncExecAPIErrorShouldFailExecution() bool {
-	return r.FailElrondSyncExecAPI
+	return r.FailSyncExecAPI
 }
 
 // CryptoAPIErrorShouldFailExecution mocked method

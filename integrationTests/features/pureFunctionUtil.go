@@ -9,11 +9,11 @@ import (
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
-	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
-	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/stretchr/testify/require"
 )
 
@@ -47,7 +47,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("E"+"L"+"R"+"O"+"N"+"D"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

@@ -180,10 +180,10 @@ func runHookScenario(t *testing.T, callHook func(*BlockchainHookGateway), handle
 }
 
 type testFiles struct {
-	outputOfNode  *os.File
-	inputOfVM  *os.File
-	outputOfVM *os.File
-	inputOfNode   *os.File
+	outputOfNode *os.File
+	inputOfVM    *os.File
+	outputOfVM   *os.File
+	inputOfNode  *os.File
 }
 
 func createTestFiles(t *testing.T) testFiles {

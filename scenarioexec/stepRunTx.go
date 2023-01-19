@@ -140,9 +140,9 @@ func (ae *VMTestExecutor) validatorRewardOutput(tx *mj.Transaction) (*vmcommon.V
 		return nil, fmt.Errorf("tx recipient (address: %s) does not exist", hex.EncodeToString(tx.To.Value))
 	}
 	recipient.BalanceDelta = reward
-	storageElrondReward := recipient.StorageValue(ElrondRewardKey)
-	storageElrondReward = big.NewInt(0).Add(
-		big.NewInt(0).SetBytes(storageElrondReward),
+	storageReward := recipient.StorageValue(RewardKey)
+	storageReward = big.NewInt(0).Add(
+		big.NewInt(0).SetBytes(storageReward),
 		reward).Bytes()
 
 	outputAccounts := make(map[string]*vmcommon.OutputAccount)
@@ -150,9 +150,9 @@ func (ae *VMTestExecutor) validatorRewardOutput(tx *mj.Transaction) (*vmcommon.V
 		Address:      tx.To.Value,
 		BalanceDelta: tx.Value.Value,
 		StorageUpdates: map[string]*vmcommon.StorageUpdate{
-			ElrondRewardKey: {
-				Offset: []byte(ElrondRewardKey),
-				Data:   storageElrondReward,
+			RewardKey: {
+				Offset: []byte(RewardKey),
+				Data:   storageReward,
 			},
 		},
 	}

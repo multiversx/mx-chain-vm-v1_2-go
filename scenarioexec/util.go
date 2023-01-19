@@ -8,8 +8,8 @@ import (
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
-	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 )
 
 func convertAccount(testAcct *mj.Account) (*worldmock.Account, error) {
@@ -40,13 +40,13 @@ func convertAccount(testAcct *mj.Account) (*worldmock.Account, error) {
 			Payable:     true,
 			Upgradeable: true,
 			Readable:    true,
-		}).ToBytes(), // TODO: add explicit fields in mandos json
+		}).ToBytes(), // TODO: add explicit fields in scenario JSON
 	}
 
-	for _, mandosESDTData := range testAcct.ESDTData {
-		tokenName := mandosESDTData.TokenIdentifier.Value
-		isFrozen := mandosESDTData.Frozen.Value > 0
-		for _, instance := range mandosESDTData.Instances {
+	for _, scenESDTData := range testAcct.ESDTData {
+		tokenName := scenESDTData.TokenIdentifier.Value
+		isFrozen := scenESDTData.Frozen.Value > 0
+		for _, instance := range scenESDTData.Instances {
 			tokenNonce := instance.Nonce.Value
 			tokenKey := worldmock.MakeTokenKey(tokenName, tokenNonce)
 			tokenBalance := instance.Balance.Value
@@ -63,12 +63,12 @@ func convertAccount(testAcct *mj.Account) (*worldmock.Account, error) {
 			if err != nil {
 				return nil, err
 			}
-			err = account.SetLastNonce(tokenName, mandosESDTData.LastNonce.Value)
+			err = account.SetLastNonce(tokenName, scenESDTData.LastNonce.Value)
 			if err != nil {
 				return nil, err
 			}
 		}
-		err := account.SetTokenRolesAsStrings(tokenName, mandosESDTData.Roles)
+		err := account.SetTokenRolesAsStrings(tokenName, scenESDTData.Roles)
 		if err != nil {
 			return nil, err
 		}
@@ -118,7 +118,7 @@ func convertBlockInfo(testBlockInfo *mj.BlockInfo) *worldmock.BlockInfo {
 	return result
 }
 
-// this is a small hack, so we can reuse mandos's JSON printing in error messages
+// this is a small hack, so we can reuse JSON printing in error messages
 func convertLogToTestFormat(outputLog *vmcommon.LogEntry) *mj.LogEntry {
 	testLog := mj.LogEntry{
 		Address:    mj.JSONCheckBytesReconstructed(outputLog.Address),

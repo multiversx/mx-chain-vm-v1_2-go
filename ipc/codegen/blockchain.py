@@ -145,7 +145,7 @@ def my_capitalize(input):
 
 def generate_repliers(args):
     print("package nodepart")
-    print("import \"github.com/ElrondNetwork/arwen-wasm-vm/ipc/common\"")
+    print("import \"github.com/multiversx/mx-chain-vm-go/ipc/common\"")
 
     for signature in signatures:
         call_go, output_args = get_call(signature)
@@ -194,8 +194,8 @@ package vmpart
 import (
     "math/big"
 
-    "github.com/ElrondNetwork/arwen-wasm-vm/ipc/common"
-    "github.com/ElrondNetwork/elrond-go/core/vmcommon"
+    "github.com/multiversx/mx-chain-vm-go/ipc/common"
+    "github.com/multiversx/multiversx/core/vmcommon"
 )
 
 var _ vmcommon.BlockchainHook = (*BlockchainHookGateway)(nil)

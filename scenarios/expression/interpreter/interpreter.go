@@ -1,4 +1,4 @@
-package mandosexpressioninterpreter
+package scenexpressioninterpreter
 
 import (
 	"encoding/hex"
@@ -32,7 +32,7 @@ const i8Prefix = "i8:"
 const biguintPrefix = "biguint:"
 const nestedPrefix = "nested:"
 
-// ExprInterpreter provides context for computing Mandos values.
+// ExprInterpreter provides context for computing scenario values.
 type ExprInterpreter struct {
 	FileResolver fr.FileResolver
 }
@@ -80,7 +80,7 @@ func (ei *ExprInterpreter) InterpretSubTree(obj oj.OJsonObject) ([]byte, error) 
 	return []byte{}, errors.New("cannot interpret given JSON subtree as value")
 }
 
-// InterpretString resolves a string to a byte slice according to the Mandos value format.
+// InterpretString resolves a string to a byte slice according to the scenario value format.
 // Supported rules are:
 // - numbers: decimal, hex, binary, signed/unsigned
 // - fixed length numbers: "u32:5", "i8:-3", etc.
