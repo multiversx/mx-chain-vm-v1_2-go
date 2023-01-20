@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	arwen "github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	arwenHost "github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
 	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
 	worldhook "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -42,6 +42,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 
 	blockGasLimit := uint64(10000000)
 	gasSchedule := config.MakeGasMapForTests()
+	adressGenerator := &worldhook.AddressGeneratorStub{}
 	vm, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
 		VMType:                   testVMType,
 		BlockGasLimit:            blockGasLimit,
@@ -54,6 +55,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 			IsRepairCallbackFlagEnabledField:      true,
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
+		AddressGenerator: adressGenerator,
 	})
 	if err != nil {
 		return nil, err

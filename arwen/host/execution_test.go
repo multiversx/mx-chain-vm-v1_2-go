@@ -53,16 +53,16 @@ func TestSCMem(t *testing.T) {
 
 func TestExecution_DeployNewAddressErr(t *testing.T) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
-
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 	errNewAddress := errors.New("new address error")
 
-	host := defaultTestArwen(t, stubBlockchainHook)
+	host := defaultTestArwen(t, stubBlockchainHook, stubAdressGenerator)
 	input := DefaultTestContractCreateInput()
 	stubBlockchainHook.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
 		require.Equal(t, input.CallerAddr, address)
 		return &contextmock.StubAccount{}, nil
 	}
-	stubBlockchainHook.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
+	stubAdressGenerator.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
 		require.Equal(t, input.CallerAddr, creatorAddress)
 		require.Equal(t, uint64(0), nonce)
 		require.Equal(t, defaultVMType, vmType)
@@ -239,12 +239,13 @@ func TestExecution_ManyDeployments(t *testing.T) {
 	stubBlockchainHook.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
 		return &contextmock.StubAccount{Nonce: ownerNonce}, nil
 	}
-	stubBlockchainHook.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
+	stubAdressGenerator.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
 		ownerNonce++
 		return []byte(newAddress + " " + fmt.Sprint(ownerNonce)), nil
 	}
 
-	host := defaultTestArwen(t, stubBlockchainHook)
+	host := defaultTestArwen(t, stubBlockchainHook, stubAdressGenerator)
 	input := DefaultTestContractCreateInput()
 	input.CallerAddr = []byte("owner")
 	input.Arguments = make([][]byte, 0)
@@ -371,10 +372,11 @@ func TestExecution_Deploy_DisallowFloatingPoint(t *testing.T) {
 
 func TestExecution_CallGetUserAccountErr(t *testing.T) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 
 	errGetAccount := errors.New("get code error")
 
-	host := defaultTestArwen(t, stubBlockchainHook)
+	host := defaultTestArwen(t, stubBlockchainHook, stubAdressGenerator)
 	input := DefaultTestContractCallInput()
 	stubBlockchainHook.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
 		return nil, errGetAccount
@@ -390,8 +392,9 @@ func TestExecution_CallGetUserAccountErr(t *testing.T) {
 
 func TestExecution_NotEnoughGasForGetCode(t *testing.T) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
 
-	host := defaultTestArwen(t, stubBlockchainHook)
+	host := defaultTestArwen(t, stubBlockchainHook, stubAdressGenerator)
 	input := DefaultTestContractCallInput()
 
 	input.GasProvided = 0
@@ -1217,7 +1220,8 @@ func TestExecution_ExecuteOnSameContext_MultipleChildren(t *testing.T) {
 	t.Skip("needs gas forwarding fixes")
 
 	world := worldmock.NewMockWorld()
-	host := defaultTestArwen(t, world)
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
+	host := defaultTestArwen(t, world, stubAdressGenerator)
 
 	alphaCode := GetTestSCCodeModule("exec-sync-ctx-multiple/alpha", "alpha", "../../")
 	alpha := AddTestSmartContractToWorld(world, "alphaSC", alphaCode)
@@ -1259,7 +1263,8 @@ func TestExecution_ExecuteOnSameContext_MultipleChildren(t *testing.T) {
 
 func TestExecution_ExecuteOnDestContext_MultipleChildren(t *testing.T) {
 	world := worldmock.NewMockWorld()
-	host := defaultTestArwen(t, world)
+	stubAdressGenerator := &worldmock.AddressGeneratorStub{}
+	host := defaultTestArwen(t, world, stubAdressGenerator)
 
 	alphaCode := GetTestSCCodeModule("exec-sync-ctx-multiple/alpha", "alpha", "../../")
 	alpha := AddTestSmartContractToWorld(world, "alphaSC", alphaCode)

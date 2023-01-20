@@ -90,11 +90,12 @@ func defaultTestArwenForDeployment(t *testing.T, _ uint64, newAddress []byte) *v
 			Nonce: 24,
 		}, nil
 	}
-	stubBlockchainHook.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
+
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
+	stubAddressGenerator.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
 		return newAddress, nil
 	}
-
-	host := defaultTestArwen(t, stubBlockchainHook)
+	host := defaultTestArwen(t, stubBlockchainHook, stubAddressGenerator)
 	return host
 }
 
@@ -111,8 +112,9 @@ func defaultTestArwenForCall(tb testing.TB, code []byte, balance *big.Int) (*vmH
 	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
 		return code
 	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
-	host := defaultTestArwen(tb, stubBlockchainHook)
+	host := defaultTestArwen(tb, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook
 }
 
@@ -129,6 +131,7 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
 		return code
 	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
 	gasSchedule := customGasSchedule
 	if gasSchedule == nil {
@@ -149,6 +152,7 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
 		WasmerSIGSEGVPassthrough: passthrough,
+		AddressGenerator:         stubAddressGenerator,
 	})
 	require.Nil(tb, err)
 	require.NotNil(tb, host)
@@ -165,7 +169,8 @@ func defaultTestArwenForCallWithInstanceRecorderMock(tb testing.TB, code []byte,
 }
 func defaultTestArwenForCallWithInstanceMocks(tb testing.TB) (*vmHost, *worldmock.MockWorld, *contextmock.InstanceBuilderMock) {
 	world := worldmock.NewMockWorld()
-	host := defaultTestArwen(tb, world)
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
+	host := defaultTestArwen(tb, world, stubAddressGenerator)
 
 	instanceBuilderMock := contextmock.NewInstanceBuilderMock(world)
 	host.Runtime().ReplaceInstanceBuilder(instanceBuilderMock)
@@ -175,7 +180,8 @@ func defaultTestArwenForCallWithInstanceMocks(tb testing.TB) (*vmHost, *worldmoc
 
 func defaultTestArwenForCallWithWorldMock(tb testing.TB, code []byte, balance *big.Int) (*vmHost, *worldmock.MockWorld) {
 	world := worldmock.NewMockWorld()
-	host := defaultTestArwen(tb, world)
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
+	host := defaultTestArwen(tb, world, stubAddressGenerator)
 
 	err := world.InitBuiltinFunctions(host.GetGasScheduleMap())
 	require.Nil(tb, err)
@@ -231,12 +237,13 @@ func defaultTestArwenForTwoSCs(
 		}
 		return nil
 	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
-	host := defaultTestArwen(t, stubBlockchainHook)
+	host := defaultTestArwen(t, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook
 }
 
-func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost {
+func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook, addressGenerator arwen.AddressGenerator) *vmHost {
 	gasSchedule := customGasSchedule
 	if gasSchedule == nil {
 		gasSchedule = config.MakeGasMapForTests()
@@ -255,6 +262,7 @@ func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost
 			IsRepairCallbackFlagEnabledField:      true,
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
+		AddressGenerator: addressGenerator,
 	})
 	require.Nil(tb, err)
 	require.NotNil(tb, host)

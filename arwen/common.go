@@ -118,6 +118,7 @@ type VMHostParameters struct {
 	WasmerSIGSEGVPassthrough bool
 	UseWarmInstance          bool
 	EnableEpochsHandler      vmcommon.EnableEpochsHandler
+	AddressGenerator         AddressGenerator
 }
 
 // AsyncCallInfo contains the information required to handle the asynchronous call of another SmartContract

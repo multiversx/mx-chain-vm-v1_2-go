@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 
+	logger "github.com/ElrondNetwork/elrond-go-logger"
+	vmi "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/mock"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
 	arwenHost "github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
 	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
@@ -12,9 +15,6 @@ import (
 	fr "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/fileresolver"
 	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
 	worldhook "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
-	vmi "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
 )
 
 var log = logger.GetOrCreate("arwen/mandos")
@@ -47,6 +47,9 @@ func NewArwenTestExecutor(arwenmandosPath string) (*ArwenTestExecutor, error) {
 	}
 
 	blockGasLimit := uint64(10000000)
+	adressGenerator := &worldhook.AddressGeneratorStub{
+		NewAddressCalled: world.CreateMockWorldNewAddress,
+	}
 	vm, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
 		VMType:                   TestVMType,
 		BlockGasLimit:            blockGasLimit,
@@ -59,6 +62,7 @@ func NewArwenTestExecutor(arwenmandosPath string) (*ArwenTestExecutor, error) {
 			IsRepairCallbackFlagEnabledField:      true,
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
+		AddressGenerator: adressGenerator,
 	})
 	if err != nil {
 		return nil, err
