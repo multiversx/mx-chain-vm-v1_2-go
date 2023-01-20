@@ -8,7 +8,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
 )
 
-var log = logger.GetOrCreate("arwen/baseMessenger")
+var log = logger.GetOrCreate("vm/baseMessenger")
 
 // Messenger intermediates communication (message exchange) via pipes
 type Messenger struct {

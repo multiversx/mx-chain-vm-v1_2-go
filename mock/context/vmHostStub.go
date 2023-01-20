@@ -5,12 +5,12 @@ import (
 
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/arwen"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 
-var _ arwen.VMHost = (*VMHostStub)(nil)
+var _ vmhost.VMHost = (*VMHostStub)(nil)
 
 // VMHostStub is used in tests to check the VMHost interface method calls
 type VMHostStub struct {
@@ -20,17 +20,17 @@ type VMHostStub struct {
 	ClearStateStackCalled func()
 
 	CryptoCalled                      func() crypto.VMCrypto
-	BlockchainCalled                  func() arwen.BlockchainContext
-	RuntimeCalled                     func() arwen.RuntimeContext
-	BigIntCalled                      func() arwen.BigIntContext
-	OutputCalled                      func() arwen.OutputContext
-	MeteringCalled                    func() arwen.MeteringContext
-	StorageCalled                     func() arwen.StorageContext
+	BlockchainCalled                  func() vmhost.BlockchainContext
+	RuntimeCalled                     func() vmhost.RuntimeContext
+	BigIntCalled                      func() vmhost.BigIntContext
+	OutputCalled                      func() vmhost.OutputContext
+	MeteringCalled                    func() vmhost.MeteringContext
+	StorageCalled                     func() vmhost.StorageContext
 	RevertESDTTransferCalled          func(input *vmcommon.ContractCallInput)
 	ExecuteESDTTransferCalled         func(destination []byte, sender []byte, tokenIdentifier []byte, nonce uint64, value *big.Int, callType vm.CallType, isRevert bool) (*vmcommon.VMOutput, uint64, error)
 	CreateNewContractCalled           func(input *vmcommon.ContractCreateInput) ([]byte, error)
-	ExecuteOnSameContextCalled        func(input *vmcommon.ContractCallInput) (*arwen.AsyncContextInfo, error)
-	ExecuteOnDestContextCalled        func(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, *arwen.AsyncContextInfo, uint64, error)
+	ExecuteOnSameContextCalled        func(input *vmcommon.ContractCallInput) (*vmhost.AsyncContextInfo, error)
+	ExecuteOnDestContextCalled        func(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, *vmhost.AsyncContextInfo, uint64, error)
 	GetAPIMethodsCalled               func() *wasmer.Imports
 	GetProtocolBuiltinFunctionsCalled func() vmcommon.FunctionNames
 	IsBuiltinFunctionNameCalled       func(functionName string) bool
@@ -74,7 +74,7 @@ func (vhs *VMHostStub) Crypto() crypto.VMCrypto {
 }
 
 // Blockchain mocked method
-func (vhs *VMHostStub) Blockchain() arwen.BlockchainContext {
+func (vhs *VMHostStub) Blockchain() vmhost.BlockchainContext {
 	if vhs.BlockchainCalled != nil {
 		return vhs.BlockchainCalled()
 	}
@@ -82,7 +82,7 @@ func (vhs *VMHostStub) Blockchain() arwen.BlockchainContext {
 }
 
 // Runtime mocked method
-func (vhs *VMHostStub) Runtime() arwen.RuntimeContext {
+func (vhs *VMHostStub) Runtime() vmhost.RuntimeContext {
 	if vhs.RuntimeCalled != nil {
 		return vhs.RuntimeCalled()
 	}
@@ -90,20 +90,20 @@ func (vhs *VMHostStub) Runtime() arwen.RuntimeContext {
 }
 
 // BigInt mocked method
-func (vhs *VMHostStub) BigInt() arwen.BigIntContext {
+func (vhs *VMHostStub) BigInt() vmhost.BigIntContext {
 	if vhs.BigIntCalled != nil {
 		return vhs.BigIntCalled()
 	}
 	return nil
 }
 
-// IsArwenV2Enabled mocked method
-func (vhs *VMHostStub) IsArwenV2Enabled() bool {
+// IsVMV2Enabled mocked method
+func (vhs *VMHostStub) IsVMV2Enabled() bool {
 	return true
 }
 
-// IsArwenV3Enabled mocked method
-func (vhs *VMHostStub) IsArwenV3Enabled() bool {
+// IsVMV3Enabled mocked method
+func (vhs *VMHostStub) IsVMV3Enabled() bool {
 	return true
 }
 
@@ -123,7 +123,7 @@ func (vhs *VMHostStub) IsESDTFunctionsEnabled() bool {
 }
 
 // Output mocked method
-func (vhs *VMHostStub) Output() arwen.OutputContext {
+func (vhs *VMHostStub) Output() vmhost.OutputContext {
 	if vhs.OutputCalled != nil {
 		return vhs.OutputCalled()
 	}
@@ -131,7 +131,7 @@ func (vhs *VMHostStub) Output() arwen.OutputContext {
 }
 
 // Metering mocked method
-func (vhs *VMHostStub) Metering() arwen.MeteringContext {
+func (vhs *VMHostStub) Metering() vmhost.MeteringContext {
 	if vhs.MeteringCalled != nil {
 		return vhs.MeteringCalled()
 	}
@@ -139,7 +139,7 @@ func (vhs *VMHostStub) Metering() arwen.MeteringContext {
 }
 
 // Storage mocked method
-func (vhs *VMHostStub) Storage() arwen.StorageContext {
+func (vhs *VMHostStub) Storage() vmhost.StorageContext {
 	if vhs.StorageCalled != nil {
 		return vhs.StorageCalled()
 	}
@@ -170,7 +170,7 @@ func (vhs *VMHostStub) CreateNewContract(input *vmcommon.ContractCreateInput) ([
 }
 
 // ExecuteOnSameContext mocked method
-func (vhs *VMHostStub) ExecuteOnSameContext(input *vmcommon.ContractCallInput) (*arwen.AsyncContextInfo, error) {
+func (vhs *VMHostStub) ExecuteOnSameContext(input *vmcommon.ContractCallInput) (*vmhost.AsyncContextInfo, error) {
 	if vhs.ExecuteOnSameContextCalled != nil {
 		return vhs.ExecuteOnSameContextCalled(input)
 	}
@@ -178,7 +178,7 @@ func (vhs *VMHostStub) ExecuteOnSameContext(input *vmcommon.ContractCallInput) (
 }
 
 // ExecuteOnDestContext mocked method
-func (vhs *VMHostStub) ExecuteOnDestContext(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, *arwen.AsyncContextInfo, uint64, error) {
+func (vhs *VMHostStub) ExecuteOnDestContext(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, *vmhost.AsyncContextInfo, uint64, error) {
 	if vhs.ExecuteOnDestContextCalled != nil {
 		return vhs.ExecuteOnDestContextCalled(input)
 	}

@@ -11,7 +11,7 @@ import (
 	"time"
 
 	fuzzutil "github.com/multiversx/mx-chain-vm-v1_2-go/fuzz/util"
-	mc "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/controller"
+	mc "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/controller"
 	"github.com/stretchr/testify/require"
 )
 
@@ -22,8 +22,8 @@ func getTestRoot() string {
 	if err != nil {
 		panic(err)
 	}
-	arwenTestRoot := filepath.Join(exePath, "../../../test")
-	return arwenTestRoot
+	vmTestRoot := filepath.Join(exePath, "../../../test")
+	return vmTestRoot
 }
 
 func newExecutorWithPaths() *fuzzDelegationExecutor {

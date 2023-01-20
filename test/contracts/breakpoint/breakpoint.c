@@ -1,4 +1,4 @@
-#include "../elrond/context.h"
+#include "../mxvm/context.h"
 
 void testFunc() {
   i64 arg = int64getArgument(0);

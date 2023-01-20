@@ -4,7 +4,7 @@ import (
 	logger "github.com/multiversx/mx-chain-logger-go"
 )
 
-var logMessages = logger.GetOrCreate("arwen/messages")
+var logMessages = logger.GetOrCreate("vm/messages")
 
 // CreateMessage creates a message given its kind
 func CreateMessage(kind MessageKind) MessageHandler {

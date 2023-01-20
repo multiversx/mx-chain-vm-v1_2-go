@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	am "github.com/multiversx/mx-chain-vm-v1_2-go/arwenmandos"
-	mc "github.com/multiversx/mx-chain-vm-v1_2-go/mandos-go/controller"
+	am "github.com/multiversx/mx-chain-vm-v1_2-go/scenarioexec"
+	mc "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/controller"
 )
 
 func resolveArgument(exeDir string, arg string) (string, bool, error) {
@@ -42,10 +42,10 @@ func main() {
 	}
 
 	// init
-	arwenmandosPath := filepath.Join(exeDir, "../arwenmandos")
-	executor, err := am.NewArwenTestExecutor(arwenmandosPath)
+	scenarioexecPath := filepath.Join(exeDir, "../scenarioexec")
+	executor, err := am.NewVMTestExecutor(scenarioexecPath)
 	if err != nil {
-		panic("Could not instantiate Arwen VM")
+		panic("Could not instantiate VM VM")
 	}
 
 	// execute
