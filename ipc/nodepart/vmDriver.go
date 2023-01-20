@@ -21,7 +21,7 @@ var _ vmcommon.VMExecutionHandler = (*VMDriver)(nil)
 // VMDriver manages the execution of the VM process
 type VMDriver struct {
 	blockchainHook      vmcommon.BlockchainHook
-	vmArguments      common.VMArguments
+	vmArguments         common.VMArguments
 	config              Config
 	logsMarshalizer     marshaling.Marshalizer
 	messagesMarshalizer marshaling.Marshalizer
@@ -58,7 +58,7 @@ func NewVMDriver(
 ) (*VMDriver, error) {
 	driver := &VMDriver{
 		blockchainHook:      blockchainHook,
-		vmArguments:      vmArguments,
+		vmArguments:         vmArguments,
 		config:              config,
 		logsMarshalizer:     marshaling.CreateMarshalizer(vmArguments.LogsMarshalizer),
 		messagesMarshalizer: marshaling.CreateMarshalizer(vmArguments.MessagesMarshalizer),

@@ -3,8 +3,8 @@ package common
 import (
 	"os"
 
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 )
 
 // VMArguments represents the initialization arguments required by VM, passed through the initialization pipe

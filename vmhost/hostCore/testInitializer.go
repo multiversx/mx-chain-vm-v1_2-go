@@ -15,10 +15,10 @@ import (
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/mock"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/context"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/pelletier/go-toml"
 	"github.com/stretchr/testify/require"
 )
@@ -140,7 +140,7 @@ func DefaultTestVMForCallSigSegv(tb testing.TB, code []byte, balance *big.Int, p
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("E"+"L"+"R"+"O"+"N"+"D"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
@@ -247,7 +247,7 @@ func defaultTestVM(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost {
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ProtectedKeyPrefix:       []byte("E"+"L"+"R"+"O"+"N"+"D"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,

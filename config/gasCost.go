@@ -6,7 +6,7 @@ type GasCost struct {
 	BaseOperationCost BaseOperationCost
 	BigIntAPICost     BigIntAPICost
 	EthAPICost        EthAPICost
-	BaseOpsAPICost     BaseOpsAPICost
+	BaseOpsAPICost    BaseOpsAPICost
 	CryptoAPICost     CryptoAPICost
 	WASMOpcodeCost    WASMOpcodeCost
 }

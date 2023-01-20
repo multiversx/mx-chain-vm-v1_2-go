@@ -17,7 +17,7 @@ func (ae *VMTestExecutor) Reset() {
 func (ae *VMTestExecutor) ExecuteScenario(scenario *mj.Scenario, fileResolver fr.FileResolver) error {
 	ae.fileResolver = fileResolver
 	ae.checkGas = scenario.CheckGas
-	err := ae.SetMandosGasSchedule(scenario.GasSchedule)
+	err := ae.SetScenariosGasSchedule(scenario.GasSchedule)
 	if err != nil {
 		return err
 	}

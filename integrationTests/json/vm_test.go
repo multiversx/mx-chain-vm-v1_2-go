@@ -25,8 +25,8 @@ func getTestRoot() string {
 	return vmTestRoot
 }
 
-// Tests Mandos consistency, no smart contracts.
-func TestMandosSelfTest(t *testing.T) {
+// Tests Scenarios consistency, no smart contracts.
+func TestScenariosSelfTest(t *testing.T) {
 	runTestsInFolder(t, "scenarios-self-test", []string{
 		"scenarios-self-test/builtin-func-esdt-transfer.scen.json",
 	})

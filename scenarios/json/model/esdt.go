@@ -1,4 +1,4 @@
-package mandosjsonmodel
+package scenjsonmodel
 
 // ESDTTransfer models the transfer of tokens in a tx
 type ESDTTxData struct {

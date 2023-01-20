@@ -7,13 +7,13 @@ import (
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto/factory"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/contexts"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/cryptoapi"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/vmhooks"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto"
-	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto/factory"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 )
 
