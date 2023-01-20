@@ -90,7 +90,7 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 	gasMap, err := LoadGasScheduleConfig("../../arwenmandos/gasSchedules/gasScheduleV2.toml")
 	require.Nil(tb, err)
 
-	host, err := NewArwenVM(mockWorld, adressGenerator, &arwen.VMHostParameters{
+	host, err := NewArwenVM(mockWorld, &arwen.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasMap,
@@ -102,6 +102,7 @@ func deploy(tb testing.TB, totalTokenSupply *big.Int) (*vmHost, *worldmock.MockW
 			IsRepairCallbackFlagEnabledField:      true,
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
+		AddressGenerator: adressGenerator,
 	})
 	require.Nil(tb, err)
 

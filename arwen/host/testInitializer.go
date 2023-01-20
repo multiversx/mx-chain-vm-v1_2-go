@@ -138,7 +138,7 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
-	host, err := NewArwenVM(stubBlockchainHook, stubAddressGenerator, &arwen.VMHostParameters{
+	host, err := NewArwenVM(stubBlockchainHook, &arwen.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
@@ -152,6 +152,7 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
 		WasmerSIGSEGVPassthrough: passthrough,
+		AddressGenerator:         stubAddressGenerator,
 	})
 	require.Nil(tb, err)
 	require.NotNil(tb, host)
@@ -248,7 +249,7 @@ func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook, address
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
-	host, err := NewArwenVM(blockchain, addressGenerator, &arwen.VMHostParameters{
+	host, err := NewArwenVM(blockchain, &arwen.VMHostParameters{
 		VMType:                   defaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
@@ -261,6 +262,7 @@ func defaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook, address
 			IsRepairCallbackFlagEnabledField:      true,
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
+		AddressGenerator: addressGenerator,
 	})
 	require.Nil(tb, err)
 	require.NotNil(tb, host)

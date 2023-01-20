@@ -50,7 +50,7 @@ func NewArwenTestExecutor(arwenmandosPath string) (*ArwenTestExecutor, error) {
 	adressGenerator := &worldhook.AddressGeneratorStub{
 		NewAddressCalled: world.CreateMockWorldNewAddress,
 	}
-	vm, err := arwenHost.NewArwenVM(world, adressGenerator, &arwen.VMHostParameters{
+	vm, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
 		VMType:                   TestVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasScheduleMap,
@@ -62,6 +62,7 @@ func NewArwenTestExecutor(arwenmandosPath string) (*ArwenTestExecutor, error) {
 			IsRepairCallbackFlagEnabledField:      true,
 			IsBuiltInFunctionsFlagEnabledField:    true,
 		},
+		AddressGenerator: adressGenerator,
 	})
 	if err != nil {
 		return nil, err
