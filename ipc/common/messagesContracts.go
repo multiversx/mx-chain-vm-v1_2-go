@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/mx-chain-vm-common-go"
 )
 
 // MessageContractDeployRequest is a deploy request message (from the Node)
@@ -32,7 +32,7 @@ func NewMessageContractCallRequest(input *vmcommon.ContractCallInput) *MessageCo
 	return message
 }
 
-// MessageContractResponse is a contract response message (from Arwen)
+// MessageContractResponse is a contract response message (from VM)
 type MessageContractResponse struct {
 	Message
 	SerializableVMOutput *SerializableVMOutput
@@ -59,7 +59,7 @@ func NewMessageVersionRequest() *MessageVersionRequest {
 	return message
 }
 
-// MessageVersionResponse is a version response message (from Arwen)
+// MessageVersionResponse is a version response message (from VM)
 type MessageVersionResponse struct {
 	Message
 	Version string

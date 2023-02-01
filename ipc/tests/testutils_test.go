@@ -6,7 +6,7 @@ import (
 	"math/big"
 	"path/filepath"
 
-	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/multiversx/mx-chain-vm-common-go"
 )
 
 var bytecodeCounter []byte

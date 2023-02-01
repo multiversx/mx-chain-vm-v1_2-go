@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	arwen "github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	arwenHost "github.com/ElrondNetwork/wasm-vm-v1_2/arwen/host"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/config"
-	mj "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/json/model"
-	worldhook "github.com/ElrondNetwork/wasm-vm-v1_2/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/mock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
+	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
 	"github.com/stretchr/testify/require"
 )
 
@@ -42,12 +42,12 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 
 	blockGasLimit := uint64(10000000)
 	gasSchedule := config.MakeGasMapForTests()
-	vm, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
+	vm, err := hostCore.NewVMHost(world, &vmhost.VMHostParameters{
 		VMType:                   testVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
 		ProtocolBuiltinFunctions: make(vmcommon.FunctionNames),
-		ElrondProtectedKeyPrefix: []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
 			IsSCDeployFlagEnabledField:            true,
 			IsAheadOfTimeGasUsageFlagEnabledField: true,

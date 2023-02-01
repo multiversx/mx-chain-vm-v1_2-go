@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-// MessageKind is the kind of a message (that is passed between the Node and Arwen)
+// MessageKind is the kind of a message (that is passed between the Node and VM)
 type MessageKind uint32
 
 const (
@@ -211,21 +211,21 @@ func (message *Message) DebugString() string {
 	return fmt.Sprintf("[kind=%s nonce=%d err=%s]", kindName, message.DialogueNonce, message.ErrorMessage)
 }
 
-// MessageInitialize is a message sent by Node to initialize Arwen
+// MessageInitialize is a message sent by Node to initialize VM
 type MessageInitialize struct {
 	Message
-	Arguments ArwenArguments
+	Arguments VMArguments
 }
 
 // NewMessageInitialize creates a new message
-func NewMessageInitialize(arguments ArwenArguments) *MessageInitialize {
+func NewMessageInitialize(arguments VMArguments) *MessageInitialize {
 	message := &MessageInitialize{}
 	message.Kind = Initialize
 	message.Arguments = arguments
 	return message
 }
 
-// MessageStop is a message sent by Node to stop Arwen
+// MessageStop is a message sent by Node to stop VM
 type MessageStop struct {
 	Message
 }

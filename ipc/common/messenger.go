@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
 )
 
-var log = logger.GetOrCreate("arwen/baseMessenger")
+var log = logger.GetOrCreate("vm/baseMessenger")
 
 // Messenger intermediates communication (message exchange) via pipes
 type Messenger struct {

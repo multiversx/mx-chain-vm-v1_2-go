@@ -3,27 +3,27 @@ package common
 import (
 	"os"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_2/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_2/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 )
 
-// ArwenArguments represents the initialization arguments required by Arwen, passed through the initialization pipe
-type ArwenArguments struct {
-	arwen.VMHostParameters
+// VMArguments represents the initialization arguments required by VM, passed through the initialization pipe
+type VMArguments struct {
+	vmhost.VMHostParameters
 	LogsMarshalizer     marshaling.MarshalizerKind
 	MessagesMarshalizer marshaling.MarshalizerKind
 }
 
-// SendArwenArguments sends initialization arguments through a pipe
-func SendArwenArguments(pipe *os.File, pipeArguments ArwenArguments) error {
+// SendVMArguments sends initialization arguments through a pipe
+func SendVMArguments(pipe *os.File, pipeArguments VMArguments) error {
 	sender := NewSender(pipe, createArgumentsMarshalizer())
 	message := NewMessageInitialize(pipeArguments)
 	_, err := sender.Send(message)
 	return err
 }
 
-// GetArwenArguments reads initialization arguments from the pipe
-func GetArwenArguments(pipe *os.File) (*ArwenArguments, error) {
+// GetVMArguments reads initialization arguments from the pipe
+func GetVMArguments(pipe *os.File) (*VMArguments, error) {
 	receiver := NewReceiver(pipe, createArgumentsMarshalizer())
 	message, _, err := receiver.Receive(0)
 	if err != nil {
