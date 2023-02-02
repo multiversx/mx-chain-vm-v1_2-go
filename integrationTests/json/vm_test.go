@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	am "github.com/ElrondNetwork/wasm-vm-v1_2/arwenmandos"
-	mc "github.com/ElrondNetwork/wasm-vm-v1_2/mandos-go/controller"
-	logger "github.com/ElrondNetwork/elrond-go-logger"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	am "github.com/multiversx/mx-chain-vm-v1_2-go/scenarioexec"
+	mc "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/controller"
 	"github.com/stretchr/testify/require"
 )
 
@@ -21,19 +21,19 @@ func getTestRoot() string {
 	if err != nil {
 		panic(err)
 	}
-	arwenTestRoot := filepath.Join(exePath, "../../test")
-	return arwenTestRoot
+	vmTestRoot := filepath.Join(exePath, "../../test")
+	return vmTestRoot
 }
 
-// Tests Mandos consistency, no smart contracts.
-func TestMandosSelfTest(t *testing.T) {
-	runTestsInFolder(t, "mandos-self-test", []string{
-		"mandos-self-test/builtin-func-esdt-transfer.scen.json",
+// Tests Scenarios consistency, no smart contracts.
+func TestScenariosSelfTest(t *testing.T) {
+	runTestsInFolder(t, "scenarios-self-test", []string{
+		"scenarios-self-test/builtin-func-esdt-transfer.scen.json",
 	})
 }
 
 func TestRustErc20(t *testing.T) {
-	runAllTestsInFolder(t, "erc20-rust/mandos")
+	runAllTestsInFolder(t, "erc20-rust/scenarios")
 }
 
 func TestCErc20(t *testing.T) {
@@ -41,11 +41,11 @@ func TestCErc20(t *testing.T) {
 }
 
 func TestRustAdder(t *testing.T) {
-	runAllTestsInFolder(t, "adder/mandos")
+	runAllTestsInFolder(t, "adder/scenarios")
 }
 
 func TestMultisig(t *testing.T) {
-	runAllTestsInFolder(t, "multisig/mandos")
+	runAllTestsInFolder(t, "multisig/scenarios")
 }
 
 func TestRustBasicFeaturesLatest(t *testing.T) {
@@ -53,7 +53,7 @@ func TestRustBasicFeaturesLatest(t *testing.T) {
 		t.Skip("not a short test")
 	}
 
-	runAllTestsInFolder(t, "features/basic-features/mandos")
+	runAllTestsInFolder(t, "features/basic-features/scenarios")
 }
 
 func TestRustBasicFeaturesNoSmallIntApi(t *testing.T) {
@@ -61,7 +61,7 @@ func TestRustBasicFeaturesNoSmallIntApi(t *testing.T) {
 		t.Skip("not a short test")
 	}
 
-	runAllTestsInFolder(t, "features/basic-features-no-small-int-api/mandos")
+	runAllTestsInFolder(t, "features/basic-features-no-small-int-api/scenarios")
 }
 
 // Backwards compatibility.
@@ -70,7 +70,7 @@ func TestRustBasicFeaturesLegacy(t *testing.T) {
 		t.Skip("not a short test")
 	}
 
-	runAllTestsInFolder(t, "features/basic-features-legacy/mandos")
+	runAllTestsInFolder(t, "features/basic-features-legacy/scenarios")
 }
 
 func TestRustPayableFeaturesLatest(t *testing.T) {
@@ -78,16 +78,16 @@ func TestRustPayableFeaturesLatest(t *testing.T) {
 		t.Skip("not a short test")
 	}
 
-	runAllTestsInFolder(t, "features/payable-features/mandos")
+	runAllTestsInFolder(t, "features/payable-features/scenarios")
 }
 
 func TestRustAsyncCalls(t *testing.T) {
-	runTestsInFolder(t, "features/async/mandos", []string{
-		"features/async/mandos/forwarder_sync_accept_esdt.scen.json",
-		"features/async/mandos/forwarder_send_twice_esdt.scen.json",
-		"features/async/mandos/recursive_caller_esdt_1.scen.json",
-		"features/async/mandos/recursive_caller_esdt_2.scen.json",
-		"features/async/mandos/recursive_caller_esdt_x.scen.json",
+	runTestsInFolder(t, "features/async/scenarios", []string{
+		"features/async/scenarios/forwarder_sync_accept_esdt.scen.json",
+		"features/async/scenarios/forwarder_send_twice_esdt.scen.json",
+		"features/async/scenarios/recursive_caller_esdt_1.scen.json",
+		"features/async/scenarios/recursive_caller_esdt_2.scen.json",
+		"features/async/scenarios/recursive_caller_esdt_x.scen.json",
 	})
 }
 
@@ -146,7 +146,7 @@ func TestTimelocks(t *testing.T) {
 }
 
 // func TestPromises(t *testing.T) {
-// 	executor, err := am.NewArwenTestExecutor()
+// 	executor, err := am.NewVMTestExecutor()
 // 	require.Nil(t, err)
 // 	runner := mc.NewScenarioRunner(
 // 		executor,
@@ -180,7 +180,7 @@ func runAllTestsInFolder(t *testing.T, folder string) {
 }
 
 func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
-	executor, err := am.NewArwenTestExecutor("../../arwenmandos")
+	executor, err := am.NewVMTestExecutor("../../scenarioexec")
 	require.Nil(t, err)
 	runner := mc.NewScenarioRunner(
 		executor,
@@ -199,7 +199,7 @@ func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
 }
 
 func runSingleTest(t *testing.T, folder string, filename string) {
-	executor, err := am.NewArwenTestExecutor("../../arwenmandos")
+	executor, err := am.NewVMTestExecutor("../../scenarioexec")
 	require.Nil(t, err)
 	runner := mc.NewScenarioRunner(
 		executor,

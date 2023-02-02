@@ -2,7 +2,7 @@ package marshaling
 
 import "strings"
 
-// MarshalizerKind is the kind of a message (that is passed between the Node and Arwen)
+// MarshalizerKind is the kind of a message (that is passed between the Node and VM)
 type MarshalizerKind uint32
 
 const (
