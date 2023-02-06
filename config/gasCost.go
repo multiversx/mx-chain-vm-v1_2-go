@@ -1,12 +1,12 @@
 package config
 
-import "github.com/ElrondNetwork/wasm-vm-v1_2/wasmer"
+import "github.com/multiversx/mx-chain-vm-v1_2-go/wasmer"
 
 type GasCost struct {
 	BaseOperationCost BaseOperationCost
 	BigIntAPICost     BigIntAPICost
 	EthAPICost        EthAPICost
-	ElrondAPICost     ElrondAPICost
+	BaseOpsAPICost    BaseOpsAPICost
 	CryptoAPICost     CryptoAPICost
 	WASMOpcodeCost    WASMOpcodeCost
 }
@@ -21,7 +21,7 @@ type BaseOperationCost struct {
 	GetCode           uint64
 }
 
-type ElrondAPICost struct {
+type BaseOpsAPICost struct {
 	GetSCAddress         uint64
 	GetOwnerAddress      uint64
 	IsSmartContract      uint64

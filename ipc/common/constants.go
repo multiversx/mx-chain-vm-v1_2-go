@@ -1,4 +1,4 @@
 package common
 
-// EnvVarArwenPath is an environment variable
-const EnvVarArwenPath = "ARWEN_PATH"
+// EnvVarVMPath is an environment variable
+const EnvVarVMPath = "VM_PATH"
