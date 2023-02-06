@@ -3,6 +3,7 @@ package worldmock
 import (
 	"bytes"
 	"errors"
+	"github.com/multiversx/mx-chain-core-go/core"
 	"math/big"
 
 	logger "github.com/multiversx/mx-chain-logger-go"
@@ -276,4 +277,9 @@ func cloneBytes(b []byte) []byte {
 	clone := make([]byte, len(b))
 	copy(clone, b)
 	return clone
+}
+
+// MigrateDataTrieLeaves -
+func (a *Account) MigrateDataTrieLeaves(_ core.TrieNodeVersion, _ core.TrieNodeVersion, _ vmcommon.DataTrieMigrator) error {
+	return nil
 }
