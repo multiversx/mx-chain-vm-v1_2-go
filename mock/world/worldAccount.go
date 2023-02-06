@@ -3,9 +3,9 @@ package worldmock
 import (
 	"bytes"
 	"errors"
-	"github.com/multiversx/mx-chain-core-go/core"
 	"math/big"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/crypto/hashing"
