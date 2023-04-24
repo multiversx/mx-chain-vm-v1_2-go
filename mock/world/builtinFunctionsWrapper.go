@@ -36,6 +36,7 @@ func NewBuiltinFunctionsWrapper(
 		Accounts:                         world.AccountsAdapter,
 		ShardCoordinator:                 world,
 		EnableEpochsHandler:              &mock.EnableEpochsHandlerStub{},
+		GuardedAccountHandler:            world.GuardedAccountHandler,
 		MaxNumOfAddressesForTransferRole: 100,
 	}
 
