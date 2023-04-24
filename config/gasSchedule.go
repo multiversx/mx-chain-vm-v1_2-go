@@ -145,6 +145,9 @@ func FillGasMap_BuiltInCosts(value uint64) map[string]uint64 {
 	gasMap["ESDTNFTAddUri"] = value
 	gasMap["ESDTNFTUpdateAttributes"] = value
 	gasMap["ESDTNFTMultiTransfer"] = value
+	gasMap["SetGuardian"] = value
+	gasMap["GuardAccount"] = value
+	gasMap["UnGuardAccount"] = value
 
 	return gasMap
 }

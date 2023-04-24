@@ -65,41 +65,45 @@ func (a *Account) GetOwnerAddress() []byte {
 	return a.OwnerAddress
 }
 
-// GetOwnerAddress gets the username
+// GetUserName gets the username
 func (a *Account) GetUserName() []byte {
 	return a.UserName
 }
 
-// DataTrieTracker -
+// AccountDataHandler returns nil
 func (a *Account) AccountDataHandler() vmcommon.AccountDataHandler {
 	return nil
 }
 
-// AddToBalance -
+// AddToBalance does nothing and returns nil
 func (a *Account) AddToBalance(_ *big.Int) error {
 	return nil
 }
 
-// ClaimDeveloperRewards -
+// ClaimDeveloperRewards does nothing and returns 0 and nil
 func (a *Account) ClaimDeveloperRewards(_ []byte) (*big.Int, error) {
 	return big.NewInt(0), nil
 }
 
-// ChangeOwnerAddress -
+// ChangeOwnerAddress does nothing and returns nil
 func (a *Account) ChangeOwnerAddress(_ []byte, _ []byte) error {
 	return nil
 }
 
-// SetOwnerAddress -
+// SetOwnerAddress does nothing
 func (a *Account) SetOwnerAddress(_ []byte) {
 }
 
-// SetUserName -
+// SetUserName does nothing
 func (a *Account) SetUserName(_ []byte) {
 }
 
-// IncreaseNonce -
+// IncreaseNonce does nothing
 func (a *Account) IncreaseNonce(_ uint64) {
+}
+
+// SetCodeMetadata does nothing
+func (a *Account) SetCodeMetadata(_ []byte) {
 }
 
 // IsInterfaceNil returns true if there is no value under the interface
