@@ -99,7 +99,7 @@ func checkTxResults(
 					mjwrite.LogToString(convertLogToTestFormat(outLog)))
 			}
 		}
-		if !testLog.Data.Check(outLog.Data) {
+		if !testLog.Data.Check(outLog.GetFirstDataItem()) {
 			return fmt.Errorf("bad log data. Tx %s. Want:\n%s\nGot:\n%s",
 				txIndex,
 				mjwrite.LogToString(testLog),

@@ -470,3 +470,8 @@ func (blockchain *BlockchainHookGateway) IsLimitedTransfer(_ []byte) bool {
 func (blockchain *BlockchainHookGateway) RevertToSnapshot(_ int) error {
 	return nil
 }
+
+// ExecuteSmartContractCallOnOtherVM - not used in v1.2
+func (context *BlockchainHookGateway) ExecuteSmartContractCallOnOtherVM(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
+	return nil, nil
+}

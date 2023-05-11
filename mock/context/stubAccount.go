@@ -109,3 +109,7 @@ func (a *StubAccount) IncreaseNonce(_ uint64) {
 func (a *StubAccount) IsInterfaceNil() bool {
 	return a == nil
 }
+
+// SetCodeMetadata -
+func (a *StubAccount) SetCodeMetadata(_ []byte) {
+}

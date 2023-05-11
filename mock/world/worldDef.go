@@ -37,6 +37,7 @@ type MockWorld struct {
 	LastCreatedContractAddress []byte
 	CompiledCode               map[string][]byte
 	BuiltinFuncs               *BuiltinFunctionsWrapper
+	GuardedAccountHandler      vmcommon.GuardedAccountHandler
 }
 
 // NewMockWorld creates a new MockWorld instance
@@ -54,6 +55,7 @@ func NewMockWorld() *MockWorld {
 		BuiltinFuncs:      nil,
 	}
 	world.AccountsAdapter = NewMockAccountsAdapter(world)
+	world.GuardedAccountHandler = NewMockGuardedAccountHandler()
 
 	return world
 }
