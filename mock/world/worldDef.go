@@ -44,15 +44,16 @@ type MockWorld struct {
 func NewMockWorld() *MockWorld {
 	accountMap := NewAccountMap()
 	world := &MockWorld{
-		SelfShardID:       0,
-		AcctMap:           accountMap,
-		AccountsAdapter:   nil,
-		PreviousBlockInfo: nil,
-		CurrentBlockInfo:  nil,
-		Blockhashes:       nil,
-		NewAddressMocks:   nil,
-		CompiledCode:      make(map[string][]byte),
-		BuiltinFuncs:      nil,
+		SelfShardID:           0,
+		AcctMap:               accountMap,
+		AccountsAdapter:       nil,
+		PreviousBlockInfo:     nil,
+		CurrentBlockInfo:      nil,
+		Blockhashes:           nil,
+		NewAddressMocks:       nil,
+		CompiledCode:          make(map[string][]byte),
+		BuiltinFuncs:          nil,
+		GuardedAccountHandler: nil,
 	}
 	world.AccountsAdapter = NewMockAccountsAdapter(world)
 	world.GuardedAccountHandler = NewMockGuardedAccountHandler()
