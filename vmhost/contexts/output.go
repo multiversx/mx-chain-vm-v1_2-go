@@ -235,7 +235,7 @@ func (context *outputContext) WriteLog(address []byte, topics [][]byte, data []b
 
 	newLogEntry := &vmcommon.LogEntry{
 		Address: address,
-		Data:    data,
+		Data:    [][]byte{data},
 	}
 	logOutput.Trace("log entry", "address", address, "data", data)
 
