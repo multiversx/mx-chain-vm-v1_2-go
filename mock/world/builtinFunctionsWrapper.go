@@ -32,6 +32,7 @@ func NewBuiltinFunctionsWrapper(
 	argsBuiltIn := builtInFunctions.ArgsCreateBuiltInFunctionContainer{
 		GasMap:                           gasMap,
 		MapDNSAddresses:                  dnsMap,
+		MapDNSV2Addresses:                makeDNSAddresses(numDNSAddresses),
 		Marshalizer:                      WorldMarshalizer,
 		Accounts:                         world.AccountsAdapter,
 		ShardCoordinator:                 world,
