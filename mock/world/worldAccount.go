@@ -37,7 +37,7 @@ type Account struct {
 	IsSmartContract bool
 }
 
-var storageDefaultValue = []byte{}
+var storageDefaultValue = make([]byte, 0)
 
 // StorageValue yields the storage value for key, default 0
 func (a *Account) StorageValue(key string) []byte {
@@ -276,4 +276,9 @@ func cloneBytes(b []byte) []byte {
 	clone := make([]byte, len(b))
 	copy(clone, b)
 	return clone
+}
+
+// MigrateDataTrieLeaves -
+func (a *Account) MigrateDataTrieLeaves(_ vmcommon.ArgsMigrateDataTrieLeaves) error {
+	return nil
 }
