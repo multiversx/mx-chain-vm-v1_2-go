@@ -259,3 +259,13 @@ type InstanceBuilder interface {
 	NewInstanceWithOptions(contractCode []byte, options wasmer.CompilationOptions) (wasmer.InstanceHandler, error)
 	NewInstanceFromCompiledCodeWithOptions(compiledCode []byte, options wasmer.CompilationOptions) (wasmer.InstanceHandler, error)
 }
+
+// EnableEpochsHandler is used to verify which flags are set in a specific epoch based on EnableEpochs config
+type EnableEpochsHandler interface {
+	GetCurrentEpoch() uint32
+	IsBuiltInFunctionsFlagEnabledInEpoch(epoch uint32) bool
+	IsSCDeployFlagEnabledInEpoch(epoch uint32) bool
+	IsRepairCallbackFlagEnabledInEpoch(epoch uint32) bool
+	IsAheadOfTimeGasUsageFlagEnabledInEpoch(epoch uint32) bool
+	IsInterfaceNil() bool
+}

@@ -46,7 +46,7 @@ type vmHost struct {
 	gasSchedule              config.GasScheduleMap
 	scAPIMethods             *wasmer.Imports
 	protocolBuiltinFunctions vmcommon.FunctionNames
-	enableEpochsHandler      vmcommon.EnableEpochsHandler
+	enableEpochsHandler      vmhost.EnableEpochsHandler
 }
 
 // NewVMHost creates a new VM vmHost
@@ -199,27 +199,27 @@ func (host *vmHost) BigInt() vmhost.BigIntContext {
 
 // IsVMV2Enabled returns whether the VM V2 mode is enabled
 func (host *vmHost) IsVMV2Enabled() bool {
-	return host.enableEpochsHandler.IsSCDeployFlagEnabled()
+	return host.enableEpochsHandler.IsSCDeployFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
 }
 
 // IsVMV3Enabled returns whether the V3 features are enabled
 func (host *vmHost) IsVMV3Enabled() bool {
-	return host.enableEpochsHandler.IsRepairCallbackFlagEnabled()
+	return host.enableEpochsHandler.IsRepairCallbackFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
 }
 
 // IsAheadOfTimeCompileEnabled returns whether ahead-of-time compilation is enabled
 func (host *vmHost) IsAheadOfTimeCompileEnabled() bool {
-	return host.enableEpochsHandler.IsAheadOfTimeGasUsageFlagEnabled()
+	return host.enableEpochsHandler.IsAheadOfTimeGasUsageFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
 }
 
 // IsDynamicGasLockingEnabled returns whether dynamic gas locking mode is enabled
 func (host *vmHost) IsDynamicGasLockingEnabled() bool {
-	return host.enableEpochsHandler.IsSCDeployFlagEnabled()
+	return host.enableEpochsHandler.IsSCDeployFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
 }
 
 // IsESDTFunctionsEnabled returns whether ESDT functions are enabled
 func (host *vmHost) IsESDTFunctionsEnabled() bool {
-	return host.enableEpochsHandler.IsBuiltInFunctionsFlagEnabled()
+	return host.enableEpochsHandler.IsBuiltInFunctionsFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
 }
 
 // GetContexts returns the main contexts of the host

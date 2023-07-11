@@ -6,12 +6,12 @@ import (
 	"testing"
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/marshaling"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/nodepart"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/vmpart"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/mock"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/context"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"

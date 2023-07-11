@@ -6,8 +6,8 @@ import (
 
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/mock"
 	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	mc "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/controller"
 	er "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/expression/reconstructor"

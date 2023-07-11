@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/mock"
 	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	mj "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/json/model"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
