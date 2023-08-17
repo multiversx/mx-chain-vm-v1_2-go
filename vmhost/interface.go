@@ -3,6 +3,7 @@ package vmhost
 import (
 	"math/big"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -262,10 +263,6 @@ type InstanceBuilder interface {
 
 // EnableEpochsHandler is used to verify which flags are set in a specific epoch based on EnableEpochs config
 type EnableEpochsHandler interface {
-	GetCurrentEpoch() uint32
-	IsBuiltInFunctionsFlagEnabledInEpoch(epoch uint32) bool
-	IsSCDeployFlagEnabledInEpoch(epoch uint32) bool
-	IsRepairCallbackFlagEnabledInEpoch(epoch uint32) bool
-	IsAheadOfTimeGasUsageFlagEnabledInEpoch(epoch uint32) bool
+	IsFlagEnabledInCurrentEpoch(flag core.EnableEpochFlag) bool
 	IsInterfaceNil() bool
 }

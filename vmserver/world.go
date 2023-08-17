@@ -1,6 +1,7 @@
 package vmserver
 
 import (
+	"github.com/multiversx/mx-chain-core-go/core"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/mock"
@@ -54,10 +55,9 @@ func getHostParameters() *vmhost.VMHostParameters {
 		GasSchedule:        config.MakeGasMap(1, 1),
 		ProtectedKeyPrefix: []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsSCDeployFlagEnabledField:            true,
-			IsAheadOfTimeGasUsageFlagEnabledField: true,
-			IsRepairCallbackFlagEnabledField:      true,
-			IsBuiltInFunctionsFlagEnabledField:    true,
+			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == core.SCDeployFlag || flag == core.AheadOfTimeGasUsageFlag || flag == core.RepairCallbackFlag || flag == core.BuiltInFunctionsFlag
+			},
 		},
 	}
 }

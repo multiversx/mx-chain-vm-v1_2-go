@@ -1,37 +1,18 @@
 package mock
 
+import "github.com/multiversx/mx-chain-core-go/core"
+
 // EnableEpochsHandlerStub -
 type EnableEpochsHandlerStub struct {
-	GetCurrentEpochField                  uint32
-	IsBuiltInFunctionsFlagEnabledField    bool
-	IsSCDeployFlagEnabledField            bool
-	IsRepairCallbackFlagEnabledField      bool
-	IsAheadOfTimeGasUsageFlagEnabledField bool
+	IsFlagEnabledInCurrentEpochCalled func(flag core.EnableEpochFlag) bool
 }
 
-// GetCurrentEpoch -
-func (stub *EnableEpochsHandlerStub) GetCurrentEpoch() uint32 {
-	return stub.GetCurrentEpochField
-}
-
-// IsBuiltInFunctionsFlagEnabledInEpoch -
-func (stub *EnableEpochsHandlerStub) IsBuiltInFunctionsFlagEnabledInEpoch(_ uint32) bool {
-	return stub.IsBuiltInFunctionsFlagEnabledField
-}
-
-// IsSCDeployFlagEnabledInEpoch -
-func (stub *EnableEpochsHandlerStub) IsSCDeployFlagEnabledInEpoch(_ uint32) bool {
-	return stub.IsSCDeployFlagEnabledField
-}
-
-// IsRepairCallbackFlagEnabledInEpoch -
-func (stub *EnableEpochsHandlerStub) IsRepairCallbackFlagEnabledInEpoch(_ uint32) bool {
-	return stub.IsRepairCallbackFlagEnabledField
-}
-
-// IsAheadOfTimeGasUsageFlagEnabledInEpoch -
-func (stub *EnableEpochsHandlerStub) IsAheadOfTimeGasUsageFlagEnabledInEpoch(_ uint32) bool {
-	return stub.IsAheadOfTimeGasUsageFlagEnabledField
+// IsFlagEnabledInCurrentEpoch -
+func (stub *EnableEpochsHandlerStub) IsFlagEnabledInCurrentEpoch(flag core.EnableEpochFlag) bool {
+	if stub.IsFlagEnabledInCurrentEpochCalled != nil {
+		return stub.IsFlagEnabledInCurrentEpochCalled(flag)
+	}
+	return false
 }
 
 // IsInterfaceNil -
