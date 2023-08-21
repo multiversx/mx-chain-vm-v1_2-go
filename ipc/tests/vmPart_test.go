@@ -16,6 +16,7 @@ import (
 	contextmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/context"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -75,8 +76,8 @@ func doContractRequest(
 			GasSchedule:        config.MakeGasMapForTests(),
 			ProtectedKeyPrefix: []byte("E" + "L" + "R" + "O" + "N" + "D"),
 			EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-				IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-					return flag == core.SCDeployFlag || flag == core.AheadOfTimeGasUsageFlag || flag == core.RepairCallbackFlag || flag == core.BuiltInFunctionsFlag
+				IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+					return flag == hostCore.SCDeployFlag || flag == hostCore.AheadOfTimeGasUsageFlag || flag == hostCore.RepairCallbackFlag || flag == hostCore.BuiltInFunctionsFlag
 				},
 			},
 		}

@@ -144,8 +144,8 @@ func DefaultTestVMForCallSigSegv(tb testing.TB, code []byte, balance *big.Int, p
 		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-				return flag == core.SCDeployFlag || flag == core.AheadOfTimeGasUsageFlag || flag == core.RepairCallbackFlag || flag == core.BuiltInFunctionsFlag
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == SCDeployFlag || flag == AheadOfTimeGasUsageFlag || flag == RepairCallbackFlag || flag == BuiltInFunctionsFlag
 			},
 		},
 		WasmerSIGSEGVPassthrough: passthrough,
@@ -250,8 +250,8 @@ func defaultTestVM(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost {
 		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-				return flag == core.SCDeployFlag || flag == core.AheadOfTimeGasUsageFlag || flag == core.RepairCallbackFlag || flag == core.BuiltInFunctionsFlag
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == SCDeployFlag || flag == AheadOfTimeGasUsageFlag || flag == RepairCallbackFlag || flag == BuiltInFunctionsFlag
 			},
 		},
 	})

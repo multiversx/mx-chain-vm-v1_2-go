@@ -58,7 +58,7 @@ func NewVMHost(
 	if check.IfNil(hostParameters.EnableEpochsHandler) {
 		return nil, vmhost.ErrNilEnableEpochsHandler
 	}
-	err := core.CheckHandlerCompatibility(hostParameters.EnableEpochsHandler)
+	err := core.CheckHandlerCompatibility(hostParameters.EnableEpochsHandler, allFlags)
 	if err != nil {
 		return nil, err
 	}
@@ -202,27 +202,27 @@ func (host *vmHost) BigInt() vmhost.BigIntContext {
 
 // IsVMV2Enabled returns whether the VM V2 mode is enabled
 func (host *vmHost) IsVMV2Enabled() bool {
-	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.SCDeployFlag)
+	return host.enableEpochsHandler.IsFlagEnabled(SCDeployFlag)
 }
 
 // IsVMV3Enabled returns whether the V3 features are enabled
 func (host *vmHost) IsVMV3Enabled() bool {
-	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.RepairCallbackFlag)
+	return host.enableEpochsHandler.IsFlagEnabled(RepairCallbackFlag)
 }
 
 // IsAheadOfTimeCompileEnabled returns whether ahead-of-time compilation is enabled
 func (host *vmHost) IsAheadOfTimeCompileEnabled() bool {
-	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.AheadOfTimeGasUsageFlag)
+	return host.enableEpochsHandler.IsFlagEnabled(AheadOfTimeGasUsageFlag)
 }
 
 // IsDynamicGasLockingEnabled returns whether dynamic gas locking mode is enabled
 func (host *vmHost) IsDynamicGasLockingEnabled() bool {
-	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.SCDeployFlag)
+	return host.enableEpochsHandler.IsFlagEnabled(SCDeployFlag)
 }
 
 // IsESDTFunctionsEnabled returns whether ESDT functions are enabled
 func (host *vmHost) IsESDTFunctionsEnabled() bool {
-	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.BuiltInFunctionsFlag)
+	return host.enableEpochsHandler.IsFlagEnabled(BuiltInFunctionsFlag)
 }
 
 // GetContexts returns the main contexts of the host
