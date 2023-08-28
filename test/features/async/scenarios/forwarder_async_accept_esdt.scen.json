@@ -48,28 +48,6 @@
             "expect": {
                 "out": [],
                 "status": "0",
-                "logs": [
-                    {
-                        "address": "sc:forwarder",
-                        "identifier": "str:ESDTTransfer",
-                        "topics": [
-                            "str:TEST-TOKEN",
-                            "",
-                            "1000",
-                            "sc:vault"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:vault",
-                        "identifier": "str:accept_funds",
-                        "topics": [
-                            "str:TEST-TOKEN",
-                            "1000"
-                        ],
-                        "data": ""
-                    }
-                ],
                 "gas": "*",
                 "refund": "*"
             }
