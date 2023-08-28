@@ -123,7 +123,7 @@ func convertLogToTestFormat(outputLog *vmcommon.LogEntry) *mj.LogEntry {
 	testLog := mj.LogEntry{
 		Address:    mj.JSONCheckBytesReconstructed(outputLog.Address),
 		Identifier: mj.JSONCheckBytesReconstructed(outputLog.Identifier),
-		Data:       mj.JSONCheckBytesReconstructed(outputLog.Data),
+		Data:       mj.JSONCheckBytesReconstructed(outputLog.GetFirstDataItem()),
 		Topics:     make([]mj.JSONCheckBytes, len(outputLog.Topics)),
 	}
 	for i, topic := range outputLog.Topics {
