@@ -3,9 +3,13 @@ package hostCore
 import "github.com/multiversx/mx-chain-core-go/core"
 
 const (
-	SCDeployFlag            core.EnableEpochFlag = "SCDeployFlag"
-	BuiltInFunctionsFlag    core.EnableEpochFlag = "BuiltInFunctionsFlag"
-	RepairCallbackFlag      core.EnableEpochFlag = "RepairCallbackFlag"
+	// SCDeployFlag defines the flag that activates the sc deploy
+	SCDeployFlag core.EnableEpochFlag = "SCDeployFlag"
+	// BuiltInFunctionsFlag defines the flag that activates the builtin functions
+	BuiltInFunctionsFlag core.EnableEpochFlag = "BuiltInFunctionsFlag"
+	// RepairCallbackFlag defines the flag that activates the repair callback fix
+	RepairCallbackFlag core.EnableEpochFlag = "RepairCallbackFlag"
+	// AheadOfTimeGasUsageFlag defines the flag that activates the ahead of time gas usage fix
 	AheadOfTimeGasUsageFlag core.EnableEpochFlag = "AheadOfTimeGasUsageFlag"
 )
 
