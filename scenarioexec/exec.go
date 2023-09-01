@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/mock"
 	worldhook "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	mc "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/controller"
 	er "github.com/multiversx/mx-chain-vm-v1_2-go/scenarios/expression/reconstructor"
@@ -54,10 +55,9 @@ func NewVMTestExecutor(scenarioexecPath string) (*VMTestExecutor, error) {
 		ProtocolBuiltinFunctions: world.GetBuiltinFunctionNames(),
 		ProtectedKeyPrefix:       []byte(ProtectedKeyPrefix),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsSCDeployFlagEnabledField:            true,
-			IsAheadOfTimeGasUsageFlagEnabledField: true,
-			IsRepairCallbackFlagEnabledField:      true,
-			IsBuiltInFunctionsFlagEnabledField:    true,
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == hostCore.SCDeployFlag || flag == hostCore.AheadOfTimeGasUsageFlag || flag == hostCore.RepairCallbackFlag || flag == hostCore.BuiltInFunctionsFlag
+			},
 		},
 	})
 	if err != nil {

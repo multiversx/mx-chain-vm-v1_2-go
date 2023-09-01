@@ -12,10 +12,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/mock"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/context"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
@@ -143,10 +144,9 @@ func DefaultTestVMForCallSigSegv(tb testing.TB, code []byte, balance *big.Int, p
 		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsSCDeployFlagEnabledField:            true,
-			IsAheadOfTimeGasUsageFlagEnabledField: true,
-			IsRepairCallbackFlagEnabledField:      true,
-			IsBuiltInFunctionsFlagEnabledField:    true,
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == SCDeployFlag || flag == AheadOfTimeGasUsageFlag || flag == RepairCallbackFlag || flag == BuiltInFunctionsFlag
+			},
 		},
 		WasmerSIGSEGVPassthrough: passthrough,
 	})
@@ -250,10 +250,9 @@ func defaultTestVM(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost {
 		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		UseWarmInstance:          false,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsSCDeployFlagEnabledField:            true,
-			IsAheadOfTimeGasUsageFlagEnabledField: true,
-			IsRepairCallbackFlagEnabledField:      true,
-			IsBuiltInFunctionsFlagEnabledField:    true,
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == SCDeployFlag || flag == AheadOfTimeGasUsageFlag || flag == RepairCallbackFlag || flag == BuiltInFunctionsFlag
+			},
 		},
 	})
 	require.Nil(tb, err)
