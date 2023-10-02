@@ -3,6 +3,7 @@ package vmhost
 import (
 	"math/big"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -258,4 +259,13 @@ type AsyncCallInfoHandler interface {
 type InstanceBuilder interface {
 	NewInstanceWithOptions(contractCode []byte, options wasmer.CompilationOptions) (wasmer.InstanceHandler, error)
 	NewInstanceFromCompiledCodeWithOptions(compiledCode []byte, options wasmer.CompilationOptions) (wasmer.InstanceHandler, error)
+}
+
+// EnableEpochsHandler is used to verify which flags are set in a specific epoch based on EnableEpochs config
+type EnableEpochsHandler interface {
+	IsFlagDefined(flag core.EnableEpochFlag) bool
+	IsFlagEnabled(flag core.EnableEpochFlag) bool
+	IsFlagEnabledInEpoch(flag core.EnableEpochFlag, epoch uint32) bool
+	GetActivationEpoch(flag core.EnableEpochFlag) uint32
+	IsInterfaceNil() bool
 }
