@@ -282,3 +282,8 @@ func cloneBytes(b []byte) []byte {
 func (a *Account) MigrateDataTrieLeaves(_ vmcommon.ArgsMigrateDataTrieLeaves) error {
 	return nil
 }
+
+// MigrateCodeLeaf -
+func (a *Account) MigrateCodeLeaf(_ vmcommon.AccountHandler) error {
+	return nil
+}
