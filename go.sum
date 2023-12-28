@@ -71,8 +71,8 @@ github.com/multiversx/mx-chain-crypto-go v1.2.10-0.20231129101537-ef355850e34b h
 github.com/multiversx/mx-chain-crypto-go v1.2.10-0.20231129101537-ef355850e34b/go.mod h1:Ap6p7QZFtwPlb++OvCG+85BfuZ+bLP/JtQp6EwjWJsI=
 github.com/multiversx/mx-chain-logger-go v1.0.14-0.20231129101244-c44fa1c79b03 h1:krjJTyN9jrFTK0goMGFdgvJGy6bYSqe8EtI/HCceUmU=
 github.com/multiversx/mx-chain-logger-go v1.0.14-0.20231129101244-c44fa1c79b03/go.mod h1:fH/fR/GEBsDjPkBoZDVJMoYo2HhlA7++DP6QfITJ1N8=
-github.com/multiversx/mx-chain-vm-common-go v1.5.9-0.20231129110322-d07a35163513 h1:3Hm3MVIpiu4+j+aHiDOYBJBiQC62nF/rHHRJ8YIFOL4=
-github.com/multiversx/mx-chain-vm-common-go v1.5.9-0.20231129110322-d07a35163513/go.mod h1:vgmpc/YegaUMAImR+WZ+kpJgv9qYF31oL12vVx/46i4=
+github.com/multiversx/mx-chain-vm-common-go v1.5.10-0.20231228063156-8a06a0d170c5 h1:G7Aho0VAS9zNHKcRfeWXcbXf2PgnPHSW7EI2zEiyyvg=
+github.com/multiversx/mx-chain-vm-common-go v1.5.10-0.20231228063156-8a06a0d170c5/go.mod h1:vgmpc/YegaUMAImR+WZ+kpJgv9qYF31oL12vVx/46i4=
 github.com/multiversx/mx-components-big-int v1.0.0 h1:Wkr8lSzK2nDqixOrrBa47VNuqdhV1m/aJhaP1EMaiS8=
 github.com/multiversx/mx-components-big-int v1.0.0/go.mod h1:maIEMgHlNE2u78JaDD0oLzri+ShgU4okHfzP3LWGdQM=
 github.com/pelletier/go-toml v1.9.3 h1:zeC5b1GviRUyKYd6OJPvBU/mcVDVoL1OhT17FCt5dSQ=
