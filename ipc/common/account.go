@@ -80,6 +80,11 @@ func (a *Account) AddToBalance(_ *big.Int) error {
 	return nil
 }
 
+// SubFromBalance does nothing and returns nil
+func (a *Account) SubFromBalance(_ *big.Int) error {
+	return nil
+}
+
 // ClaimDeveloperRewards does nothing and returns 0 and nil
 func (a *Account) ClaimDeveloperRewards(_ []byte) (*big.Int, error) {
 	return big.NewInt(0), nil
