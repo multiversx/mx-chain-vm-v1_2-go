@@ -1,9 +1,10 @@
 package vmserver
 
 import (
+	"github.com/multiversx/mx-chain-core-go/core"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_2-go/mock"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_2-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/vmhost/hostCore"
@@ -54,10 +55,9 @@ func getHostParameters() *vmhost.VMHostParameters {
 		GasSchedule:        config.MakeGasMap(1, 1),
 		ProtectedKeyPrefix: []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsSCDeployFlagEnabledField:            true,
-			IsAheadOfTimeGasUsageFlagEnabledField: true,
-			IsRepairCallbackFlagEnabledField:      true,
-			IsBuiltInFunctionsFlagEnabledField:    true,
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == hostCore.SCDeployFlag || flag == hostCore.AheadOfTimeGasUsageFlag || flag == hostCore.RepairCallbackFlag || flag == hostCore.BuiltInFunctionsFlag
+			},
 		},
 	}
 }

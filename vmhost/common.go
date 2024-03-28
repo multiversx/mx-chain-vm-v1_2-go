@@ -117,7 +117,7 @@ type VMHostParameters struct {
 	ProtectedKeyPrefix       []byte
 	WasmerSIGSEGVPassthrough bool
 	UseWarmInstance          bool
-	EnableEpochsHandler      vmcommon.EnableEpochsHandler
+	EnableEpochsHandler      EnableEpochsHandler
 }
 
 // AsyncCallInfo contains the information required to handle the asynchronous call of another SmartContract
