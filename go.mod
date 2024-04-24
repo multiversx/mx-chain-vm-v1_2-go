@@ -9,7 +9,7 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/mapstructure v1.4.1
-	github.com/multiversx/mx-chain-core-go v1.2.19-0.20240129082057-a76d0c995cf2
+	github.com/multiversx/mx-chain-core-go v1.2.19-0.20240321150532-5960a8922b18
 	github.com/multiversx/mx-chain-crypto-go v1.2.10-0.20231206065052-38843c1f1479
 	github.com/multiversx/mx-chain-logger-go v1.0.14-0.20240129144507-d00e967c890c
 	github.com/multiversx/mx-chain-vm-common-go v1.5.12-0.20240228180814-f20c5b2b4831
