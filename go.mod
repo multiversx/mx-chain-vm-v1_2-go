@@ -7,17 +7,17 @@ require (
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/gin-gonic/gin v1.9.1
 	github.com/gogo/protobuf v1.3.2
-	github.com/golang/protobuf v1.5.2
+	github.com/golang/protobuf v1.5.3
 	github.com/mitchellh/mapstructure v1.4.1
-	github.com/multiversx/mx-chain-core-go v1.2.20-0.20240328090024-e88291d59ace
+	github.com/multiversx/mx-chain-core-go v1.2.20-0.20240507090904-fb3dbed69fd0
 	github.com/multiversx/mx-chain-crypto-go v1.2.10-0.20231206065052-38843c1f1479
 	github.com/multiversx/mx-chain-logger-go v1.0.14-0.20240129144507-d00e967c890c
-	github.com/multiversx/mx-chain-vm-common-go v1.5.12-0.20240424111748-6dfa8aa14813
+	github.com/multiversx/mx-chain-vm-common-go v1.5.12-0.20240507093748-8b13467a0f2d
 	github.com/multiversx/mx-components-big-int v1.0.0
 	github.com/pelletier/go-toml v1.9.3
 	github.com/stretchr/testify v1.8.3
 	github.com/urfave/cli v1.22.5
-	golang.org/x/crypto v0.9.0
+	golang.org/x/crypto v0.14.0
 )
 
 require (
@@ -48,9 +48,9 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.3.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sys v0.8.0 // indirect
-	golang.org/x/text v0.9.0 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	golang.org/x/net v0.16.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
