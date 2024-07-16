@@ -236,7 +236,7 @@ func defaultTestVMForTwoSCs(
 	return host, stubBlockchainHook
 }
 
-func defaultTestVM(tb testing.TB, blockchain vmcommon.BlockchainHook) *vmHost {
+func defaultTestVM(tb testing.TB, blockchain vmcommon.LegacyBlockchainHook) *vmHost {
 	gasSchedule := customGasSchedule
 	if gasSchedule == nil {
 		gasSchedule = config.MakeGasMapForTests()

@@ -60,7 +60,7 @@ func doContractRequest(
 	t *testing.T,
 	tag string,
 	request common.MessageHandler,
-	blockchain vmcommon.BlockchainHook,
+	blockchain vmcommon.LegacyBlockchainHook,
 ) (common.MessageHandler, error) {
 	files := createTestFiles(t, tag)
 	var response common.MessageHandler

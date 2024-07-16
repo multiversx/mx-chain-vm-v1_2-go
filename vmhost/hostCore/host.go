@@ -31,7 +31,7 @@ type CatchFunction func(error)
 
 // vmHost implements HostContext interface.
 type vmHost struct {
-	blockChainHook vmcommon.BlockchainHook
+	blockChainHook vmcommon.LegacyBlockchainHook
 	cryptoHook     crypto.VMCrypto
 	mutExecution   sync.RWMutex
 
@@ -52,7 +52,7 @@ type vmHost struct {
 
 // NewVMHost creates a new VM vmHost
 func NewVMHost(
-	blockChainHook vmcommon.BlockchainHook,
+	blockChainHook vmcommon.LegacyBlockchainHook,
 	hostParameters *vmhost.VMHostParameters,
 ) (*vmHost, error) {
 	if check.IfNil(hostParameters.EnableEpochsHandler) {
