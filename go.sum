@@ -8,8 +8,8 @@ github.com/buidly/mx-evm-chain-core-go v0.0.0-20240912061415-6accab87a6f8 h1:C1E
 github.com/buidly/mx-evm-chain-core-go v0.0.0-20240912061415-6accab87a6f8/go.mod h1:uTeQAMCx/VGbOtqSQ3RE+sIGUTgoemdftGAdAjr24RI=
 github.com/buidly/mx-evm-chain-crypto-go v0.0.0-20240912063737-78e64569c8c9 h1:8+BYbs7fT2yDIgyn+0GtUxP/keHBgZL7FeiBcOp8iuE=
 github.com/buidly/mx-evm-chain-crypto-go v0.0.0-20240912063737-78e64569c8c9/go.mod h1:TV0IYQw0wtb2P/hws/Gfcjkt/HdT0qVVFcWo7ZMfJ48=
-github.com/buidly/mx-evm-chain-vm-common-go v0.0.0-20240912094510-8885cc5d6774 h1:l54fTJejS3Tk10hBKTYq66AZdfHgoEd1wtsYuTNmSus=
-github.com/buidly/mx-evm-chain-vm-common-go v0.0.0-20240912094510-8885cc5d6774/go.mod h1:7MQBf5DkBT1zkIPvDzltW6OnlF9O7XCPVJvWMi3WXBk=
+github.com/buidly/mx-evm-chain-vm-common-go v0.0.0-20240917152746-3df27d1f4784 h1:VOMHHaInRjkD/q3AQ8mBy4vErzcOwgNma00gIJcpz10=
+github.com/buidly/mx-evm-chain-vm-common-go v0.0.0-20240917152746-3df27d1f4784/go.mod h1:7MQBf5DkBT1zkIPvDzltW6OnlF9O7XCPVJvWMi3WXBk=
 github.com/buidly/mx-evm-sdk-abi-go v0.0.0-20240912062928-8502f4c3b37c h1:Xg15iusEuPNoenuwNO8/PA6Wz9mU0fIKKFL7HITDhnY=
 github.com/buidly/mx-evm-sdk-abi-go v0.0.0-20240912062928-8502f4c3b37c/go.mod h1:++ds6BB47LrXl8a9N2VGRBzHCfl6kkxRCHb31a5z61g=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
