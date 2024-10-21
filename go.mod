@@ -9,10 +9,10 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/mapstructure v1.4.1
-	github.com/multiversx/mx-chain-core-go v1.2.21
+	github.com/multiversx/mx-chain-core-go v1.2.22
 	github.com/multiversx/mx-chain-crypto-go v1.2.12
 	github.com/multiversx/mx-chain-logger-go v1.0.15
-	github.com/multiversx/mx-chain-vm-common-go v1.5.14-0.20240729085843-b5bdcbe337f9
+	github.com/multiversx/mx-chain-vm-common-go v1.5.17-0.20241021074004-c2bdb78da54a
 	github.com/multiversx/mx-components-big-int v1.0.0
 	github.com/pelletier/go-toml v1.9.3
 	github.com/stretchr/testify v1.8.3

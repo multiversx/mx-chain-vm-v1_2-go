@@ -8,10 +8,10 @@ import (
 	"math/big"
 
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
-	"github.com/multiversx/mx-chain-vm-common-go"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
-var _ vmcommon.BlockchainHook = (*MockWorld)(nil)
+var _ vmcommon.LegacyBlockchainHook = (*MockWorld)(nil)
 
 // ErrBuiltinFuncWrapperNotInitialized means that the builtin function wrapper was used before initialization.
 var ErrBuiltinFuncWrapperNotInitialized = errors.New("builtin function not found or container not initialized")

@@ -13,7 +13,7 @@ import (
 // NodePart is the endpoint that implements the message loop on Node's side
 type NodePart struct {
 	Messenger  *NodeMessenger
-	blockchain vmcommon.BlockchainHook
+	blockchain vmcommon.LegacyBlockchainHook
 	Repliers   []common.MessageReplier
 	config     Config
 }
@@ -22,7 +22,7 @@ type NodePart struct {
 func NewNodePart(
 	input *os.File,
 	output *os.File,
-	blockchain vmcommon.BlockchainHook,
+	blockchain vmcommon.LegacyBlockchainHook,
 	config Config,
 	marshalizer marshaling.Marshalizer,
 ) (*NodePart, error) {
