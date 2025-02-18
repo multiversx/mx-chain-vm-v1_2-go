@@ -2,6 +2,7 @@ package vmpart
 
 import (
 	"errors"
+
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
@@ -470,6 +471,26 @@ func (blockchain *BlockchainHookGateway) IsLimitedTransfer(_ []byte) bool {
 // ExecuteSmartContractCallOnOtherVM -
 func (blockchain *BlockchainHookGateway) ExecuteSmartContractCallOnOtherVM(_ *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
 	return nil, errors.New("not implemented")
+}
+
+// RoundTime not used in 1.2
+func (blockchain *BlockchainHookGateway) RoundTime() uint64 {
+	return 0
+}
+
+// EpochStartBlockTimeStamp not used in 1.2
+func (blockchain *BlockchainHookGateway) EpochStartBlockTimeStamp() uint64 {
+	return 0
+}
+
+// EpochStartBlockNonce not used in 1.2
+func (blockchain *BlockchainHookGateway) EpochStartBlockNonce() uint64 {
+	return 0
+}
+
+// EpochStartBlockRound not used in 1.2
+func (blockchain *BlockchainHookGateway) EpochStartBlockRound() uint64 {
+	return 0
 }
 
 // RevertToSnapshot - not used in v1.2

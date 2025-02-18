@@ -288,6 +288,26 @@ func (b *MockWorld) IsLimitedTransfer(_ []byte) bool {
 	return false
 }
 
+// RoundTime -
+func (b *MockWorld) RoundTime() uint64 {
+	return 0
+}
+
+// EpochStartBlockTimeStamp -
+func (b *MockWorld) EpochStartBlockTimeStamp() uint64 {
+	return 0
+}
+
+// EpochStartBlockNonce -
+func (b *MockWorld) EpochStartBlockNonce() uint64 {
+	return 0
+}
+
+// EpochStartBlockRound -
+func (b *MockWorld) EpochStartBlockRound() uint64 {
+	return 0
+}
+
 // IsInterfaceNil returns true if underlying implementation is nil
 func (b *MockWorld) IsInterfaceNil() bool {
 	return b == nil
