@@ -8,7 +8,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
 )
 
-var _ vmcommon.BlockchainHook = (*BlockchainHookGateway)(nil)
+var _ vmcommon.LegacyBlockchainHook = (*BlockchainHookGateway)(nil)
 
 // BlockchainHookGateway forwards requests to the actual hook
 type BlockchainHookGateway struct {
@@ -471,26 +471,6 @@ func (blockchain *BlockchainHookGateway) IsLimitedTransfer(_ []byte) bool {
 // ExecuteSmartContractCallOnOtherVM -
 func (blockchain *BlockchainHookGateway) ExecuteSmartContractCallOnOtherVM(_ *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
 	return nil, errors.New("not implemented")
-}
-
-// RoundTime not used in 1.2
-func (blockchain *BlockchainHookGateway) RoundTime() uint64 {
-	return 0
-}
-
-// EpochStartBlockTimeStamp not used in 1.2
-func (blockchain *BlockchainHookGateway) EpochStartBlockTimeStamp() uint64 {
-	return 0
-}
-
-// EpochStartBlockNonce not used in 1.2
-func (blockchain *BlockchainHookGateway) EpochStartBlockNonce() uint64 {
-	return 0
-}
-
-// EpochStartBlockRound not used in 1.2
-func (blockchain *BlockchainHookGateway) EpochStartBlockRound() uint64 {
-	return 0
 }
 
 // RevertToSnapshot - not used in v1.2
