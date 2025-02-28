@@ -1,6 +1,6 @@
 module github.com/multiversx/mx-chain-vm-v1_2-go
 
-go 1.20
+go 1.23
 
 require (
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0
@@ -9,11 +9,11 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/mapstructure v1.4.1
-	github.com/multiversx/mx-chain-core-go v1.2.21
-	github.com/multiversx/mx-chain-crypto-go v1.2.12
-	github.com/multiversx/mx-chain-logger-go v1.0.15
-	github.com/multiversx/mx-chain-vm-common-go v1.5.14-0.20240729085843-b5bdcbe337f9
-	github.com/multiversx/mx-components-big-int v1.0.0
+	github.com/multiversx/mx-chain-core-go v1.2.25-0.20250218161123-121084ae9840
+	github.com/multiversx/mx-chain-crypto-go v1.2.13-0.20250218161752-9482d9a22234
+	github.com/multiversx/mx-chain-logger-go v1.0.16-0.20250218161408-6a0c19d0da48
+	github.com/multiversx/mx-chain-vm-common-go v1.5.17-0.20250218162215-88938774627c
+	github.com/multiversx/mx-components-big-int v1.0.1-0.20250218162530-b4e4d7442408
 	github.com/pelletier/go-toml v1.9.3
 	github.com/stretchr/testify v1.8.3
 	github.com/urfave/cli v1.22.5

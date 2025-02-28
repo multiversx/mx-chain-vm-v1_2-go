@@ -2,12 +2,13 @@ package vmpart
 
 import (
 	"errors"
+
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_2-go/ipc/common"
 )
 
-var _ vmcommon.BlockchainHook = (*BlockchainHookGateway)(nil)
+var _ vmcommon.LegacyBlockchainHook = (*BlockchainHookGateway)(nil)
 
 // BlockchainHookGateway forwards requests to the actual hook
 type BlockchainHookGateway struct {
