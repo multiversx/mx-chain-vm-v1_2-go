@@ -39,6 +39,9 @@ func NewBuiltinFunctionsWrapper(
 		EnableEpochsHandler:              &mock.EnableEpochsHandlerStub{},
 		GuardedAccountHandler:            world.GuardedAccountHandler,
 		MaxNumOfAddressesForTransferRole: 100,
+		MapWhiteListedCrossChainAddresses: map[string]struct{}{
+			"whiteListedAddress": {},
+		},
 	}
 
 	builtinFuncFactory, err := builtInFunctions.NewBuiltInFunctionsCreator(argsBuiltIn)

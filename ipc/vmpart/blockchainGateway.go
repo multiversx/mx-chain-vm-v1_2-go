@@ -476,3 +476,18 @@ func (blockchain *BlockchainHookGateway) ExecuteSmartContractCallOnOtherVM(_ *vm
 func (blockchain *BlockchainHookGateway) RevertToSnapshot(_ int) error {
 	return nil
 }
+
+// ChainID - not used in v1.2
+func (blockchain *BlockchainHookGateway) ChainID() []byte {
+	return nil
+}
+
+// SaveAliasAddress - not used in v1.2
+func (blockchain *BlockchainHookGateway) SaveAliasAddress(_ *vmcommon.AliasSaveRequest) error {
+	return nil
+}
+
+// RequestAddress - not used in v1.2
+func (blockchain *BlockchainHookGateway) RequestAddress(_ *vmcommon.AddressRequest) (*vmcommon.AddressResponse, error) {
+	return nil, nil
+}

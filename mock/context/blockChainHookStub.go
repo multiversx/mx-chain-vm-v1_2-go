@@ -278,3 +278,18 @@ func (b *BlockchainHookStub) IsLimitedTransfer(_ []byte) bool {
 func (b *BlockchainHookStub) ExecuteSmartContractCallOnOtherVM(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
 	return nil, nil
 }
+
+// ChainID -
+func (b *BlockchainHookStub) ChainID() []byte {
+	return nil
+}
+
+// SaveAliasAddress -
+func (b *BlockchainHookStub) SaveAliasAddress(_ *vmcommon.AliasSaveRequest) error {
+	return nil
+}
+
+// RequestAddress -
+func (b *BlockchainHookStub) RequestAddress(_ *vmcommon.AddressRequest) (*vmcommon.AddressResponse, error) {
+	return nil, nil
+}
