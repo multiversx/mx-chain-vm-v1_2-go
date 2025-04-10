@@ -83,8 +83,8 @@ github.com/multiversx/mx-chain-crypto-go v1.2.13-0.20250410124744-d21d37be8e32 h
 github.com/multiversx/mx-chain-crypto-go v1.2.13-0.20250410124744-d21d37be8e32/go.mod h1:aOZi5UgwNk9iz0tc+BFmuE8WveSfJoKnTm4p6ACcZaA=
 github.com/multiversx/mx-chain-logger-go v1.0.15 h1:HlNdK8etyJyL9NQ+6mIXyKPEBo+wRqOwi3n+m2QIHXc=
 github.com/multiversx/mx-chain-logger-go v1.0.15/go.mod h1:t3PRKaWB1M+i6gUfD27KXgzLJJC+mAQiN+FLlL1yoGQ=
-github.com/multiversx/mx-chain-vm-common-sovereign-go v1.5.17-0.20250410124912-03e5244942af h1:hw0znG3+1X9cvgwuBNHcByb0xAnf2n888dv7UIZZv+A=
-github.com/multiversx/mx-chain-vm-common-sovereign-go v1.5.17-0.20250410124912-03e5244942af/go.mod h1:CRQqFljfNiWmhSjSNDh8H3VywQedkEPDZCW6gFf3Jjw=
+github.com/multiversx/mx-chain-vm-common-sovereign-go v1.5.17-0.20250410143856-c8c2b5eeaa7c h1:JT9ThrGAMkdKCFnYlYOQXq8XqeSd8MFFbfsREblTj8k=
+github.com/multiversx/mx-chain-vm-common-sovereign-go v1.5.17-0.20250410143856-c8c2b5eeaa7c/go.mod h1:CRQqFljfNiWmhSjSNDh8H3VywQedkEPDZCW6gFf3Jjw=
 github.com/multiversx/mx-components-big-int v1.0.0 h1:Wkr8lSzK2nDqixOrrBa47VNuqdhV1m/aJhaP1EMaiS8=
 github.com/multiversx/mx-components-big-int v1.0.0/go.mod h1:maIEMgHlNE2u78JaDD0oLzri+ShgU4okHfzP3LWGdQM=
 github.com/multiversx/mx-sdk-abi-go v0.3.1-0.20240912062928-8502f4c3b37c h1:hpvhbA6KA/ffI4Sj4PeDdoC6wQkwWZy3f5b2yhkTGEc=
