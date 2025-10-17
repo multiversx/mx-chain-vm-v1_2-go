@@ -142,6 +142,16 @@ func (m *MockAccountsAdapter) IsPruningEnabled() bool {
 	return false
 }
 
+// SaveAliasAddress -
+func (m *MockAccountsAdapter) SaveAliasAddress(_ *vmcommon.AliasSaveRequest) error {
+	return nil
+}
+
+// RequestAddress -
+func (m *MockAccountsAdapter) RequestAddress(_ *vmcommon.AddressRequest) (*vmcommon.AddressResponse, error) {
+	return nil, nil
+}
+
 // IsInterfaceNil -
 func (m *MockAccountsAdapter) IsInterfaceNil() bool {
 	return m == nil

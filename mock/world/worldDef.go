@@ -136,6 +136,16 @@ func (b *MockWorld) RevertToSnapshot(snapshot int) error {
 	return b.AccountsAdapter.RevertToSnapshot(snapshot)
 }
 
+// SaveAliasAddress -
+func (b *MockWorld) SaveAliasAddress(request *vmcommon.AliasSaveRequest) error {
+	return b.AccountsAdapter.SaveAliasAddress(request)
+}
+
+// RequestAddress -
+func (b *MockWorld) RequestAddress(request *vmcommon.AddressRequest) (*vmcommon.AddressResponse, error) {
+	return b.AccountsAdapter.RequestAddress(request)
+}
+
 // ExecuteSmartContractCallOnOtherVM -
 func (b *MockWorld) ExecuteSmartContractCallOnOtherVM(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
 	return nil, nil
