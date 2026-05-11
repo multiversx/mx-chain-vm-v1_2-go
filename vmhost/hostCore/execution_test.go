@@ -259,7 +259,7 @@ func TestExecution_ManyDeployments(t *testing.T) {
 		require.NotNil(t, vmOutput)
 		if vmOutput.ReturnCode != vmcommon.Ok {
 			fmt.Printf("Deployed %d SCs\n", i)
-			fmt.Printf(vmOutput.ReturnMessage)
+			fmt.Printf("%s", vmOutput.ReturnMessage)
 		}
 		require.Equal(t, vmcommon.Ok, vmOutput.ReturnCode)
 	}
