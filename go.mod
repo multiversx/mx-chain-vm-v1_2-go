@@ -3,21 +3,21 @@ module github.com/multiversx/mx-chain-vm-v1_2-go
 go 1.26
 
 require (
-	github.com/btcsuite/btcd/btcec/v2 v2.3.6
-	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0
+	github.com/btcsuite/btcd/btcec/v2 v2.5.0
+	github.com/btcsuite/btcd/chaincfg/chainhash v1.2.0
 	github.com/gin-gonic/gin v1.12.0
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/multiversx/mx-chain-core-go v1.5.1-0.20260619074528-4e8586673c06
-	github.com/multiversx/mx-chain-crypto-go v1.3.2-0.20260619082350-4f28d3039691
-	github.com/multiversx/mx-chain-logger-go v1.1.1-0.20260619081950-e136ff41cdc2
-	github.com/multiversx/mx-chain-vm-common-go v1.6.8-0.20260619081401-15323b447af6
+	github.com/multiversx/mx-chain-core-go v1.5.1-0.20260713100334-14d633236974
+	github.com/multiversx/mx-chain-crypto-go v1.3.2-0.20260713100639-c3cf05776cb6
+	github.com/multiversx/mx-chain-logger-go v1.1.1-0.20260713100530-e85a16be3260
+	github.com/multiversx/mx-chain-vm-common-go v1.6.8-0.20260713100832-23aa4c20accd
 	github.com/multiversx/mx-components-big-int v1.1.1-0.20260507134206-ffc95520dc6d
 	github.com/pelletier/go-toml v1.9.5
 	github.com/stretchr/testify v1.11.1
 	github.com/urfave/cli v1.22.17
-	golang.org/x/crypto v0.50.0
+	golang.org/x/crypto v0.54.0
 )
 
 require (
@@ -27,7 +27,7 @@ require (
 	github.com/cloudwego/base64x v0.1.6 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
+	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.1 // indirect
 	github.com/denisbrodbeck/machineid v1.0.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.12 // indirect
 	github.com/gin-contrib/sse v1.1.0 // indirect
@@ -36,7 +36,7 @@ require (
 	github.com/go-playground/validator/v10 v10.30.1 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
-	github.com/herumi/bls-go-binary v1.28.2 // indirect
+	github.com/herumi/bls-go-binary v1.37.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
@@ -53,9 +53,9 @@ require (
 	github.com/ugorji/go/codec v1.3.1 // indirect
 	go.mongodb.org/mongo-driver/v2 v2.5.0 // indirect
 	golang.org/x/arch v0.22.0 // indirect
-	golang.org/x/net v0.53.0 // indirect
-	golang.org/x/sys v0.44.0 // indirect
-	golang.org/x/text v0.37.0 // indirect
+	golang.org/x/net v0.56.0 // indirect
+	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/text v0.40.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
